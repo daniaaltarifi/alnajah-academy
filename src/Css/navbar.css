@@ -1,0 +1,45 @@
+body{
+  font-family: "Cairo", sans-serif;
+}
+.purple_btn {
+  background-color: #833988;
+  color: #fff;
+  border-radius: 15px;
+  margin-left: 5px;
+}
+.text_navbar {
+  color: #833988;
+}
+.text_navbar:hover {
+  font-weight: bold;
+  color: #833988;
+  text-decoration: underline;
+}
+.logo_container {
+  height: 10%;
+  width: 8%;
+}
+
+.logo_size {
+  max-width: 100%; /* Ensure the image does not exceed its container */
+  height: 100%;
+  width: 100%;
+}
+@media screen and (max-width: 992px) {
+    .text_navbar {
+      font-size: 18px;
+    }
+    .logo_container {
+      /* height: 30%; */
+      width: 15%;
+    }
+  }
+@media screen and (max-width:600px) {
+  .text_navbar {
+    font-size: 15px;
+  }
+  .logo_container {
+    /* height: 30%; */
+    width: 23%;
+  }
+}
