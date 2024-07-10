@@ -3,6 +3,7 @@ import navbar from '../Css/navbar.css'
 import AuthNavbar from '../components/AuthNavbar.js'
 import { Link } from 'react-router-dom'
 import SliderHome from '../Pages/Slider.js'
+import Home from '../Pages/Home.js'
 function Navbar() {
   return (
     < >
@@ -38,7 +39,6 @@ function Navbar() {
   </div>
 </nav>
 
-<SliderHome/>
 </>
   )
 }

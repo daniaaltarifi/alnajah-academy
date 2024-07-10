@@ -7,6 +7,9 @@ body{
   border-radius: 15px;
   margin-left: 5px;
 }
+.purple_btn:hover{
+  background-color: #a767ac;
+}
 .text_navbar {
   color: #833988;
 }

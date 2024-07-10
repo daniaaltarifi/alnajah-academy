@@ -51,7 +51,7 @@
   line-height: 1.9;
 }
 .slick-dots {
-  bottom: 105px;
+  bottom: 10vh;
   color: #fff;
 }
 .slick-dots li.slick-active button:before {
@@ -63,6 +63,8 @@
 
 /* end slider ********************************************/
 
+/*  slider box **********************************/
+
 .slider_box {
   background-color: #833988;
   border-radius: 22px;
@@ -72,7 +74,7 @@
   transform: translateX(-50%); /* Center horizontally */
   padding: 20px;
   width: 100%; /* Adjust width as needed */
-  max-width: 1200px; /* Max width to limit on larger screens */
+  max-width: 1300px; /* Max width to limit on larger screens */
 }
 .h_box_slider {
   color: #f57d20;
@@ -83,6 +85,7 @@
   color: #fff;
   text-align: right;
   font-size: 12px;
+  line-height: 28px;
 }
 
 .vector_cont {
@@ -98,41 +101,4 @@
   height: 33px;
 }
 /* end slider box **********************************/
-.about-section {
-    margin-top: 10%;
-    width: 100%;
-    background-color: #fff; /* Set background color as needed */
-    padding: 50px 0; /* Adjust padding as needed */
-  }
-  .about_img{
-    width: 800px;
-  }
-  .about_title{
-    font-size: 56px;
-    font-weight: 700;
-    line-height: 104px;
-    text-align: center;
-    color: #f57d20;
-  }
-  .p_about{
-    font-size: 26px;
-    font-weight: 500;
-    line-height: 48px;
-    text-align: center;
-  }
-@media screen and (max-width: 992px) {
-  .overlay-content p {
-    font-size: 18px;
-  }
-  .slider_box {
-    bottom: auto;
-  }
-}
-@media screen and (max-width: 768px) {
-  .overlay-content p {
-    font-size: 15px;
-  }
-  .slider_box {
-    bottom: auto;
-  }
-}
+ 
