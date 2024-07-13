@@ -4,7 +4,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../Css/slider.css"; 
 
-function SliderComp() {
+function SliderComp({title}) {
   const settings = {
     dots: true,
     infinite: true,
@@ -30,10 +30,7 @@ function SliderComp() {
             <div className="overlay-content">
               <img src={require("../assets/logo.png")} alt="" />{" "}
               <p className="paragraph_slider">
-                في عصرنا الرقمي، تحولت التكنولوجيا إلى عنصر أساسي في حياتنا
-                اليومية، ومعها، ظهر التعليم عن بُعد كوسيلة مثالية لتكميل النظام
-                التعليمي التقليدي. هذه الطريقة الجديدة تمكن الطلاب من فهم
-                المفاهيم المعقدة بسهولة أكبر.
+              {title}
               </p>
               <a href="#" className="btn btn-s purple_btn ">
                 اطلب بطاقتك هنا

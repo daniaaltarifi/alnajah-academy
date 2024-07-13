@@ -8,12 +8,14 @@ import Home from "./Home";
 import Footer from "../components/Footer";
 import SliderComp from "../components/SliderComp";
 function LandingPage() {
- 
+ const title=" في عصرنا الرقمي، تحولت التكنولوجيا إلى عنصر أساسي في حياتنا اليومية، ومعها، ظهر التعليم عن بُعد كوسيلة  مثالية لتكميل النظام التعليمي التقليدي. هذه الطريقة الجديدة تمكن الطلاب من فهم المفاهيم المعقدة بسهولة أكبر"
+
 
   return (
     <>
       {/* slider section */}
-      <SliderComp />
+      <SliderComp
+      title={title} />
       <div className="container text-center slider_box">
         <div className="row">
           <div className="col-lg-4 col-md-12 col-sm-12">
@@ -80,7 +82,6 @@ function LandingPage() {
       </div>
       {/* End slider section */}
       <Home />
-      <Footer />
     </>
   );
 }

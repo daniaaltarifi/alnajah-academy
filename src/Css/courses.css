@@ -66,6 +66,10 @@
   border-radius: 50%;
   margin: 10px 24px;
 }
+.change_specific_title_slider{
+  font-size: 100px;
+
+}
 .select_dep {
   border-radius: 30px;
   max-width: 100%;
@@ -75,7 +79,6 @@
 }
 .select_dep option {
   color: #833988;
-  background-color: #833988;
 }
 
 /* card slider ******************************/
@@ -121,6 +124,10 @@ align-items: center;
   line-height: 30px;
   color: #acacac;
 }
+.link_card{
+  text-decoration: none;
+
+}
 .card_icon {
   line-height: 30px;
 }
@@ -131,25 +138,43 @@ align-items: center;
 }
 
 /* End card slider ******************************/
-@media screen and (max-width: 768px) {
-  .courses_margin {
-    margin-top: 45vh;
-  }
-  /* .card_cont {
-    margin: 2vh 2vh 2vh 9vh;
-  
-} */
-  .select_dep {
-    margin-top: 4vh;
-  }
+/* Modal *************************/
+.modal_title{
+  text-align: center;
+  color: #833988;
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 100px;
+}
+.input_filed_modal{
+  border-radius: 20px;
+border-color: #aaa
+}
+.text_field{
+  text-align: center;
+  color: #833988;
+}
+.buy_department_btn{
+  background-color: #833988;
+  border: none;
+  border-radius: 20px;
+  width: 100%;
 }
 @media screen and (max-width: 992px) {
   .courses_margin {
     margin-top: 48vh;
   }
 }
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1840px) {
   .courses_margin {
     margin-top: 35vh;
+  }
+}
+@media screen and (max-width: 768px) {
+  .courses_margin {
+    margin-top: 40vh;
+  }
+  .select_dep {
+    margin-top: 4vh;
   }
 }

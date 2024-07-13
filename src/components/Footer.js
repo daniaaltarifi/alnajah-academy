@@ -24,9 +24,25 @@ function Footer() {
                   ></i>
                 </button>
               </div>
+          
               <div className="col-lg-3 col-md-3-col-sm-12">
-              <img src={require("../assets/ba9ma.png")} alt="" className="img-fluid ba9ma_footer"/>              </div>
-             
+                <Link to="" className="footer_link">
+                  <p>نقاط البيع</p>
+                </Link>
+                <Link to="/" className="footer_link">
+                  <p>المدونة</p>
+                </Link>
+                <Link to="/" className="footer_link">
+                  <p>تواصل معنا</p>
+                </Link>
+                <div className="social_icon">
+<Link to=""> <i className="fa-brands fa-facebook-f m-2" style={{"color": "#ffffff"}}></i></Link>
+<Link to=""><i className="fa-brands fa-x-twitter m-2" style={{"color": "#ffffff"}}></i></Link>
+<Link to=""><i className="fa-brands fa-instagram m-2"style={{"color": "#ffffff"}}></i></Link>
+<Link to=""><i className="fa-brands fa-linkedin-in m-2" style={{"color": "#ffffff"}}></i></Link>
+
+                </div>
+              </div>
               <div className="col-lg-4 col-md-3-col-sm-12">
                 <Link to="/" className="footer_link">
                   <p>الرئيسية</p>
@@ -54,23 +70,9 @@ function Footer() {
                 </Link>
               </div>
               <div className="col-lg-3 col-md-3-col-sm-12">
-                <Link to="" className="footer_link">
-                  <p>نقاط البيع</p>
-                </Link>
-                <Link to="/" className="footer_link">
-                  <p>المدونة</p>
-                </Link>
-                <Link to="/" className="footer_link">
-                  <p>تواصل معنا</p>
-                </Link>
-                <div className="social_icon">
-<Link to=""> <i className="fa-brands fa-facebook-f m-2" style={{"color": "#ffffff"}}></i></Link>
-<Link to=""><i className="fa-brands fa-x-twitter m-2" style={{"color": "#ffffff"}}></i></Link>
-<Link to=""><i className="fa-brands fa-instagram m-2"style={{"color": "#ffffff"}}></i></Link>
-<Link to=""><i className="fa-brands fa-linkedin-in m-2" style={{"color": "#ffffff"}}></i></Link>
-
-                </div>
-              </div>
+              <img src={require("../assets/ba9ma.png")} alt="" className="img-fluid ba9ma_footer"/>         
+                   </div>
+              
             </div>
             <h5 className="text-center copywrite">جميع الحقوق مجفوطة لدى شركة أكاديمية النجاح</h5>
           </div>

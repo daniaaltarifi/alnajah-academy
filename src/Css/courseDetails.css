@@ -1,0 +1,149 @@
+.cont_course_details {
+  background-color: #833988;
+  width: 100%;
+  max-width: 100%;
+  min-height: 40vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.dep_teacher_coursedetails {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dep_coursedetaile {
+  font-size: 16px;
+  font-weight: 600px;
+  line-height: 30px;
+  color: #fff;
+  padding: 5px;
+  background-color: #f57d20;
+  border-radius: 10px;
+  margin: 5vh;
+}
+.teacher_coursedetails {
+  font-size: 16px;
+  font-weight: 500px;
+  line-height: 30px;
+  color: #fff;
+}
+.title_coursedetails {
+  color: #fff;
+  /* font-size: 44px; */
+  font-weight: 700;
+  line-height: 47px;
+  padding: 3vh;
+}
+/* end header course details */
+.col_tabs_coursedetails {
+  border: 1px solid #eaeaea;
+  border-radius: 10px;
+}
+.tabs_cont_coursedetails {
+  padding: 10px;
+  background-color: #f0f2f5;
+  border-radius: 10px;
+}
+
+.tab {
+  padding: 15px 51px 15px 51px;
+  background-color: #ffffff;
+  border: 0px;
+  border-radius: 10px 15px 1px 1px;
+  font-weight: 600px;
+  line-height: 24px;
+}
+
+.selected {
+  background-color: #f0f2f5;
+  color: #f57d20;
+}
+
+.description_coursedetails {
+  font-size: 15px;
+  font-weight: 400;
+  text-align: right;
+  line-height: 27px;
+}
+/* topics section */
+.topics_cont_coursedetails{
+    background-color: #fff;
+border-radius: 15px;
+}
+.topics_cont_coursedetails div {
+    border-bottom: 1px solid #eaecf0;
+    padding: 1.5em;
+    text-align: right;
+    background-color: #fff;
+border-radius: 15px;
+color: #000;
+
+  }
+  
+  span + span {
+    margin-top: 0.5rem;
+    
+  }
+  
+  .title_of_video_coursedetails::-webkit-details-marker {
+    display: none;
+  }
+  
+  #title_of_video_coursedetails {
+    padding: 0.75em 2em;
+    cursor: pointer;
+    position: relative;
+    padding-left: calc(1.75rem + 0.75rem + 0.75rem);
+    text-align: right;
+    color: #000;
+    font-size: 16px;
+font-weight: 600;
+
+  }
+  
+  #title_of_video_coursedetails:before {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 95%;
+    content: "\25be";
+    width: 1.75rem;
+    height: 1.75rem;
+    border: #fff 1px ;
+    border-radius: 15px;   
+     color: #833988;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  
+  .topics_cont_coursedetails[open] .title_of_video_coursedetails:before {
+    content: "\25be";
+    
+  }
+/* End topics section */
+
+/* Teacher section */
+.teacher_name_coursedetails{
+font-size:18px ;
+font-weight: 600;
+text-align: right;
+line-height: 20px;
+}
+.desc_of_teacher_coursedetails{
+    font-size: 14px;
+    font-weight: 400;
+    text-align: right;
+    line-height: 24px;
+}
+/* End Teacher section */
+
+@media screen and (max-width: 768px) {
+    #title_of_video_coursedetails:before {
+    left:93%
+    }
+    
+}

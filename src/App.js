@@ -4,7 +4,7 @@ import Navbar from './components/Navbar';
 import LandingPage from './Pages/LandingPage.js';
 import Courses from './Pages/Courses.js';
 import Footer from './components/Footer.js';
-
+import CourseDetails from './Pages/CourseDetails.js';
 function App() {
   return (
     <Router>
@@ -13,6 +13,7 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path='/courses' element={<Courses/>}/>
+          <Route path='/coursedetails' element={<CourseDetails/>}/>
         </Routes>
       </div>
       <Footer/>
