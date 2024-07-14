@@ -131,16 +131,24 @@ font-weight: 600;
 font-size:18px ;
 font-weight: 600;
 text-align: right;
-line-height: 20px;
+line-height: 27px;
 }
 .desc_of_teacher_coursedetails{
     font-size: 14px;
     font-weight: 400;
     text-align: right;
-    line-height: 24px;
+    line-height: 20px;
 }
 /* End Teacher section */
+/* feedback************************ */
+.comment_date_coursedetails{
+font-size: 17px;
+line-height: 24px;
+font-weight: 600 ;  
 
+}
+
+/* End feedback************************ */
 @media screen and (max-width: 768px) {
     #title_of_video_coursedetails:before {
     left:93%

@@ -4,7 +4,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../Css/slider.css"; 
 
-function SliderComp({title}) {
+function SliderComp({title,description,image}) {
   const settings = {
     dots: true,
     infinite: true,
@@ -28,9 +28,10 @@ function SliderComp({title}) {
           />
           <div className="overlay">
             <div className="overlay-content">
-              <img src={require("../assets/logo.png")} alt="" />{" "}
+              <img src={image} alt="" />{" "}
+              <h1  className="title_of_slidercomp">{title}</h1>
               <p className="paragraph_slider">
-              {title}
+              {description}
               </p>
               <a href="#" className="btn btn-s purple_btn ">
                 اطلب بطاقتك هنا
@@ -46,7 +47,9 @@ function SliderComp({title}) {
           />
            <div className="overlay">
             <div className="overlay-content">
-              <img src={require("../assets/logo.png")} alt="" />{" "}
+              <img src={require("../assets/logo.png")} alt="" />
+          <p  >{title}</p>
+
               <p className="paragraph_slider">
                 في عصرنا الرقمي، تحولت التكنولوجيا إلى عنصر أساسي في حياتنا
                 اليومية، ومعها، ظهر التعليم عن بُعد كوسيلة مثالية لتكميل النظام

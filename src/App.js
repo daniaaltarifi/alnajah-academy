@@ -5,6 +5,7 @@ import LandingPage from './Pages/LandingPage.js';
 import Courses from './Pages/Courses.js';
 import Footer from './components/Footer.js';
 import CourseDetails from './Pages/CourseDetails.js';
+import WhoWeAre from './Pages/WhoWeAre.js';
 function App() {
   return (
     <Router>
@@ -14,6 +15,7 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path='/courses' element={<Courses/>}/>
           <Route path='/coursedetails' element={<CourseDetails/>}/>
+          <Route path='/whoweare' element={<WhoWeAre/>}/>
         </Routes>
       </div>
       <Footer/>

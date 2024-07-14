@@ -115,7 +115,7 @@ function Courses() {
   const title = "ادرس اون لاين مواد المناهج الدراسية الأردنية";
   return (
     <>
-      <SliderComp title={title} />
+      <SliderComp title={title}/>
       <div className="container text-center slider_box">
         <h2 className="h_home_box">شراء قسم </h2>
         <p className="p_home_box">

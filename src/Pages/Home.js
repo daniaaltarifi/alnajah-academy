@@ -1,6 +1,8 @@
 import React from "react";
 import "../Css/home.css";
 import Slider from "react-slick";
+import StudentsOpinions from "../components/StudentsOpinions";
+import PurpleBox from "../components/PurpleBox";
 function Home() {
   var settings = {
     dots: true,
@@ -63,15 +65,11 @@ function Home() {
       </div>
       {/* End About section */}
       {/* Home Box */}
-      <section className="margin_section">
-
-<div className="container text-center home_box">
-  <h2 className="h_home_box">دورات أكاديمية النجاح</h2>
-  <p className="p_home_box">في عصرنا الرقمي، تحولت التكنولوجيا إلى عنصر أساسي في حياتنا اليومية، ومعها، ظهر التعليم عن بُعد كوسيلةمثالية لتكميل النظام التعليمي التقليدي. هذه الطريقة الجديدة تمكن الطلاب من فهم المفاهيم المعقدة بسهولة أكبر </p>
-  <button type="button" className="btn btn-light click_here_btn">اضغط هنا</button>
-
-</div>
-</section>
+      <PurpleBox
+     title={" دورات أكاديمية النجاح"}
+     description={"في عصرنا الرقمي، تحولت التكنولوجيا إلى عنصر أساسي في حياتنا اليومية، ومعها، ظهر التعليم عن بُعد كوسيلةمثالية لتكميل النظام التعليمي التقليدي. هذه الطريق الجديدة تمكن الطلاب من فهم المفاهيم المعقدة بسهولة أكبر"}
+link={'/courses'}
+/>
       {/* <BoxCont title={title} description={description} linkPage={linkPage} /> */}
 
       {/* FAQ section */}
@@ -136,191 +134,9 @@ function Home() {
           </div>
         </div>
       </section>
-      <section className="margin_section">
-        <h1 className="faq">أراء وتجارب طلابنا </h1>
-        <div className="slider-container">
-          <div className="container ">
-            <Slider {...settings}>
-              <div className="card-item ">
-                <div className="card cont_comment">
-                  <div className="card-body">
-                    <p className="comment">
-                      م وقع رائع ، دراسة مريحة ، بتوفر الوقت والجهد ، والسعر
-                      أوفر بكتير من أي طرق تدريس تانية ، والنتائج كانت واضحة من
-                      امتحانات التجريبي “
-                    </p>
-                    <div className="details_account">
-                      <div className="info_account">
-                        <p>سعد أحمد</p>
-                        <p>عمان , طالب 2020</p>
-                      </div>
-                      <img
-                        src={require("../assets/account.png")}
-                        alt=""
-                        className="img-fluid account_img"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="card-item ">
-                <div className="card cont_comment">
-                  <div className="card-body">
-                    <p className="comment">
-                      م وقع رائع ، دراسة مريحة ، بتوفر الوقت والجهد ، والسعر
-                      أوفر بكتير من أي طرق تدريس تانية ، والنتائج كانت واضحة من
-                      امتحانات التجريبي “
-                    </p>
-                    <div className="details_account">
-                      <div className="info_account">
-                        <p>سعد أحمد</p>
-                        <p>عمان , طالب 2020</p>
-                      </div>
-                      <img
-                        src={require("../assets/account.png")}
-                        alt=""
-                        className="img-fluid account_img"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="card-item ">
-                <div className="card cont_comment">
-                  <div className="card-body">
-                    <p className="comment">
-                      م وقع رائع ، دراسة مريحة ، بتوفر الوقت والجهد ، والسعر
-                      أوفر بكتير من أي طرق تدريس تانية ، والنتائج كانت واضحة من
-                      امتحانات التجريبي “
-                    </p>
-                    <div className="details_account">
-                      <div className="info_account">
-                        <p>سعد أحمد</p>
-                        <p>عمان , طالب 2020</p>
-                      </div>
-                      <img
-                        src={require("../assets/account.png")}
-                        alt=""
-                        className="img-fluid account_img"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="card-item ">
-                <div className="card cont_comment">
-                  <div className="card-body">
-                    <p className="comment">
-                      م وقع رائع ، دراسة مريحة ، بتوفر الوقت والجهد ، والسعر
-                      أوفر بكتير من أي طرق تدريس تانية ، والنتائج كانت واضحة من
-                      امتحانات التجريبي “
-                    </p>
-                    <div className="details_account">
-                      <div className="info_account">
-                        <p>سعد أحمد</p>
-                        <p>عمان , طالب 2020</p>
-                      </div>
-                      <img
-                        src={require("../assets/account.png")}
-                        alt=""
-                        className="img-fluid account_img"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="card-item ">
-                <div className="card cont_comment">
-                  <div className="card-body">
-                    <p className="comment">
-                      م وقع رائع ، دراسة مريحة ، بتوفر الوقت والجهد ، والسعر
-                      أوفر بكتير من أي طرق تدريس تانية ، والنتائج كانت واضحة من
-                      امتحانات التجريبي “
-                    </p>
-                    <div className="details_account">
-                      <div className="info_account">
-                        <p>سعد أحمد</p>
-                        <p>عمان , طالب 2020</p>
-                      </div>
-                      <img
-                        src={require("../assets/account.png")}
-                        alt=""
-                        className="img-fluid account_img"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="card-item ">
-                <div className="card cont_comment">
-                  <div className="card-body">
-                    <p className="comment">
-                      م وقع رائع ، دراسة مريحة ، بتوفر الوقت والجهد ، والسعر
-                      أوفر بكتير من أي طرق تدريس تانية ، والنتائج كانت واضحة من
-                      امتحانات التجريبي “
-                    </p>
-                    <div className="details_account">
-                      <div className="info_account">
-                        <p>سعد أحمد</p>
-                        <p>عمان , طالب 2020</p>
-                      </div>
-                      <img
-                        src={require("../assets/account.png")}
-                        alt=""
-                        className="img-fluid account_img"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="card-item ">
-                <div className="card cont_comment">
-                  <div className="card-body">
-                    <p className="comment">
-                      م وقع رائع ، دراسة مريحة ، بتوفر الوقت والجهد ، والسعر
-                      أوفر بكتير من أي طرق تدريس تانية ، والنتائج كانت واضحة من
-                      امتحانات التجريبي “
-                    </p>
-                    <div className="details_account">
-                      <div className="info_account">
-                        <p>سعد أحمد</p>
-                        <p>عمان , طالب 2020</p>
-                      </div>
-                      <img
-                        src={require("../assets/account.png")}
-                        alt=""
-                        className="img-fluid account_img"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="card-item ">
-                <div className="card cont_comment">
-                  <div className="card-body">
-                    <p className="comment">
-                      م وقع رائع ، دراسة مريحة ، بتوفر الوقت والجهد ، والسعر
-                      أوفر بكتير من أي طرق تدريس تانية ، والنتائج كانت واضحة من
-                      امتحانات التجريبي “
-                    </p>
-                    <div className="details_account">
-                      <div className="info_account">
-                        <p>سعد أحمد</p>
-                        <p>عمان , طالب 2020</p>
-                      </div>
-                      <img
-                        src={require("../assets/account.png")}
-                        alt=""
-                        className="img-fluid account_img"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Slider>
-          </div>
-        </div>
-      </section>
+      <h1 className="faq">أراء وتجارب طلابنا </h1>
+
+      <StudentsOpinions />
     </>
   );
 }
