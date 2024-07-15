@@ -12,7 +12,11 @@
   justify-content: center;
   align-items: center;
 }
-
+.img_coursedetails{
+  width: 600px;
+  height: 300px;
+  border-radius: 15px;
+}
 .dep_coursedetaile {
   font-size: 16px;
   font-weight: 600px;
@@ -38,8 +42,14 @@
 }
 /* end header course details */
 .col_tabs_coursedetails {
-  border: 1px solid #eaeaea;
+  /* border: 1px solid #eaeaea; */
   border-radius: 10px;
+}
+.tabs-container{
+  border-top: 1px solid #eaeaea;;
+border-left: 1px solid #eaeaea;
+border-right:1px solid #eaeaea;
+border-radius: 20px;
 }
 .tabs_cont_coursedetails {
   padding: 10px;
@@ -68,8 +78,8 @@
   line-height: 27px;
 }
 /* topics section */
-.topics_cont_coursedetails{
-    background-color: #fff;
+/* .topics_cont_coursedetails{
+    background-color: red;
 border-radius: 15px;
 }
 .topics_cont_coursedetails div {
@@ -85,12 +95,12 @@ color: #000;
   span + span {
     margin-top: 0.5rem;
     
-  }
+  } */
   
-  .title_of_video_coursedetails::-webkit-details-marker {
+  /* .title_of_video_coursedetails::-webkit-details-marker {
     display: none;
-  }
-  
+  } */
+/*   
   #title_of_video_coursedetails {
     padding: 0.75em 2em;
     cursor: pointer;
@@ -101,8 +111,8 @@ color: #000;
     font-size: 16px;
 font-weight: 600;
 
-  }
-  
+  } */
+/*   
   #title_of_video_coursedetails:before {
     position: absolute;
     top: 50%;
@@ -118,12 +128,58 @@ font-weight: 600;
     justify-content: center;
     align-items: center;
     flex-shrink: 0;
-  }
+  } */
+
   
-  .topics_cont_coursedetails[open] .title_of_video_coursedetails:before {
+/* video section */
+  .video_cont{
+    height: 450px;
+    width: 100%;
+    background-color: #F0F2F5;
+    border-radius: 15px;
+  }
+  .video_play{
+    height: 70%;
+    width: 100%;
+    border-radius: 20px;
+  }
+  .after_price_coursedetails{
+    color: #833988;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 38px;
+  }
+  .before_price_coursedetails{
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 48px;
+    color: #9D9D9D;
+    text-decoration:line-through;
+    margin-right: 8vh;
+  }
+  .purchase_now_coursedetails{
+    width: 232px;
+    height: 45px;
+    border-radius: 20px;
+    background-color: #833988;
+    color: #fff;
+    border: none;
+  }
+  .purchase_now_coursedetails:hover{
+    background-color: #a767ac;
+    color: #fff;
+  }
+.title_after_purchase{
+  color: #833988;
+  font-weight: 700;
+}
+.teachar_after_purchase{
+  color: #f57d20;
+}
+  /* .topics_cont_coursedetails[open] .title_of_video_coursedetails:before {
     content: "\25be";
     
-  }
+  } */
 /* End topics section */
 
 /* Teacher section */

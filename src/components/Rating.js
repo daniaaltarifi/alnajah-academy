@@ -23,104 +23,113 @@ import "../Css/topicsAndRating.css";
 function Rating() {
   const width = "50";
   return (
-    <div dir="ltr">
-      <span class="fa fa-star checked"></span>
-      <span class="fa fa-star checked"></span>
-      <span class="fa fa-star checked"></span>
-      <span class="fa fa-star checked"></span>
-      <span class="fa fa-star"></span>
-      <p>4.1 average based on 254 reviews.</p>
-      <hr style={{ border: "3px solid #f1f1f1" }} />
+    <div dir="ltr" className="mb-3">
+      <div className="d-flex">
+        <div className="d-flex justify-content-center align-items-center">
+          <p className="total_rating">4.0</p>
+        </div>
+        <div className=" p-3">
+          <span className="fa fa-star checked"></span>
+          <span className="fa fa-star checked"></span>
+          <span className="fa fa-star checked"></span>
+          <span className="fa fa-star checked"></span>
+          <span className="fa fa-star"></span>
+          <p> based on 254 ratings.</p>
+        </div>
+      </div>
+      {/* <hr style={{ border: "3px solid #f1f1f1" }} /> */}
 
-      <div class="row">
-        <div class="side">
+      <div className="row">
+        <div className="side_rating">
           <div className="d-flex">
-          <i class="fa-solid fa-star" style={{color: "#F6B40A"}}></i>
-          <i class="fa-solid fa-star" style={{color: "#F6B40A"}}></i>
-          <i class="fa-solid fa-star" style={{color: "#F6B40A"}}></i>
-          <i class="fa-solid fa-star" style={{color: "#F6B40A"}}></i>
-          <i class="fa-solid fa-star" style={{color: "#F6B40A"}}></i>
-
+            <i className="fa-solid fa-star" style={{ color: "#F6B40A" }}></i>
+            <i className="fa-solid fa-star" style={{ color: "#F6B40A" }}></i>
+            <i className="fa-solid fa-star" style={{ color: "#F6B40A" }}></i>
+            <i className="fa-solid fa-star" style={{ color: "#F6B40A" }}></i>
+            <i className="fa-solid fa-star" style={{ color: "#F6B40A" }}></i>
           </div>
         </div>
-        <div class="middle">
-          <div class="bar-container">
+        <div className="percentage_cont ">
+          <span className="percentage_rating">90%</span>
+        </div>
+        <div className="middle">
+          <div className="bar-container">
             <div className="bar-1" style={{ width: `${width}%` }}></div>
           </div>
         </div>
-        <div class="side right">
-          <div>150</div>
+
+        <div className="side_rating">
+          <div className="d-flex">
+            <i className="fa-solid fa-star" style={{ color: "#F6B40A" }}></i>
+            <i className="fa-solid fa-star" style={{ color: "#F6B40A" }}></i>
+            <i className="fa-solid fa-star" style={{ color: "#F6B40A" }}></i>
+            <i className="fa-solid fa-star" style={{ color: "#F6B40A" }}></i>
+            <i className="fa-regular fa-star" style={{ color: "#F6B40A" }}></i>
+          </div>{" "}
         </div>
-        <div class="side">
-        <div className="d-flex">
-          <i class="fa-solid fa-star" style={{color: "#F6B40A"}}></i>
-          <i class="fa-solid fa-star" style={{color: "#F6B40A"}}></i>
-          <i class="fa-solid fa-star" style={{color: "#F6B40A"}}></i>
-          <i class="fa-solid fa-star" style={{color: "#F6B40A"}}></i>
-          <i class="fa-regular fa-star" style={{color: "#F6B40A"}}></i>
-          </div>        </div>
-        <div class="middle">
-          <div class="bar-container">
+        <div className="percentage_cont ">
+          <span className="percentage_rating">5%</span>
+        </div>
+        <div className="middle">
+          <div className="bar-container">
             <div className="bar-1" style={{ width: `${width}%` }}></div>
           </div>
         </div>
-        <div class="side right">
-          <div>63</div>
+      
+        <div className="side_rating">
+          <div className="d-flex">
+            <i className="fa-solid fa-star" style={{ color: "#F6B40A" }}></i>
+            <i className="fa-solid fa-star" style={{ color: "#F6B40A" }}></i>
+            <i className="fa-solid fa-star" style={{ color: "#F6B40A" }}></i>
+            <i className="fa-regular fa-star" style={{ color: "#F6B40A" }}></i>
+            <i className="fa-regular fa-star" style={{ color: "#F6B40A" }}></i>
+          </div>{" "}
         </div>
-        <div class="side">
-        <div className="d-flex">
-          <i class="fa-solid fa-star" style={{color: "#F6B40A"}}></i>
-          <i class="fa-solid fa-star" style={{color: "#F6B40A"}}></i>
-          <i class="fa-solid fa-star" style={{color: "#F6B40A"}}></i>
-          <i class="fa-regular fa-star" style={{color: "#F6B40A"}}></i>
-          <i class="fa-regular fa-star" style={{color: "#F6B40A"}}></i>
-
-
-          </div>        </div>
-        <div class="middle">
-          <div class="bar-container">
+        <div className="percentage_cont ">
+          <span className="percentage_rating">2%</span>
+        </div>
+        <div className="middle">
+          <div className="bar-container">
             <div className="bar-1" style={{ width: `${width}%` }}></div>{" "}
           </div>
         </div>
-        <div class="side right">
-          <div>15</div>
+      
+        <div className="side_rating">
+          <div className="d-flex">
+            <i className="fa-solid fa-star" style={{ color: "#F6B40A" }}></i>
+            <i className="fa-solid fa-star" style={{ color: "#F6B40A" }}></i>
+            <i className="fa-regular fa-star" style={{ color: "#F6B40A" }}></i>
+            <i className="fa-regular fa-star" style={{ color: "#F6B40A" }}></i>
+            <i className="fa-regular fa-star" style={{ color: "#F6B40A" }}></i>
+          </div>{" "}
         </div>
-        <div class="side">
-        <div className="d-flex">
-          <i class="fa-solid fa-star" style={{color: "#F6B40A"}}></i>
-          <i class="fa-solid fa-star" style={{color: "#F6B40A"}}></i>
-          <i class="fa-regular fa-star" style={{color: "#F6B40A"}}></i>
-          <i class="fa-regular fa-star" style={{color: "#F6B40A"}}></i>
-          <i class="fa-regular fa-star" style={{color: "#F6B40A"}}></i>
-
-
-          </div>        </div>
-        <div class="middle">
-          <div class="bar-container">
+        <div className="percentage_cont ">
+          <span className="percentage_rating">2%</span>
+        </div>
+        <div className="middle">
+          <div className="bar-container">
             <div className="bar-1" style={{ width: `${width}%` }}></div>{" "}
           </div>
         </div>
-        <div class="side right">
-          <div>6</div>
+      
+        <div className="side_rating">
+          <div className="d-flex">
+            <i className="fa-solid fa-star" style={{ color: "#F6B40A" }}></i>
+            <i className="fa-regular fa-star" style={{ color: "#F6B40A" }}></i>
+            <i className="fa-regular fa-star" style={{ color: "#F6B40A" }}></i>
+            <i className="fa-regular fa-star" style={{ color: "#F6B40A" }}></i>
+            <i className="fa-regular fa-star" style={{ color: "#F6B40A" }}></i>
+          </div>{" "}
         </div>
-        <div class="side">
-        <div className="d-flex">
-          <i class="fa-solid fa-star" style={{color: "#F6B40A"}}></i>
-          <i class="fa-regular fa-star" style={{color: "#F6B40A"}}></i>
-          <i class="fa-regular fa-star" style={{color: "#F6B40A"}}></i>
-          <i class="fa-regular fa-star" style={{color: "#F6B40A"}}></i>
-          <i class="fa-regular fa-star" style={{color: "#F6B40A"}}></i>
-
-
-          </div>        </div>
-        <div class="middle">
-          <div class="bar-container">
+        <div className="percentage_cont ">
+          <span className="percentage_rating">1%</span>
+        </div>
+        <div className="middle">
+          <div className="bar-container">
             <div className="bar-1" style={{ width: `${width}%` }}></div>{" "}
           </div>
         </div>
-        <div class="side right">
-          <div>20</div>
-        </div>
+       
       </div>
     </div>
   );

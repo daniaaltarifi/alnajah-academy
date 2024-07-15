@@ -25,6 +25,9 @@ border: 1px solid ;
     color: #fff;
     margin-top: 2vh;
 }
+.submit_button_commentForm:hover{
+    background-color: #a767ac;
+}
 .leave_comment_title{
     text-align: center;font-weight: 700;
 }

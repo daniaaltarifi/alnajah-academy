@@ -220,6 +220,7 @@ function Courses() {
                 type="text"
                 placeholder="ابحث عن مادة"
                 value={searchQuery}
+                className="search_course"
                 //   onChange={handleInputChange}
               />
               <a href="#" className="btn btn-s purple_btn search_btn">
@@ -290,12 +291,12 @@ function Courses() {
                         class="fa-solid fa-clock card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
-                      <p className="details_courses_card"> 200طالب </p>
+                      <p className="details_courses_card">طالب200 </p>
                       <i
                         class="fa-solid fa-graduation-cap card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
-                      <p className="details_courses_card"> 20درس</p>
+                      <p className="details_courses_card"> درس20</p>
                       <i
                         class="fa-solid fa-file card_icon"
                         style={{ color: "#F57D20" }}
@@ -328,7 +329,7 @@ function Courses() {
                         class="fa-solid fa-clock card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
-                      <p className="details_courses_card"> 200طالب </p>
+                      <p className="details_courses_card"> طالب200 </p>
                       <i
                         class="fa-solid fa-graduation-cap card_icon"
                         style={{ color: "#F57D20" }}
@@ -365,7 +366,7 @@ function Courses() {
                         class="fa-solid fa-clock card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
-                      <p className="details_courses_card"> 200طالب </p>
+                      <p className="details_courses_card"> طالب200 </p>
                       <i
                         class="fa-solid fa-graduation-cap card_icon"
                         style={{ color: "#F57D20" }}
@@ -402,7 +403,7 @@ function Courses() {
                         class="fa-solid fa-clock card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
-                      <p className="details_courses_card"> 200طالب </p>
+                      <p className="details_courses_card"> طالب200 </p>
                       <i
                         class="fa-solid fa-graduation-cap card_icon"
                         style={{ color: "#F57D20" }}
@@ -439,7 +440,7 @@ function Courses() {
                         class="fa-solid fa-clock card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
-                      <p className="details_courses_card"> 200طالب </p>
+                      <p className="details_courses_card"> طالب200 </p>
                       <i
                         class="fa-solid fa-graduation-cap card_icon"
                         style={{ color: "#F57D20" }}
@@ -476,7 +477,7 @@ function Courses() {
                         class="fa-solid fa-clock card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
-                      <p className="details_courses_card"> 200طالب </p>
+                      <p className="details_courses_card"> طالب200 </p>
                       <i
                         class="fa-solid fa-graduation-cap card_icon"
                         style={{ color: "#F57D20" }}
@@ -513,7 +514,7 @@ function Courses() {
                         class="fa-solid fa-clock card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
-                      <p className="details_courses_card"> 200طالب </p>
+                      <p className="details_courses_card"> طالب200 </p>
                       <i
                         class="fa-solid fa-graduation-cap card_icon"
                         style={{ color: "#F57D20" }}
@@ -550,7 +551,7 @@ function Courses() {
                         class="fa-solid fa-clock card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
-                      <p className="details_courses_card"> 200طالب </p>
+                      <p className="details_courses_card"> طالب200 </p>
                       <i
                         class="fa-solid fa-graduation-cap card_icon"
                         style={{ color: "#F57D20" }}
@@ -587,7 +588,7 @@ function Courses() {
                         class="fa-solid fa-clock card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
-                      <p className="details_courses_card"> 200طالب </p>
+                      <p className="details_courses_card"> طالب200 </p>
                       <i
                         class="fa-solid fa-graduation-cap card_icon"
                         style={{ color: "#F57D20" }}
@@ -624,7 +625,7 @@ function Courses() {
                         class="fa-solid fa-clock card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
-                      <p className="details_courses_card"> 200طالب </p>
+                      <p className="details_courses_card"> طالب200 </p>
                       <i
                         class="fa-solid fa-graduation-cap card_icon"
                         style={{ color: "#F57D20" }}
@@ -661,7 +662,7 @@ function Courses() {
                         class="fa-solid fa-clock card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
-                      <p className="details_courses_card"> 200طالب </p>
+                      <p className="details_courses_card"> طالب200 </p>
                       <i
                         class="fa-solid fa-graduation-cap card_icon"
                         style={{ color: "#F57D20" }}
@@ -698,7 +699,7 @@ function Courses() {
                         class="fa-solid fa-clock card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
-                      <p className="details_courses_card"> 200طالب </p>
+                      <p className="details_courses_card"> طالب200 </p>
                       <i
                         class="fa-solid fa-graduation-cap card_icon"
                         style={{ color: "#F57D20" }}
@@ -735,7 +736,7 @@ function Courses() {
                         class="fa-solid fa-clock card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
-                      <p className="details_courses_card"> 200طالب </p>
+                      <p className="details_courses_card"> طالب200 </p>
                       <i
                         class="fa-solid fa-graduation-cap card_icon"
                         style={{ color: "#F57D20" }}
@@ -772,7 +773,7 @@ function Courses() {
                         class="fa-solid fa-clock card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
-                      <p className="details_courses_card"> 200طالب </p>
+                      <p className="details_courses_card"> طالب200 </p>
                       <i
                         class="fa-solid fa-graduation-cap card_icon"
                         style={{ color: "#F57D20" }}

@@ -36,7 +36,9 @@ margin-top: 12vh;
     font-weight: 600;
     line-height: 45px;
 }
-.social_icon{
-    /* display: flex;
-    justify-content: space-evenly; */
+/* .social_icon_footer{
+    transition: 0.3s ease;
 }
+.social_icon_footer:hover{
+   color: #f57d20;
+} */

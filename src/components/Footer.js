@@ -36,7 +36,7 @@ function Footer() {
                   <p>تواصل معنا</p>
                 </Link>
                 <div className="social_icon">
-<Link to=""> <i className="fa-brands fa-facebook-f m-2" style={{"color": "#ffffff"}}></i></Link>
+<Link to=""> <i className="fa-brands fa-facebook-f m-2 social_icon_footer" style={{"color": "#ffffff"}}></i></Link>
 <Link to=""><i className="fa-brands fa-x-twitter m-2" style={{"color": "#ffffff"}}></i></Link>
 <Link to=""><i className="fa-brands fa-instagram m-2"style={{"color": "#ffffff"}}></i></Link>
 <Link to=""><i className="fa-brands fa-linkedin-in m-2" style={{"color": "#ffffff"}}></i></Link>
@@ -74,7 +74,7 @@ function Footer() {
                    </div>
               
             </div>
-            <h5 className="text-center copywrite">جميع الحقوق مجفوطة لدى شركة أكاديمية النجاح</h5>
+            <h5 className="text-center copywrite">جميع الحقوق مجفوطة لدى شركة بصمة</h5>
           </div>
         </div>
       </footer>

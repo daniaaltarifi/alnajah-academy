@@ -6,6 +6,8 @@ import Courses from './Pages/Courses.js';
 import Footer from './components/Footer.js';
 import CourseDetails from './Pages/CourseDetails.js';
 import WhoWeAre from './Pages/WhoWeAre.js';
+import Blogs from './Pages/Blogs.js';
+import BlogDetails from './Pages/BlogDetails.js';
 function App() {
   return (
     <Router>
@@ -16,6 +18,8 @@ function App() {
           <Route path='/courses' element={<Courses/>}/>
           <Route path='/coursedetails' element={<CourseDetails/>}/>
           <Route path='/whoweare' element={<WhoWeAre/>}/>
+          <Route path='/blogs' element={<Blogs/>}/>
+          <Route path='/blogdetails' element={<BlogDetails/>}/>
         </Routes>
       </div>
       <Footer/>
