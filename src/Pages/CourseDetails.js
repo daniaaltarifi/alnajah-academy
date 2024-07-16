@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "../Css/courseDetails.css";
-import Video from "../Pages/Video.js";
 import { Link } from "react-router-dom";
 import Tabs from "../Pages/Tabs.js";
 import Tab from "../Pages/Tab.js";
@@ -322,7 +321,7 @@ function CourseDetails() {
                                 >
                                   مشاهدة{" "}
                                   <i
-                                    class="fa-regular fa-circle-play"
+                                    className="fa-regular fa-circle-play"
                                     style={{ color: "#fff" }}
                                   ></i>
                                 </button>
@@ -356,14 +355,14 @@ function CourseDetails() {
                         </p>
                         <div className="d-flex">
                           <i
-                            class="fa-solid fa-file card_icon ps-2"
+                            className="fa-solid fa-file card_icon ps-2"
                             style={{ color: "#F57D20" }}
                           ></i>
                           <p className="details_courses_card "> 20مادة</p>
                         </div>
                         <div className="d-flex">
                           <i
-                            class="fa-solid fa-graduation-cap card_icon ps-2"
+                            className="fa-solid fa-graduation-cap card_icon ps-2"
                             style={{ color: "#F57D20" }}
                           ></i>
                           <p className="details_courses_card"> 200طالب </p>
@@ -467,7 +466,8 @@ function CourseDetails() {
                 </Tab>
                 {/* End comment slide */}
               </Tabs>
-      <CommentForm />
+      <CommentForm       title="اترك تعليق"
+btn_title="تعليق"      />
            
             </div>
           </div>

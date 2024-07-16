@@ -1,6 +1,6 @@
 import React from "react";
 import "../Css/commentForm.css";
-function CommentForm() {
+function CommentForm({title,btn_title}) {
   return (
     <>
       <section className="margin_section">
@@ -10,7 +10,7 @@ function CommentForm() {
 
             </div> */}
             <div className="col-lg-12 col-md-6 col-sm-12">
-          <h2 className="leave_comment_title">أترك تعليق</h2>
+          <h2 className="leave_comment_title">{title}</h2>
               <div className="row">
                 <div className="col-lg-6 col-md-12 col-sm-12">
                   <p className="title_of_comment_form">الاسم</p>
@@ -42,7 +42,7 @@ function CommentForm() {
               <div className="row">
                 <div className="col d-flex justify-content-center">
                     <button type="submit" className="submit_button_commentForm">
-                      تعليق
+                      {btn_title}
                     </button>
   
                 </div>

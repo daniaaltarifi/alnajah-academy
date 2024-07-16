@@ -91,9 +91,9 @@ function WhoWeAre() {
       </div>
       {/* End slider box */}
       {/* Our Teachear */}
-      <div class="container text-center about-section">
-        <div class="row ">
-          <div class="col-lg-5 col-md-6 col-sm-12">
+      <div className="container text-center about-section">
+        <div className="row ">
+          <div className="col-lg-5 col-md-6 col-sm-12">
             <h2 className="about_title">معلمينا</h2>
             <p className="p_about">
               في عصرنا الرقمي، تحولت التكنولوجيا إلى عنصر أساسي في حياتنا

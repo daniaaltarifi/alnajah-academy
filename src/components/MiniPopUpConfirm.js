@@ -4,7 +4,7 @@ import Modal from "react-bootstrap/Modal";
 
 function MiniPopUpConfirm({title_popup_confirm,description_popup_confirm}) {
   const [smShow, setSmShow] = useState(false);
-  const [lgShow, setLgShow] = useState(false);
+  // const [lgShow, setLgShow] = useState(false);
  
   return (
     <>

@@ -1,13 +1,9 @@
 import React from "react";
-import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../Css/slider.css";
-import Navbar from "../components/Navbar";
 import Home from "./Home";
-import Footer from "../components/Footer";
 import SliderComp from "../components/SliderComp";
-import logo from '../assets/logo.png'
 function LandingPage() {
  const description=" في عصرنا الرقمي، تحولت التكنولوجيا إلى عنصر أساسي في حياتنا اليومية، ومعها، ظهر التعليم عن بُعد كوسيلة  مثالية لتكميل النظام التعليمي التقليدي. هذه الطريقة الجديدة تمكن الطلاب من فهم المفاهيم المعقدة بسهولة أكبر"
 const image=require('../assets/logo.png')

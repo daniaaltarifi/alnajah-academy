@@ -181,7 +181,7 @@ function Blogs() {
                                   </h5>
                                   <div className="d-flex">
                                     <i
-                                      class="fa-solid fa-clock card_icon ms-2"
+                                      className="fa-solid fa-clock card_icon ms-2"
                                       style={{ color: "#F57D20" }}
                                     ></i>
                                     <p className="details_courses_card ">
@@ -268,11 +268,11 @@ function Blogs() {
               </div>
               <p className="categories_title">التاغات </p>
               <div className="tags_btn_cont">
-              <button type="button" class="btn btn-outline-secondary mb-1">التسويق</button>
-              <button type="button" class="btn btn-outline-secondary mb-1">التصميم</button>
-              <button type="button" class="btn btn-outline-secondary mb-1 ">هندسة العمارة</button>
-              <button type="button" class="btn btn-outline-secondary mb-1">الفن</button>
-              <button type="button" class="btn btn-outline-secondary mb-1">علم الحاسوب</button>
+              <button type="button" className="btn btn-outline-secondary mb-1">التسويق</button>
+              <button type="button" className="btn btn-outline-secondary mb-1">التصميم</button>
+              <button type="button" className="btn btn-outline-secondary mb-1 ">هندسة العمارة</button>
+              <button type="button" className="btn btn-outline-secondary mb-1">الفن</button>
+              <button type="button" className="btn btn-outline-secondary mb-1">علم الحاسوب</button>
 
               </div>
 

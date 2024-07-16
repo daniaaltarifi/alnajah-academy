@@ -1,44 +1,47 @@
 import React from "react";
-import navbar from "../Css/navbar.css";
+import  "../Css/navbar.css";
 import AuthNavbar from "../components/AuthNavbar.js";
 import { Link } from "react-router-dom";
-import SliderHome from "../Pages/LandingPage.js";
-import Home from "../Pages/Home.js";
+import ProfileIconNavbar from "./ProfileIconNavbar.js";
 function Navbar() {
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light">
         <div className="container-fluid responsive_container">
           <AuthNavbar />
+          {/* <ProfileIconNavbar/> */}
+          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span className="navbar-toggler-icon"></span>
+      </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <Link className="nav-link text_navbar " href="#">
+                <Link to="/contact" className="nav-link text_navbar " href="#">
                   اتصل بنا
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link text_navbar" href="#">
+                <Link to="/blogs" className="nav-link text_navbar" href="#">
                   المدونة
                 </Link>
               </li>
               <li className="nav-item dropdown">
-                <Link className="nav-link text_navbar" href="#">
+                <Link to="/cardprice" className="nav-link text_navbar" href="#">
                   نقاط البيع
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link text_navbar" href="#">
+                <Link to="/whoweare" className="nav-link text_navbar" href="#">
                   من نحن
                 </Link>
               </li>{" "}
               <li className="nav-item">
-                <Link className="nav-link text_navbar" href="#">
+                <Link to="/courses" className="nav-link text_navbar" href="#">
                   تعلم معنا
                 </Link>
               </li>{" "}
               <li className="nav-item">
-                <Link className="nav-link text_navbar" href="#">
+                <Link to="/" className="nav-link text_navbar" href="#">
                   الرئيسية
                 </Link>
               </li>

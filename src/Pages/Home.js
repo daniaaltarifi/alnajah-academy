@@ -1,51 +1,17 @@
 import React from "react";
 import "../Css/home.css";
-import Slider from "react-slick";
 import StudentsOpinions from "../components/StudentsOpinions";
 import PurpleBox from "../components/PurpleBox";
 function Home() {
-  var settings = {
-    dots: true,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 4,
-    initialSlide: 0,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-          infinite: true,
-          dots: true,
-        },
-      },
-      {
-        breakpoint: 800,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          initialSlide: 2,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
-  };
+ 
 
  
   return (
     <>
       {/* About section */}
-      <div class="container text-center about-section">
-        <div class="row ">
-        <div class="col-lg-5 col-md-6 col-sm-12">
+      <div className="container text-center about-section">
+        <div className="row ">
+        <div className="col-lg-5 col-md-6 col-sm-12">
             <h2 className="about_title">بصمة </h2>
             <p className="p_about">
               في عصرنا الرقمي، تحولت التكنولوجيا إلى عنصر أساسي في حياتنا
@@ -74,10 +40,10 @@ link={'/courses'}
 
       {/* FAQ section */}
       <section className="margin_section">
-        <div class="container text-center">
+        <div className="container text-center">
           <h1 className="faq">الأسئلة المتكررة</h1>
-          <div class="row">
-            <div class="col">
+          <div className="row">
+            <div className="col">
               <details open>
                 <summary>ممكن أعرف أكثر عن بصمة ؟ </summary>
                 <div>

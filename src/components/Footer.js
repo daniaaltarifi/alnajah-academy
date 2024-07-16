@@ -26,13 +26,13 @@ function Footer() {
               </div>
           
               <div className="col-lg-3 col-md-3-col-sm-12">
-                <Link to="" className="footer_link">
+                <Link to="/cardprice" className="footer_link">
                   <p>نقاط البيع</p>
                 </Link>
-                <Link to="/" className="footer_link">
+                <Link to="/blogs" className="footer_link">
                   <p>المدونة</p>
                 </Link>
-                <Link to="/" className="footer_link">
+                <Link to="/contact" className="footer_link">
                   <p>تواصل معنا</p>
                 </Link>
                 <div className="social_icon">
@@ -47,7 +47,7 @@ function Footer() {
                 <Link to="/" className="footer_link">
                   <p>الرئيسية</p>
                 </Link>
-                <Link to="/" className="footer_link">
+                <Link to="/courses" className="footer_link">
                   <p>الأقسام</p>
                 </Link>
                 <Link to="/" className="footer_link">
@@ -62,10 +62,10 @@ function Footer() {
                 <Link to="/" className="footer_link">
                   <p>الدورة التكميلية</p>
                 </Link>
-                <Link to="/" className="footer_link">
+                <Link to="/library" className="footer_link">
                   <p>المكتبة</p>
                 </Link>
-                <Link to="/" className="footer_link">
+                <Link to="/whoweare" className="footer_link">
                   <p>من نحن</p>
                 </Link>
               </div>

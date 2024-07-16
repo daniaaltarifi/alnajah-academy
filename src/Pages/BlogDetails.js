@@ -248,7 +248,10 @@ function BlogDetails() {
                       </button>
                     </div>
                   </div>
-      <CommentForm/>
+      <CommentForm
+      title="اترك تعليق"
+      btn_title="تعليق"
+      />
            
             </div>
             <div className="col-lg-3 col-md-12 col-sm-12 ">

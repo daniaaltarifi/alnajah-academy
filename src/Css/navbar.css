@@ -28,6 +28,19 @@ body{
   height: 100%;
   width: 100%;
 }
+.img_icon_navbar{
+  /* height: 5%; */
+  width: 30px;
+  object-fit: contain;
+}
+.list_profile_icon_navbar{
+  font-size: 15px;
+  font-weight: 600;
+ padding-top: 2vh;
+}
+.icon_profile_navbar{
+  display: flex;
+}
 @media screen and (max-width: 992px) {
     .text_navbar {
       font-size: 18px;

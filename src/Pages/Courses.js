@@ -12,7 +12,6 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import MiniPopUpLogin from "../components/MiniPopUpLogin.js";
 import MiniPopUpConfirm from "../components/MiniPopUpConfirm.js";
-import CourseDetails from "./CourseDetails.js";
 function Courses() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -206,13 +205,13 @@ function Courses() {
         </Modal>
         {/*End Modal */}
       </div>
-      <div class="container courses_margin">
-        <div class="row ">
-          <div class="col-lg-3 col-md-4 col-sm-12">
+      <div className="container courses_margin">
+        <div className="row ">
+          <div className="col-lg-3 col-md-4 col-sm-12">
             <div className="navbar__search">
               <span>
                 <i
-                  class="fa-solid fa-magnifying-glass fa-sm"
+                  className="fa-solid fa-magnifying-glass fa-sm"
                   style={{ color: "#833988" }}
                 ></i>{" "}
               </span>
@@ -250,7 +249,7 @@ function Courses() {
               )}
             </div>
           </div>
-          <div class="col-lg-3 col-md-4 col-sm-12">
+          <div className="col-lg-3 col-md-4 col-sm-12">
             <select name="languages" id="lang" className="select_dep">
               <option value="javascript" className="specific_dep">
                 JavaScript
@@ -259,26 +258,26 @@ function Courses() {
               <option value="java">Java</option>
             </select>
           </div>
-          <div class="col-lg-6 col-md-4 col-sm-12"></div>
+          <div className="col-lg-6 col-md-4 col-sm-12"></div>
         </div>
       </div>
 
-      <div class="slick-wrapper">
-        <div class="container ">
-          <div class="row justify-content-center align-items-center">
+      <div className="slick-wrapper">
+        <div className="container ">
+          <div className="row justify-content-center align-items-center">
             <Slider {...settings} ref={(slider) => setSlider(slider)}>
               <div className="col-lg-4 col-md-12 col-sm-12">
                 <Link to="/coursedetails" className="link_card">
-                <div class="card card_cont"  >
+                <div className="card card_cont"  >
                   <img
                     src={require("../assets/course.png")}
-                    class="card-img-top img-fluid card_img"
+                    className="card-img-top img-fluid card_img"
                     alt="..."
                   />
-                  <div class="card-body">
+                  <div className="card-body">
                     <div>
                       {/* rating here */}
-                      <p class="card-text card_dep">مكثفات جيل 2006</p>
+                      <p className="card-text card_dep">مكثفات جيل 2006</p>
                     </div>
                     <div className="d-flex justify-content-between">
                       <p className=" teacher_name_card">عبدالعزيز الجمال</p>
@@ -288,17 +287,17 @@ function Courses() {
                     <div className="d-flex justify-content-between">
                       <p className="details_courses_card"> 2:33:32</p>
                       <i
-                        class="fa-solid fa-clock card_icon"
+                        className="fa-solid fa-clock card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
                       <p className="details_courses_card">طالب200 </p>
                       <i
-                        class="fa-solid fa-graduation-cap card_icon"
+                        className="fa-solid fa-graduation-cap card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
                       <p className="details_courses_card"> درس20</p>
                       <i
-                        class="fa-solid fa-file card_icon"
+                        className="fa-solid fa-file card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>
                     </div>
@@ -307,16 +306,16 @@ function Courses() {
                 </Link>
               </div>{" "}
               <div className="col-lg-4 col-md-12 col-sm-12">
-                <div class="card card_cont">
+                <div className="card card_cont">
                   <img
                     src={require("../assets/course.png")}
-                    class="card-img-top img-fluid card_img"
+                    className="card-img-top img-fluid card_img"
                     alt="..."
                   />
-                  <div class="card-body">
+                  <div className="card-body">
                     <div>
                       {/* rating here */}
-                      <p class="card-text card_dep">مكثفات جيل 2006</p>
+                      <p className="card-text card_dep">مكثفات جيل 2006</p>
                     </div>
                     <div className="d-flex justify-content-between">
                       <p className=" teacher_name_card">عبدالعزيز الجمال</p>
@@ -326,17 +325,17 @@ function Courses() {
                     <div className="d-flex justify-content-between">
                       <p className="details_courses_card"> 2:33:32</p>
                       <i
-                        class="fa-solid fa-clock card_icon"
+                        className="fa-solid fa-clock card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
                       <p className="details_courses_card"> طالب200 </p>
                       <i
-                        class="fa-solid fa-graduation-cap card_icon"
+                        className="fa-solid fa-graduation-cap card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
                       <p className="details_courses_card"> 20درس</p>
                       <i
-                        class="fa-solid fa-file card_icon"
+                        className="fa-solid fa-file card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>
                     </div>
@@ -344,16 +343,16 @@ function Courses() {
                 </div>
               </div>{" "}
               <div className="col-lg-4 col-md-12 col-sm-12">
-                <div class="card card_cont">
+                <div className="card card_cont">
                   <img
                     src={require("../assets/course.png")}
-                    class="card-img-top img-fluid card_img"
+                    className="card-img-top img-fluid card_img"
                     alt="..."
                   />
-                  <div class="card-body">
+                  <div className="card-body">
                     <div>
                       {/* rating here */}
-                      <p class="card-text card_dep">مكثفات جيل 2006</p>
+                      <p className="card-text card_dep">مكثفات جيل 2006</p>
                     </div>
                     <div className="d-flex justify-content-between">
                       <p className=" teacher_name_card">عبدالعزيز الجمال</p>
@@ -363,17 +362,17 @@ function Courses() {
                     <div className="d-flex justify-content-between">
                       <p className="details_courses_card"> 2:33:32</p>
                       <i
-                        class="fa-solid fa-clock card_icon"
+                        className="fa-solid fa-clock card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
                       <p className="details_courses_card"> طالب200 </p>
                       <i
-                        class="fa-solid fa-graduation-cap card_icon"
+                        className="fa-solid fa-graduation-cap card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
                       <p className="details_courses_card"> 20درس</p>
                       <i
-                        class="fa-solid fa-file card_icon"
+                        className="fa-solid fa-file card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>
                     </div>
@@ -381,16 +380,16 @@ function Courses() {
                 </div>
               </div>{" "}
               <div className="col-lg-4 col-md-12 col-sm-12">
-                <div class="card card_cont">
+                <div className="card card_cont">
                   <img
                     src={require("../assets/course.png")}
-                    class="card-img-top img-fluid card_img"
+                    className="card-img-top img-fluid card_img"
                     alt="..."
                   />
-                  <div class="card-body">
+                  <div className="card-body">
                     <div>
                       {/* rating here */}
-                      <p class="card-text card_dep">مكثفات جيل 2006</p>
+                      <p className="card-text card_dep">مكثفات جيل 2006</p>
                     </div>
                     <div className="d-flex justify-content-between">
                       <p className=" teacher_name_card">عبدالعزيز الجمال</p>
@@ -400,17 +399,17 @@ function Courses() {
                     <div className="d-flex justify-content-between">
                       <p className="details_courses_card"> 2:33:32</p>
                       <i
-                        class="fa-solid fa-clock card_icon"
+                        className="fa-solid fa-clock card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
                       <p className="details_courses_card"> طالب200 </p>
                       <i
-                        class="fa-solid fa-graduation-cap card_icon"
+                        className="fa-solid fa-graduation-cap card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
                       <p className="details_courses_card"> 20درس</p>
                       <i
-                        class="fa-solid fa-file card_icon"
+                        className="fa-solid fa-file card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>
                     </div>
@@ -418,16 +417,16 @@ function Courses() {
                 </div>
               </div>{" "}
               <div className="col-lg-4 col-md-12 col-sm-12">
-                <div class="card card_cont">
+                <div className="card card_cont">
                   <img
                     src={require("../assets/course.png")}
-                    class="card-img-top img-fluid card_img"
+                    className="card-img-top img-fluid card_img"
                     alt="..."
                   />
-                  <div class="card-body">
+                  <div className="card-body">
                     <div>
                       {/* rating here */}
-                      <p class="card-text card_dep">مكثفات جيل 2006</p>
+                      <p className="card-text card_dep">مكثفات جيل 2006</p>
                     </div>
                     <div className="d-flex justify-content-between">
                       <p className=" teacher_name_card">عبدالعزيز الجمال</p>
@@ -437,17 +436,17 @@ function Courses() {
                     <div className="d-flex justify-content-between">
                       <p className="details_courses_card"> 2:33:32</p>
                       <i
-                        class="fa-solid fa-clock card_icon"
+                        className="fa-solid fa-clock card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
                       <p className="details_courses_card"> طالب200 </p>
                       <i
-                        class="fa-solid fa-graduation-cap card_icon"
+                        className="fa-solid fa-graduation-cap card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
                       <p className="details_courses_card"> 20درس</p>
                       <i
-                        class="fa-solid fa-file card_icon"
+                        className="fa-solid fa-file card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>
                     </div>
@@ -455,16 +454,16 @@ function Courses() {
                 </div>
               </div>{" "}
               <div className="col-lg-4 col-md-12 col-sm-12">
-                <div class="card card_cont">
+                <div className="card card_cont">
                   <img
                     src={require("../assets/course.png")}
-                    class="card-img-top img-fluid card_img"
+                    className="card-img-top img-fluid card_img"
                     alt="..."
                   />
-                  <div class="card-body">
+                  <div className="card-body">
                     <div>
                       {/* rating here */}
-                      <p class="card-text card_dep">مكثفات جيل 2006</p>
+                      <p className="card-text card_dep">مكثفات جيل 2006</p>
                     </div>
                     <div className="d-flex justify-content-between">
                       <p className=" teacher_name_card">عبدالعزيز الجمال</p>
@@ -474,17 +473,17 @@ function Courses() {
                     <div className="d-flex justify-content-between">
                       <p className="details_courses_card"> 2:33:32</p>
                       <i
-                        class="fa-solid fa-clock card_icon"
+                        className="fa-solid fa-clock card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
                       <p className="details_courses_card"> طالب200 </p>
                       <i
-                        class="fa-solid fa-graduation-cap card_icon"
+                        className="fa-solid fa-graduation-cap card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
                       <p className="details_courses_card"> 20درس</p>
                       <i
-                        class="fa-solid fa-file card_icon"
+                        className="fa-solid fa-file card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>
                     </div>
@@ -492,16 +491,16 @@ function Courses() {
                 </div>
               </div>{" "}
               <div className="col-lg-4 col-md-12 col-sm-12">
-                <div class="card card_cont">
+                <div className="card card_cont">
                   <img
                     src={require("../assets/course.png")}
-                    class="card-img-top img-fluid card_img"
+                    className="card-img-top img-fluid card_img"
                     alt="..."
                   />
-                  <div class="card-body">
+                  <div className="card-body">
                     <div>
                       {/* rating here */}
-                      <p class="card-text card_dep">مكثفات جيل 2006</p>
+                      <p className="card-text card_dep">مكثفات جيل 2006</p>
                     </div>
                     <div className="d-flex justify-content-between">
                       <p className=" teacher_name_card">عبدالعزيز الجمال</p>
@@ -511,17 +510,17 @@ function Courses() {
                     <div className="d-flex justify-content-between">
                       <p className="details_courses_card"> 2:33:32</p>
                       <i
-                        class="fa-solid fa-clock card_icon"
+                        className="fa-solid fa-clock card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
                       <p className="details_courses_card"> طالب200 </p>
                       <i
-                        class="fa-solid fa-graduation-cap card_icon"
+                        className="fa-solid fa-graduation-cap card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
                       <p className="details_courses_card"> 20درس</p>
                       <i
-                        class="fa-solid fa-file card_icon"
+                        className="fa-solid fa-file card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>
                     </div>
@@ -529,16 +528,16 @@ function Courses() {
                 </div>
               </div>{" "}
               <div className="col-lg-4 col-md-12 col-sm-12">
-                <div class="card card_cont">
+                <div className="card card_cont">
                   <img
                     src={require("../assets/course.png")}
-                    class="card-img-top img-fluid card_img"
+                    className="card-img-top img-fluid card_img"
                     alt="..."
                   />
-                  <div class="card-body">
+                  <div className="card-body">
                     <div>
                       {/* rating here */}
-                      <p class="card-text card_dep">مكثفات جيل 2006</p>
+                      <p className="card-text card_dep">مكثفات جيل 2006</p>
                     </div>
                     <div className="d-flex justify-content-between">
                       <p className=" teacher_name_card">عبدالعزيز الجمال</p>
@@ -548,17 +547,17 @@ function Courses() {
                     <div className="d-flex justify-content-between">
                       <p className="details_courses_card"> 2:33:32</p>
                       <i
-                        class="fa-solid fa-clock card_icon"
+                        className="fa-solid fa-clock card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
                       <p className="details_courses_card"> طالب200 </p>
                       <i
-                        class="fa-solid fa-graduation-cap card_icon"
+                        className="fa-solid fa-graduation-cap card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
                       <p className="details_courses_card"> 20درس</p>
                       <i
-                        class="fa-solid fa-file card_icon"
+                        className="fa-solid fa-file card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>
                     </div>
@@ -566,16 +565,16 @@ function Courses() {
                 </div>
               </div>{" "}
               <div className="col-lg-4 col-md-12 col-sm-12">
-                <div class="card card_cont">
+                <div className="card card_cont">
                   <img
                     src={require("../assets/course.png")}
-                    class="card-img-top img-fluid card_img"
+                    className="card-img-top img-fluid card_img"
                     alt="..."
                   />
-                  <div class="card-body">
+                  <div className="card-body">
                     <div>
                       {/* rating here */}
-                      <p class="card-text card_dep">مكثفات جيل 2006</p>
+                      <p className="card-text card_dep">مكثفات جيل 2006</p>
                     </div>
                     <div className="d-flex justify-content-between">
                       <p className=" teacher_name_card">عبدالعزيز الجمال</p>
@@ -585,17 +584,17 @@ function Courses() {
                     <div className="d-flex justify-content-between">
                       <p className="details_courses_card"> 2:33:32</p>
                       <i
-                        class="fa-solid fa-clock card_icon"
+                        className="fa-solid fa-clock card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
                       <p className="details_courses_card"> طالب200 </p>
                       <i
-                        class="fa-solid fa-graduation-cap card_icon"
+                        className="fa-solid fa-graduation-cap card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
                       <p className="details_courses_card"> 20درس</p>
                       <i
-                        class="fa-solid fa-file card_icon"
+                        className="fa-solid fa-file card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>
                     </div>
@@ -603,16 +602,16 @@ function Courses() {
                 </div>
               </div>{" "}
               <div className="col-lg-4 col-md-12 col-sm-12 ">
-                <div class="card card_cont">
+                <div className="card card_cont">
                   <img
                     src={require("../assets/course.png")}
-                    class="card-img-top img-fluid card_img"
+                    className="card-img-top img-fluid card_img"
                     alt="..."
                   />
-                  <div class="card-body">
+                  <div className="card-body">
                     <div>
                       {/* rating here */}
-                      <p class="card-text card_dep">مكثفات جيل 2006</p>
+                      <p className="card-text card_dep">مكثفات جيل 2006</p>
                     </div>
                     <div className="d-flex justify-content-between">
                       <p className=" teacher_name_card">عبدالعزيز الجمال</p>
@@ -622,17 +621,17 @@ function Courses() {
                     <div className="d-flex justify-content-between">
                       <p className="details_courses_card"> 2:33:32</p>
                       <i
-                        class="fa-solid fa-clock card_icon"
+                        className="fa-solid fa-clock card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
                       <p className="details_courses_card"> طالب200 </p>
                       <i
-                        class="fa-solid fa-graduation-cap card_icon"
+                        className="fa-solid fa-graduation-cap card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
                       <p className="details_courses_card"> 20درس</p>
                       <i
-                        class="fa-solid fa-file card_icon"
+                        className="fa-solid fa-file card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>
                     </div>
@@ -640,16 +639,16 @@ function Courses() {
                 </div>
               </div>
               <div className="col-lg-4 col-md-12 col-sm-12">
-                <div class="card card_cont">
+                <div className="card card_cont">
                   <img
                     src={require("../assets/course.png")}
-                    class="card-img-top img-fluid card_img"
+                    className="card-img-top img-fluid card_img"
                     alt="..."
                   />
-                  <div class="card-body">
+                  <div className="card-body">
                     <div>
                       {/* rating here */}
-                      <p class="card-text card_dep">مكثفات جيل 2006</p>
+                      <p className="card-text card_dep">مكثفات جيل 2006</p>
                     </div>
                     <div className="d-flex justify-content-between">
                       <p className=" teacher_name_card">عبدالعزيز الجمال</p>
@@ -659,17 +658,17 @@ function Courses() {
                     <div className="d-flex justify-content-between">
                       <p className="details_courses_card"> 2:33:32</p>
                       <i
-                        class="fa-solid fa-clock card_icon"
+                        className="fa-solid fa-clock card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
                       <p className="details_courses_card"> طالب200 </p>
                       <i
-                        class="fa-solid fa-graduation-cap card_icon"
+                        className="fa-solid fa-graduation-cap card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
                       <p className="details_courses_card"> 20درس</p>
                       <i
-                        class="fa-solid fa-file card_icon"
+                        className="fa-solid fa-file card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>
                     </div>
@@ -677,16 +676,16 @@ function Courses() {
                 </div>
               </div>
               <div className="col-lg-4 col-md-12 col-sm-12">
-                <div class="card card_cont">
+                <div className="card card_cont">
                   <img
                     src={require("../assets/course.png")}
-                    class="card-img-top img-fluid card_img"
+                    className="card-img-top img-fluid card_img"
                     alt="..."
                   />
-                  <div class="card-body">
+                  <div className="card-body">
                     <div>
                       {/* rating here */}
-                      <p class="card-text card_dep">مكثفات جيل 2006</p>
+                      <p className="card-text card_dep">مكثفات جيل 2006</p>
                     </div>
                     <div className="d-flex justify-content-between">
                       <p className=" teacher_name_card">عبدالعزيز الجمال</p>
@@ -696,17 +695,17 @@ function Courses() {
                     <div className="d-flex justify-content-between">
                       <p className="details_courses_card"> 2:33:32</p>
                       <i
-                        class="fa-solid fa-clock card_icon"
+                        className="fa-solid fa-clock card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
                       <p className="details_courses_card"> طالب200 </p>
                       <i
-                        class="fa-solid fa-graduation-cap card_icon"
+                        className="fa-solid fa-graduation-cap card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
                       <p className="details_courses_card"> 20درس</p>
                       <i
-                        class="fa-solid fa-file card_icon"
+                        className="fa-solid fa-file card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>
                     </div>
@@ -714,16 +713,16 @@ function Courses() {
                 </div>
               </div>
               <div className="col-lg-4 col-md-12 col-sm-12">
-                <div class="card card_cont">
+                <div className="card card_cont">
                   <img
                     src={require("../assets/course.png")}
-                    class="card-img-top img-fluid card_img"
+                    className="card-img-top img-fluid card_img"
                     alt="..."
                   />
-                  <div class="card-body">
+                  <div className="card-body">
                     <div>
                       {/* rating here */}
-                      <p class="card-text card_dep">مكثفات جيل 2006</p>
+                      <p className="card-text card_dep">مكثفات جيل 2006</p>
                     </div>
                     <div className="d-flex justify-content-between">
                       <p className=" teacher_name_card">عبدالعزيز الجمال</p>
@@ -733,17 +732,17 @@ function Courses() {
                     <div className="d-flex justify-content-between">
                       <p className="details_courses_card"> 2:33:32</p>
                       <i
-                        class="fa-solid fa-clock card_icon"
+                        className="fa-solid fa-clock card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
                       <p className="details_courses_card"> طالب200 </p>
                       <i
-                        class="fa-solid fa-graduation-cap card_icon"
+                        className="fa-solid fa-graduation-cap card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
                       <p className="details_courses_card"> 20درس</p>
                       <i
-                        class="fa-solid fa-file card_icon"
+                        className="fa-solid fa-file card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>
                     </div>
@@ -751,16 +750,16 @@ function Courses() {
                 </div>
               </div>
               <div className="col-lg-4 col-md-12 col-sm-12">
-                <div class="card card_cont">
+                <div className="card card_cont">
                   <img
                     src={require("../assets/course.png")}
-                    class="card-img-top img-fluid card_img"
+                    className="card-img-top img-fluid card_img"
                     alt="..."
                   />
-                  <div class="card-body">
+                  <div className="card-body">
                     <div>
                       {/* rating here */}
-                      <p class="card-text card_dep">مكثفات جيل 2006</p>
+                      <p className="card-text card_dep">مكثفات جيل 2006</p>
                     </div>
                     <div className="d-flex justify-content-between">
                       <p className=" teacher_name_card">عبدالعزيز الجمال</p>
@@ -770,17 +769,17 @@ function Courses() {
                     <div className="d-flex justify-content-between">
                       <p className="details_courses_card"> 2:33:32</p>
                       <i
-                        class="fa-solid fa-clock card_icon"
+                        className="fa-solid fa-clock card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
                       <p className="details_courses_card"> طالب200 </p>
                       <i
-                        class="fa-solid fa-graduation-cap card_icon"
+                        className="fa-solid fa-graduation-cap card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
                       <p className="details_courses_card"> 20درس</p>
                       <i
-                        class="fa-solid fa-file card_icon"
+                        className="fa-solid fa-file card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>
                     </div>

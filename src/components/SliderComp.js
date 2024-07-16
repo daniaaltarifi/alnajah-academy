@@ -3,6 +3,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../Css/slider.css"; 
+import { Link } from "react-router-dom";
 
 function SliderComp({title,description,image}) {
   const settings = {
@@ -33,9 +34,9 @@ function SliderComp({title,description,image}) {
               <p className="paragraph_slider">
               {description}
               </p>
-              <a href="#" className="btn btn-s purple_btn ">
+              <Link to="/cardprice"  className="btn btn-s purple_btn ">
                 اطلب بطاقتك هنا
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -56,9 +57,9 @@ function SliderComp({title,description,image}) {
                 التعليمي التقليدي. هذه الطريقة الجديدة تمكن الطلاب من فهم
                 المفاهيم المعقدة بسهولة أكبر.
               </p>
-              <a href="#" className="btn btn-s purple_btn btn_slider">
+              <Link to="/cardprice"  className="btn btn-s purple_btn btn_slider">
                 اطلب بطاقتك هنا
-              </a>
+              </Link>
             </div>
           </div>
         </div>

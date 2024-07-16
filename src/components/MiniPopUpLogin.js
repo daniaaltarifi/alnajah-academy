@@ -4,7 +4,7 @@ import Modal from "react-bootstrap/Modal";
 
 function MiniPopUp({title_popup,description_popup}) {
   const [smShow, setSmShow] = useState(false);
-  const [lgShow, setLgShow] = useState(false);
+  // const [lgShow, setLgShow] = useState(false);
  
   return (
     <>
