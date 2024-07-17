@@ -5,7 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import "../Css/slider.css"; 
 import { Link } from "react-router-dom";
 
-function SliderComp({title,description,image}) {
+function SliderComp({title,title2,description,image}) {
   const settings = {
     dots: true,
     infinite: true,
@@ -49,7 +49,7 @@ function SliderComp({title,description,image}) {
            <div className="overlay">
             <div className="overlay-content">
               <img src={require("../assets/logo.png")} alt="" />
-          <p  >{title}</p>
+          <p  >{title2}</p>
 
               <p className="paragraph_slider">
                 في عصرنا الرقمي، تحولت التكنولوجيا إلى عنصر أساسي في حياتنا

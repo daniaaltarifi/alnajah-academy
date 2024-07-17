@@ -13,6 +13,8 @@ import SignUp from './Pages/SignUp.js';
 import Login from './Pages/Login.js';
 import Profile from './Pages/Profile.js';
 import ContactUs from './Pages/ContactUs.js';
+import Library from './Pages/Library.js';
+import MyCourses from './Pages/MyCourses.js';
 function App() {
   return (
     <Router>
@@ -30,6 +32,8 @@ function App() {
           <Route path='/blogs' element={<Blogs/>}/>
           <Route path='/blogdetails' element={<BlogDetails/>}/>
           <Route path='/cardprice' element={<CardPrice/>}/>
+          <Route path='/library' element={<Library/>}/>
+          <Route path='/mycourses' element={<MyCourses/>}/>
           <Route path='/contact' element={<ContactUs/>}/>
 
         </Routes>
