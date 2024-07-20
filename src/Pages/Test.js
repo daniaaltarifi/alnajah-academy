@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import "../Css/courseDetails.css";
 import { Link } from "react-router-dom";
 import Tabs from "../Pages/Tabs.js";
@@ -144,7 +144,6 @@ function CourseDetails() {
   const handleContextMenu = (e) => {
     e.preventDefault();
   };
-
   const [isBlackScreen, setIsBlackScreen] = useState(false);
 
   const handleKeyDown = (event) => {
@@ -176,6 +175,8 @@ function CourseDetails() {
       window.removeEventListener('keyup', handleKeyUp);
     };
   }, []);
+
+
   return (
     <>
     
@@ -222,16 +223,7 @@ function CourseDetails() {
         </div>
       </div>
       {/* End header of course details */}
-      {isBlackScreen ? (
-                <div className="black_screen"style={{ 
-                  position: 'absolute', 
-                  top: 0, 
-                  left: 0, 
-                  width: '100%', 
-                  height: '100%', 
-                  backgroundColor: '#000' // Slightly opaque overlay
-                }}></div>
-              ) :(
+      
       <section className="margin_section">
         <div className="container text-center">
           <div className="row">
@@ -239,11 +231,11 @@ function CourseDetails() {
               {/* <Video/> */}
               <div className="video_cont">
               {isBlackScreen ? (
-                <div className="black_screen"style={{ 
-                  position: 'absolute',  
+                <div className="video-overlay"style={{ 
+                  position: 'absolute', 
+                 
                   width: '100%', 
-                  height: '100%', 
-                  backgroundColor: '#000' // Slightly opaque overlay
+                  height: '50%', 
                 }}></div>
               ) :(
                 items[currentVideoIndex].url && (
@@ -260,6 +252,8 @@ function CourseDetails() {
                   </video>
                 )
               )}
+                  
+
                 <div className="d-flex justify-content-center ">
                   <p className="after_price_coursedetails">18دينار</p>
                   <p className="before_price_coursedetails">22 دينار</p>
@@ -526,7 +520,7 @@ btn_title="تعليق"      />
           </div>
         </div>
       </section>
-              )}
+              
     </>
   );
 }
