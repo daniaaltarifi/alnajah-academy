@@ -176,7 +176,7 @@ function CourseDetails() {
     };
   }, []);
 
-
+const videoTest=<div><iframe src="https://iframe.mediadelivery.net/embed/274529/f4fd620d-2f93-4ce7-804e-96a169fc1bf4?autoplay=true&loop=false&muted=false&preload=true&responsive=true"></iframe></div>
   return (
     <>
     
@@ -230,30 +230,11 @@ function CourseDetails() {
             <div className="col-lg-5 col-md-12 col-sm-12" onContextMenu={handleContextMenu}>
               {/* <Video/> */}
               <div className="video_cont">
-              {isBlackScreen ? (
-                <div className="video-overlay"style={{ 
-                  position: 'absolute', 
-                 
-                  width: '100%', 
-                  height: '50%', 
-                }}></div>
-              ) :(
-                items[currentVideoIndex].url && (
-                  <video
-                    controls
-                    key={currentVideoIndex}
-                    className="video_play"
-                  >
-                    <source
-                      src={items[currentVideoIndex].url}
-                      type="video/mp4"
-                    />
-                    Your browser does not support the video tag.
-                  </video>
-                )
-              )}
-                  
-
+             <div>
+              {videoTest}
+             </div>
+              {/* <div ><iframe src="https://vz-70e0614c-a4f.b-cdn.net/f4fd620d-2f93-4ce7-804e-96a169fc1bf4/playlist.m3u8" loading="lazy"  allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;" allowfullscreen="true"></iframe></div> */}
+           
                 <div className="d-flex justify-content-center ">
                   <p className="after_price_coursedetails">18دينار</p>
                   <p className="before_price_coursedetails">22 دينار</p>

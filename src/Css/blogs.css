@@ -31,6 +31,7 @@
     background-color: #EAEAEA;
     border: none;
     border-radius: 15px;
+    padding-bottom:2vh ;
   }
 .title_blog{
     font-size: 40px;
@@ -77,9 +78,13 @@
     line-height: 37px;
   }
   .desc_blog{
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 400;
     padding: 0 2vh 2vh 2vh;
+    max-height: calc(1.2em * 5);
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    white-space: pre-line;
   }
   .blog_dep{
     color: #aaa;

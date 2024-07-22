@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useEffect, useState} from "react";
 import "../Css/blogDetails.css";
 import { FaFacebookF } from "react-icons/fa";
 import { FaPinterestP } from "react-icons/fa";
@@ -6,7 +6,43 @@ import { FaYoutube } from "react-icons/fa";
 import { FaInstagramSquare } from "react-icons/fa";
 import { BsTwitterX } from "react-icons/bs";
 import CommentForm from '../components/CommentForm'
+import { useParams,Link } from "react-router-dom";
+import axios from "axios";
 function BlogDetails() {
+  const [blogDetails,setBlogDetails]=useState(null)
+  const [lastThreeBlogs, setLastThreeBlogs] = useState([]);
+  const [tags, setTags] = useState([]);
+  const [selectedTagId, setSelectedTagId] = useState(null); 
+
+  const {id} = useParams()
+  useEffect(() => {
+    const fetchBlogDetails = async () => {
+      try {
+        const response = await fetch(`http://localhost:8080/blog/${id}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch blog details');
+        }
+        const data = await response.json();
+        setBlogDetails(data); 
+
+        // Properly log the fetched data to see its structure
+        console.log('Fetched Blog Details:', data);
+      } catch (error) {
+        console.error('Error fetching blog details:', error);
+      }
+    };
+    const fetchLastThreeBlogs = async () => {
+      const response = await axios.get("http://localhost:8080/blog/lastthree");
+      setLastThreeBlogs(response.data);
+    };
+    const fetchTags = async () => {
+      const response = await axios.get("http://localhost:8080/tag");
+      setTags(response.data);
+    };
+    fetchBlogDetails();
+    fetchLastThreeBlogs();
+    fetchTags();
+  }, [id]);
   const [comments] = useState([
     {
       teacher_name: "عبد العزيز الجمال",
@@ -68,29 +104,33 @@ function BlogDetails() {
   while (visibleComments.length < 3) {
     visibleComments.push(null); // Add placeholders if there are fewer than three comments
   }
+
   return (
     <>
       {/* header of course details */}
+      {blogDetails && (
+<div > 
+
       <div className="container text-center cont_course_details">
         <div className="row justify-content-center align-items-center">
           <div className="col-lg-6 col-md-6 cl-sm-12 d-flex justify-content-center">
             <img
-              src={require("../assets/blog.jpg")}
+              src={`http://localhost:8080/${blogDetails[0].img}`}
               alt="coursedetails"
               className="img-fluid img_blogdetails"
             />{" "}
           </div>
           <div className="col-lg-6 col-md-6 col-sm-12  justify-content-center align-items-center">
             <div className="d-flex justify-content-evenly ">
-              <p className="title_blogdetails">مكثفات جيل 2006</p>
-              <p className="teacher_coursedetails ms-5">عبد العزيز الجمال</p>
+              <p className="title_blogdetails">{blogDetails[0].department_name}</p>
+              <p className="teacher_coursedetails ms-5">{blogDetails[0].author}  </p>
               <i
                 className="fa-solid fa-clock card_icon "
                 style={{ color: "#F57D20" }}
               ></i>
-              <p className="date_blogdetails"> 24/7/2024</p>
+              <p className="date_blogdetails"> {blogDetails[0].created_date}</p>
             </div>
-            <h1 className="title_coursedetails">كيف تختار اللابتوب المناسب</h1>
+            <h1 className="title_coursedetails">{blogDetails[0].title}</h1>
           </div>
         </div>
       </div>
@@ -100,79 +140,22 @@ function BlogDetails() {
           <div className="row ">
             <div className="col-lg-8 col-md-12 col-sm-12 cont_blogdetails">
               <p className="desc_blogdetails">
-                مادة الحاسوب هي تخصص دراسي يهتم بالتفاعل مع الحواسيب وفهم كيفية
-                عملها واستخدامها بشكل فعّال. تتنوع المواضيع التي يغطيها هذا
-                التخصص من تاريخ الحوسبة وتطورها إلى مفاهيم البرمجة والتصميم
-                الحاسوبي وهندسة البرمجيات والشبكات والأمان السيبراني. يمكن لطلاب
-                مادة الحاسوب أن يتعلموا العديد من المفاهيم الأساسية مثل البرمجة
-                بلغات مختلفة مثل C++، Python، Java، وغيرها، بالإضافة إلى مفاهيم
-                الهندسة البرمجية التي تشمل تطوير البرمجيات وإدارة المشاريع
-                البرمجية. كما يتعلم الطلاب عادةً عن بنية الحواسيب وكيفية عملها،
-                ويمكنهم أيضًا التخصص في مجالات مثل الذكاء الاصطناعي، وتعلم
-                الآلة، والروبوتيات، والواقع الافتراضي، وغيرها من التطبيقات
-                التكنولوجية الحديثة. تعتبر مادة الحاسوب مجالًا ديناميكيًا
-                ومتطورًا يتطلب التحديث المستمر ومواكبة التطورات التكنولوجية
-                الجديدة، وتقديم حلول مبتكرة للتحديات التي تواجه العالم الرقمي
-                المعاصر. مادة الحاسوب هي تخصص دراسي يهتم بالتفاعل مع الحواسيب
-                وفهم كيفية عملها واستخدامها بشكل فعّال. تتنوع المواضيع التي
-                يغطيها هذا التخصص من تاريخ الحوسبة وتطورها إلى مفاهيم البرمجة
-                والتصميم الحاسوبي وهندسة البرمجيات والشبكات والأمان السيبراني.
-                يمكن لطلاب مادة الحاسوب أن يتعلموا العديد من المفاهيم الأساسية
-                مثل البرمجة بلغات مختلفة مثل C++، Python، Java، وغيرها، بالإضافة
-                إلى مفاهيم الهندسة البرمجية التي تشمل تطوير البرمجيات وإدارة
-                المشاريع البرمجية. كما يتعلم الطلاب عادةً عن بنية الحواسيب
-                وكيفية عملها، ويمكنهم أيضًا التخصص في مجالات مثل الذكاء
-                الاصطناعي، وتعلم الآلة، والروبوتيات، والواقع الافتراضي، وغيرها
-                من التطبيقات التكنولوجية الحديثة. تعتبر مادة الحاسوب مجالًا
-                ديناميكيًا ومتطورًا يتطلب التحديث المستمر ومواكبة التطورات
-                التكنولوجية الجديدة، وتقديم حلول مبتكرة للتحديات التي تواجه
-                العالم الرقمي المعاصر. مادة الحاسوب هي تخصص دراسي يهتم بالتفاعل
-                مع الحواسيب وفهم كيفية عملها واستخدامها بشكل فعّال. تتنوع
-                المواضيع التي يغطيها هذا التخصص من تاريخ الحوسبة وتطورها إلى
-                مفاهيم البرمجة والتصميم الحاسوبي وهندسة البرمجيات والشبكات
-                والأمان السيبراني. يمكن لطلاب مادة الحاسوب أن يتعلموا العديد من
-                المفاهيم الأساسية مثل البرمجة بلغات مختلفة مثل C++، Python،
-                Java، وغيرها، بالإضافة إلى مفاهيم الهندسة البرمجية التي تشمل
-                تطوير البرمجيات وإدارة المشاريع البرمجية. كما يتعلم الطلاب عادةً
-                عن بنية الحواسيب وكيفية عملها، ويمكنهم أيضًا التخصص في مجالات
-                مثل الذكاء الاصطناعي، وتعلم الآلة، والروبوتيات، والواقع
-                الافتراضي، وغيرها من التطبيقات التكنولوجية الحديثة. تعتبر مادة
-                الحاسوب مجالًا ديناميكيًا ومتطورًا يتطلب التحديث المستمر ومواكبة
-                التطورات التكنولوجية الجديدة، وتقديم حلول مبتكرة للتحديات التي
-                تواجه العالم الرقمي المعاصر.
+            {blogDetails[0].descr}
               </p>
+            
               <div className="tags_btn_blogdetails_cont">
                 <p className="categories_title">التاغات </p>
+                {tags.map((tag) => (
                 <button
                   type="button"
                   className="btn btn-outline-secondary mb-1 tags_btn_blogdetails"
+
                 >
-                  التسويق
+                                        {tag.title}
+
                 </button>
-                <button
-                  type="button"
-                  className="btn btn-outline-secondary mb-1 tags_btn_blogdetails"
-                >
-                  التصميم
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-outline-secondary mb-1 tags_btn_blogdetails"
-                >
-                  هندسة العمارة
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-outline-secondary mb-1 tags_btn_blogdetails"
-                >
-                  الفن
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-outline-secondary mb-1 tags_btn_blogdetails"
-                >
-                  علم الحاسوب
-                </button>
+                
+              ))}
               </div>
               <div className="share_blogdetails_cont ">
                 <div>
@@ -255,7 +238,7 @@ function BlogDetails() {
            
             </div>
             <div className="col-lg-3 col-md-12 col-sm-12 ">
-              <p className="categories_title">الأصناف</p>
+              {/* <p className="categories_title">الأصناف</p>
               <div className="categ_lastblog_cont">
                 <p className="ms-4">الحاسوب</p>
                 <p>12</p>
@@ -267,43 +250,31 @@ function BlogDetails() {
               <div className="categ_lastblog_cont">
                 <p className="ms-4">الحاسوب</p>
                 <p>12</p>
-              </div>
+              </div> */}
               <p className="categories_title">المقالات الأخيرة</p>
-              <div className="categ_lastblog_cont">
-                <img
-                  src={require("../assets/blog.jpg")}
-                  alt=""
-                  className="img-fluid img_last_blog"
-                />
-                <p className="desc_last_blog">
-                  كيف تختار كاميرا تصوير مناسبة للمناسبتك
-                </p>
-              </div>
-              <div className="categ_lastblog_cont">
-                <img
-                  src={require("../assets/lastBlog.png")}
-                  alt=""
-                  className="img-fluid img_last_blog"
-                />
-                <p className="desc_last_blog">
-                  كيف تختار كاميرا تصوير مناسبة للمناسبتك
-                </p>
-              </div>
-              <div className="categ_lastblog_cont">
-                <img
-                  src={require("../assets/lastBlog.png")}
-                  alt=""
-                  className="img-fluid img_last_blog"
-                />
-                <p className="desc_last_blog">
-                  كيف تختار كاميرا تصوير مناسبة للمناسبتك
-                </p>
-              </div>
+              {lastThreeBlogs.map((lastthreeblogs) => (
+                <Link to={`/blogdetails/${lastthreeblogs.id}`} style={{textDecoration:"none",color:"#000"}}>
+                <div className="categ_lastblog_cont">
+                  <img
+                    src={`http://localhost:8080/` + lastthreeblogs.img}
+                    alt=""
+                    className="img-fluid img_last_blog"
+                  />
+                  <p className="desc_last_blog">{lastthreeblogs.title}</p>
+                </div>
+                                </Link>
+
+              ))}
+              
             </div>
 
           </div>
         </div>
       </section>
+ </div>
+
+         )}
+
     </>
   );
 }

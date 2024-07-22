@@ -1,48 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../Css/blogs.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 function Blogs() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [blogs, setBlogs] = useState([]);
+  const [tags, setTags] = useState([]);
+  const [lastThreeBlogs, setLastThreeBlogs] = useState([]);
+  const [selectedTagId, setSelectedTagId] = useState(null); 
+
   const navigate = useNavigate();
-  const blogs = [
-    {
-      id: 1,
-      title: "كيف تختار اللابتوب المناسب",
-      description:
-        "مادة الحاسوب هي تخصص دراسي يهتم بالتفاعل مع الحواسيب وفهم كيفية عملها واستخدامها بشكل فعّال. تتنوع المواضيع التي يغطيها هذا التخصص من تاريخ الحوسبة وتطورها إلى مفاهيم البرمجة والتصميم الحاسوبي وهندسة البرمجيات والشبكات والأمان السيبراني.",
-      teacher: "عبدالعزيز الجمال",
-      dep: "الحاسوب",
-      date: "20.5.2024",
-    },
-    {
-      id: 2,
-      title: "التعليم العلمي عن التكنولوجيا",
-      description:
-        "التكنولوجيا هي علومة تتمثل في تحويل المعلومات والتعليمات من المكان الأصلى إلى المكان النهائي، مثل الكمبيوترات والأجهزة اللوجية والويب. التكنولوجيا تتيح للمعلمين والطلاب التعليم في تحويل المعلومات والتعليمات من مكان الأصلى إلى المكان النهائ",
-      teacher: "عبدالعزيز الجمال",
-      dep: "الحاسوب",
-      date: "20.5.2024",
-    },
-    {
-      id: 3,
-      title: "التعليم العلمي عن التكنولوجيا",
-      description:
-        "التكنولوجيا هي علومة تتمثل في تحويل المعلومات والتعليمات من المكان الأصلى إلى المكان النهائي، مثل الكمبيوترات والأجهزة اللوجية والويب. التكنولوجيا تتيح للمعلمين والطلاب التعليم في تحويل المعلومات والتعليمات من مكان الأصلى إلى المكان النهائ",
-      teacher: "عبدالعزيز الجمال",
-      dep: "الحاسوب",
-      date: "20.5.2024",
-    },
-    {
-      id: 4,
-      title: "التعليم العلمي عن التكنولوجيا",
-      description:
-        "التكنولوجيا هي علومة تتمثل في تحويل المعلومات والتعليمات من المكان الأصلى إلى المكان النهائي، مثل الكمبيوترات والأجهزة اللوجية والويب. التكنولوجيا تتيح للمعلمين والطلاب التعليم في تحويل المعلومات والتعليمات من مكان الأصلى إلى المكان النهائ",
-      teacher: "عبدالعزيز الجمال",
-      dep: "الحاسوب",
-      date: "20.5.2024",
-    },
-  ];
+
+  const fetchBlog = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/blog");
+      setBlogs(response.data);
+    } catch (error) {}
+  };
+  const fetchTags = async () => {
+    const response = await axios.get("http://localhost:8080/tag");
+    setTags(response.data);
+  };
+  const fetchLastThreeBlogs = async () => {
+    const response = await axios.get("http://localhost:8080/blog/lastthree");
+    setLastThreeBlogs(response.data);
+  };
+  useEffect(() => {
+    fetchBlog();
+    fetchTags();
+    fetchLastThreeBlogs();
+  }, []);
+
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const totalSlides = Math.ceil(blogs.length / 3);
 
@@ -65,21 +54,32 @@ function Blogs() {
   const endIndex = startIndex + 3;
   const visibleblogs = blogs.slice(startIndex, endIndex);
 
-  // Adjust the visible blogs to ensure exactly three are displayed
   while (visibleblogs.length < 3) {
-    visibleblogs.push(null); // Replace null with any default data or empty placeholder
+    visibleblogs.push(null); 
   }
-  // const handleInputChange = (event) => {
-  //   const query = event.target.value;
-  //   setSearchQuery(query);
 
-  //   // Filter the courses based on the search query
-  //   const filteredResults = CoursesInfo.filter((course) =>
-  //     course.courseName.toLowerCase().includes(query.toLowerCase())
-  //   );
+  const handleInputChange = (event) => {
+    const query = event.target.value;
+    setSearchQuery(query);
 
-  //   setSearchResults(filteredResults);
-  // };
+    // Filter blogs based on search query
+    const filteredResults = blogs.filter((blog) =>
+      blog.title.toLowerCase().includes(query.toLowerCase())
+    );
+
+    setSearchResults(filteredResults);
+  };
+  const handleTagClick = (tagId) => {
+    setSelectedTagId(tagId);
+  };
+  let displayBlogs = [];
+  if (searchQuery.length > 0) {
+    displayBlogs = searchResults;
+  } else if (selectedTagId !== null) {
+    displayBlogs = blogs.filter((blog) => blog.tag_id === selectedTagId);
+  } else {
+    displayBlogs = blogs; 
+  }
 
   return (
     <>
@@ -117,33 +117,34 @@ function Blogs() {
                       placeholder="ابحث عن موضوع"
                       value={searchQuery}
                       className="search_blog"
-                      //   onChange={handleInputChange}
+                      onChange={handleInputChange}
                     />
                     <a
-                      href="#"
                       className="btn btn-s purple_btn search_btn_blog"
+                      onChange={handleInputChange}
                     >
                       بحث{" "}
                     </a>
                     {searchQuery && (
                       <ul className="search_dropdown">
                         {searchResults.length > 0 ? (
-                          searchResults.map((course) => (
+                          searchResults.map((blog) => (
                             <li
-                              key={course.id}
+                              key={blog.id}
                               onClick={() => {
-                                navigate(`/courses/${course.id}`);
-                                console.log(course.id);
-                                // window.location.reload()
+                                navigate(`/blogdetails/${blog.id}`);
                                 window.scrollTo(0, 0);
                               }}
                             >
-                              <img src={course.image} alt={course.courseName} />
-                              {course.courseName}
+                              <img
+                                src={`http://localhost:8080/` + blog.img}
+                                alt={blog.title}
+                              />
+                              {blog.title}
                             </li>
                           ))
                         ) : (
-                          <li>No courses found.</li>
+                          <li>No blogs found.</li>
                         )}
                       </ul>
                     )}
@@ -151,92 +152,84 @@ function Blogs() {
                 </div>
               </div>
               {/* End search */}
-              <section className="margin_section">
-                {visibleblogs.map((blogs, index) => (
-                  <div>
-                    {blogs ? (
-                      <div className="card mb-3 card_cont_blog" key={index}>
-                        <div className="row g-0">
-                          <div className="col-md-4">
-                            <img
-                              src={require("../assets/blog.jpg")}
-                              className="img-fluid img_blog"
-                              alt="..."
-                            />
-                          </div>
-                          <div className="col-md-8">
-                            <div className="card-body">
-                              <div className="cont_info_blog">
-                                <div>
-                                  <p className="card-title blog_title ">
-                                    {blogs.title}
-                                  </p>
-                                  <small className="blog_dep">
-                                    {blogs.dep}
-                                  </small>
-                                </div>
-                                <div>
-                                  <h5 className=" teacher_name_blog">
-                                    {blogs.teacher}
-                                  </h5>
-                                  <div className="d-flex">
-                                    <i
-                                      className="fa-solid fa-clock card_icon ms-2"
-                                      style={{ color: "#F57D20" }}
-                                    ></i>
-                                    <p className="details_courses_card ">
-                                      {" "}
-                                      2:33:32
-                                    </p>
-                                  </div>
-                                </div>
+              {displayBlogs.map((blog, index) => (
+                <Link to={`/blogdetails/${blog.id}`} style={{textDecoration:"none"}}>
+
+                <div key={index} className="card mb-3 card_cont_blog">
+                  {blog ? (
+                    <div className="row g-0">
+                      <div className="col-md-4">
+                        <img
+                          src={`http://localhost:8080/${blog.img}`}
+                          className="img-fluid img_blog"
+                          alt="..."
+                        />
+                      </div>
+                      <div className="col-md-8">
+                        <div className="card-body">
+                          <div className="cont_info_blog">
+                            <div>
+                              <p className="card-title blog_title">
+                                {blog.title}
+                              </p>
+                              <small className="blog_dep">
+                                {blog.tag_title}
+                              </small>
+                            </div>
+                            <div>
+                              <h5 className=" teacher_name_blog">
+                                {blog.author}
+                              </h5>
+                              <div className="d-flex">
+                                <i
+                                  className="fa-solid fa-clock card_icon ms-2"
+                                  style={{ color: "#F57D20" }}
+                                ></i>
+                                <p className="details_blogs_card ">
+                                  {blog.created_date}
+                                </p>
                               </div>
                             </div>
-                            <p className="card-text desc_blog">
-                              {blogs.description}
-                            </p>
                           </div>
                         </div>
+                        <p className="card-text desc_blog ">{blog.descr}</p>
                       </div>
-                    ) : (
-                      <div
-                        className={`col-md-${
-                          12 / visibleblogs.length
-                        } col-sm-12`}
-                      ></div>
-                    )}
-                  </div>
-                ))}
-                <div className="text-center mt-3">
-                  <div
-                    className="col-md-12 col-sm-12 col_btn_prevNext"
-                    style={{ marginTop: "10px" }}
-                  >
-                    <button onClick={goToNextSlide} className="btn mb-3">
-                      <i className="fa fa-arrow-right"></i>
-                    </button>
-                    <div
-                      style={{
-                        textAlign: "center",
-                        marginTop: "5px",
-                        fontSize: "18px",
-                      }}
-                    >
-                      {/* Displaying current slide number in bold */}
-                      <span style={{ fontWeight: "bold" }}>
-                        {currentSlideIndex + 1}
-                      </span>{" "}
-                      / {totalSlides}
                     </div>
-                    <button onClick={goToPrevSlide} className="btn mb-3">
-                      <i className="fa fa-arrow-left"></i>
-                    </button>
-                  </div>
+                  ) : (
+                    <div className="col-md-12 col-sm-12"></div> 
+                  )}
                 </div>
-              </section>
+                </Link>
+
+              ))}
+              <div className="text-center mt-3">
+                <div
+                  className="col-md-12 col-sm-12 col_btn_prevNext"
+                  style={{ marginTop: "10px" }}
+                >
+                  <button onClick={goToNextSlide} className="btn mb-3">
+                    <i className="fa fa-arrow-right"></i>
+                  </button>
+                  <div
+                    style={{
+                      textAlign: "center",
+                      marginTop: "5px",
+                      fontSize: "18px",
+                    }}
+                  >
+                    <span style={{ fontWeight: "bold" }}>
+                      {currentSlideIndex + 1}
+                    </span>{" "}
+                    / {totalSlides}
+                  </div>
+                  <button onClick={goToPrevSlide} className="btn mb-3">
+                    <i className="fa fa-arrow-left"></i>
+                  </button>
+                </div>
+              </div>
             </div>
             <div className="col-lg-3 col-md-12 col-sm-12 ">
-              <p className="categories_title">الأصناف</p>
+              {/* <p className="categories_title">الأصناف</p>
               <div className="categ_lastblog_cont">
                 <p className="ms-4">الحاسوب</p>
                 <p>12</p>
@@ -248,34 +241,36 @@ function Blogs() {
               <div className="categ_lastblog_cont">
                 <p className="ms-4">الحاسوب</p>
                 <p>12</p>
-              </div>
+              </div> */}
               <p className="categories_title">المقالات الأخيرة</p>
-              <div className="categ_lastblog_cont">
-                <img src={require("../assets/blog.jpg")} alt="" className="img-fluid img_last_blog"/>
-                <p className="desc_last_blog">كيف تختار كاميرا تصوير 
-                مناسبة للمناسبتك</p>
-              </div>
-              <div className="categ_lastblog_cont">
-                <img src={require("../assets/lastBlog.png")} alt="" className="img-fluid img_last_blog"/>
-                <p className="desc_last_blog">كيف تختار كاميرا تصوير 
-                مناسبة للمناسبتك</p>
-                
-              </div>
-              <div className="categ_lastblog_cont">
-                <img src={require("../assets/lastBlog.png")} alt="" className="img-fluid img_last_blog"/>
-                <p className="desc_last_blog">كيف تختار كاميرا تصوير 
-                مناسبة للمناسبتك</p>
-              </div>
+              {lastThreeBlogs.map((lastthreeblogs) => (
+                <Link to={`/blogdetails/${lastthreeblogs.id}`} style={{textDecoration:"none",color:"#000"}}>
+                <div className="categ_lastblog_cont">
+                  <img
+                    src={`http://localhost:8080/` + lastthreeblogs.img}
+                    alt=""
+                    className="img-fluid img_last_blog"
+                  />
+                  <p className="desc_last_blog">{lastthreeblogs.title}</p>
+                </div>
+                                </Link>
+
+              ))}
               <p className="categories_title">التاغات </p>
               <div className="tags_btn_cont">
-              <button type="button" className="btn btn-outline-secondary mb-1">التسويق</button>
-              <button type="button" className="btn btn-outline-secondary mb-1">التصميم</button>
-              <button type="button" className="btn btn-outline-secondary mb-1 ">هندسة العمارة</button>
-              <button type="button" className="btn btn-outline-secondary mb-1">الفن</button>
-              <button type="button" className="btn btn-outline-secondary mb-1">علم الحاسوب</button>
+                {tags.map((tag) => (
+                  <div key={tag.id}>
+                    <button
+                      type="button"
+                      className="btn btn-outline-secondary mb-1"
+                      onClick={() => handleTagClick(tag.id)}
 
+                    >
+                      {tag.title}
+                    </button>
+                  </div>
+                ))}
               </div>
-
             </div>
           </div>
         </div>
