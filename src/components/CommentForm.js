@@ -1,6 +1,35 @@
-import React from "react";
+import React,{useState} from "react";
 import "../Css/commentForm.css";
-function CommentForm({title,btn_title}) {
+function CommentForm({title,btn_title,handleSubmit}) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [comment, setComment] = useState("");
+  // const [blog_id, setBlog_id] = useState(id);
+  // let blog_id=id
+// console.log("first",id)
+  const handleNameChange = (event) => {
+    setName(event.target.value);
+  };
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const handleCommentChange = (event) => {
+    setComment(event.target.value);
+  };
+
+ 
+
+  const handleSubmitForm = async (event) => {
+    event.preventDefault(); 
+    try {
+      await handleSubmit(name, email, comment); 
+   
+    } catch (error) {
+      console.error("Error submitting comment:", error);
+    }
+  };
   return (
     <>
       <section className="margin_section">
@@ -17,7 +46,7 @@ function CommentForm({title,btn_title}) {
                   <input
                     type="text"
                     className="comment_form_input"
-                    //   onChange={handleInputChange}
+                      onChange={handleNameChange}
                   />
                 </div>
                 <div className="col-lg-6 col-md-12 col-sm-12">
@@ -25,7 +54,7 @@ function CommentForm({title,btn_title}) {
                   <input
                     type="email"
                     className="comment_form_input"
-                    //   onChange={handleInputChange}
+                      onChange={handleEmailChange}
                   />
                 </div>
               </div>
@@ -35,13 +64,13 @@ function CommentForm({title,btn_title}) {
                   <input
                     type="textarea"
                     className="textarea_input_commentForm"
-                    //   onChange={handleInputChange}
+                      onChange={handleCommentChange}
                   />
                 </div>
               </div>
               <div className="row">
                 <div className="col d-flex justify-content-center">
-                    <button type="submit" className="submit_button_commentForm">
+                    <button onClick={handleSubmitForm}className="submit_button_commentForm">
                       {btn_title}
                     </button>
   
