@@ -29,7 +29,7 @@ function App() {
 
           <Route path="/" element={<LandingPage />} />
           <Route path='/courses' element={<Courses/>}/>
-          <Route path='/coursedetails' element={<CourseDetails/>}/>
+          <Route path='/coursedetails/:id' element={<CourseDetails/>}/>
           <Route path='/whoweare' element={<WhoWeAre/>}/>
           <Route path='/blogs' element={<Blogs/>}/>
           <Route path='/blogdetails/:id' element={<BlogDetails/>}/>

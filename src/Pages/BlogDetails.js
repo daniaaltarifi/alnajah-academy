@@ -130,6 +130,8 @@ const approvedComments=comments.filter(comment=>comment.action ==='approved')
       console.error("Error submitting comment:", error);
     }
   };
+
+  
   return (
     <>
       {/* header of course details */}

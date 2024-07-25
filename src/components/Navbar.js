@@ -21,27 +21,32 @@ function Navbar() {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="/blogs" className="nav-link text_navbar" href="#">
+                <Link to="/library" className="nav-link text_navbar" >
+                  المكتبة
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/blogs" className="nav-link text_navbar" >
                   المدونة
                 </Link>
               </li>
               <li className="nav-item dropdown">
-                <Link to="/cardprice" className="nav-link text_navbar" href="#">
+                <Link to="/cardprice" className="nav-link text_navbar" >
                   نقاط البيع
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="/whoweare" className="nav-link text_navbar" href="#">
+                <Link to="/whoweare" className="nav-link text_navbar" >
                   من نحن
                 </Link>
               </li>{" "}
               <li className="nav-item">
-                <Link to="/courses" className="nav-link text_navbar" href="#">
+                <Link to="/courses" className="nav-link text_navbar" >
                   تعلم معنا
                 </Link>
               </li>{" "}
               <li className="nav-item">
-                <Link to="/" className="nav-link text_navbar" href="#">
+                <Link to="/" className="nav-link text_navbar" >
                   الرئيسية
                 </Link>
               </li>

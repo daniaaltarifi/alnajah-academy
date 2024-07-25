@@ -1,31 +1,25 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
+import axios from "axios";
 import "../Css/commentForm.css";
-function CommentForm({title,btn_title,handleSubmit}) {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [comment, setComment] = useState("");
-  // const [blog_id, setBlog_id] = useState(id);
-  // let blog_id=id
-// console.log("first",id)
-  const handleNameChange = (event) => {
-    setName(event.target.value);
-  };
+function CommentForm({title,btn_title ,handleSubmit }) {
 
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-  };
 
-  const handleCommentChange = (event) => {
-    setComment(event.target.value);
-  };
+
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [comment, setComment] = useState('');
 
  
-
   const handleSubmitForm = async (event) => {
     event.preventDefault(); 
     try {
       await handleSubmit(name, email, comment); 
-   
+    // Clear the form data after successful submission
+    setName('');
+    setEmail('');
+    setComment('');
+
+    
     } catch (error) {
       console.error("Error submitting comment:", error);
     }
@@ -44,17 +38,22 @@ function CommentForm({title,btn_title,handleSubmit}) {
                 <div className="col-lg-6 col-md-12 col-sm-12">
                   <p className="title_of_comment_form">الاسم</p>
                   <input
-                    type="text"
-                    className="comment_form_input"
-                      onChange={handleNameChange}
+                   type="text"
+                   name="name"
+                   value={name}
+                   onChange={(e) => setName(e.target.value)}
+
+                   className="comment_form_input"
                   />
                 </div>
                 <div className="col-lg-6 col-md-12 col-sm-12">
                   <p className="title_of_comment_form">البريد الالكنروني</p>
                   <input
                     type="email"
+                    name="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     className="comment_form_input"
-                      onChange={handleEmailChange}
                   />
                 </div>
               </div>
@@ -64,13 +63,15 @@ function CommentForm({title,btn_title,handleSubmit}) {
                   <input
                     type="textarea"
                     className="textarea_input_commentForm"
-                      onChange={handleCommentChange}
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                   
                   />
                 </div>
               </div>
               <div className="row">
                 <div className="col d-flex justify-content-center">
-                    <button onClick={handleSubmitForm}className="submit_button_commentForm">
+                    <button type="submit" onClick={handleSubmitForm} className="submit_button_commentForm">
                       {btn_title}
                     </button>
   

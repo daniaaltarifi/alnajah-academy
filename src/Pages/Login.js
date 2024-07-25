@@ -1,7 +1,41 @@
-import React from "react";
+
 import "../Css/auth.css";
 import { Link } from "react-router-dom";
+import React, { useState } from 'react';
+import axios from 'axios';
+
+
 function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+ 
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post('http://localhost:8080/api/login', {
+        email, password
+      });
+     
+      console.log('Login response:', res.data);
+      localStorage.setItem('auth', res.data.token);
+  localStorage.setItem('id', res.data.token.id);
+      // Check if the response contains the token
+      if (res.data.token) {
+        localStorage.setItem('auth', res.data.token);
+        localStorage.setItem('name', res.data.name);
+        localStorage.setItem('id', res.data.id);
+        console.log('Auth token set in localStorage:', localStorage.getItem('auth'));
+        window.location.href = '/'; // Redirect to home page after login
+      } else {
+        setError("Login failed, no token received.");
+      }
+    } catch (err) {
+      setError("البريد الالكتروني أو كلمة المرور غير صحيحة");
+      console.error('Login error:', err);
+    }
+  };
   return (
     <>
       <section className="margin_section">
@@ -31,20 +65,30 @@ function Login() {
                 <p className="title_of_input_auth">البريد الالكتروني</p>
                 <input
                   type="text"
-                  className="search_blog"
-                  //   onChange={handleInputChange}
+                  className={`search_blog ${error && 'error_input'}`}
+                  value={email} onChange={(e) => setEmail(e.target.value)}
+                 
                 />
+                
+
+
+
               </div>
               <div className="row m-5">
                 <p className="title_of_input_auth">كلمة المرور</p>
                 <input
-                  type="text"
-                  className="search_blog"
-                  //   onChange={handleInputChange}
+                   type="password"
+                   className={`search_blog ${error && 'error_input'}`}
+                  value={password} onChange={(e) => setPassword(e.target.value)}
+                
                 />
+              
+
+
                 <Link to="" className="forget_pass_auth">نسيت كلمة المرور</Link>
               </div>
-              <button type="button" className="btn purple_btn mb-2">تسحيل الدخول</button>
+              {error && <p className="error_message">{error}</p>}
+              <button type="button" onClick={handleLogin} className="btn purple_btn mb-2">تسحيل الدخول</button>
 
             </div>
             

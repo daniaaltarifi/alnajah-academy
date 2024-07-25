@@ -2,7 +2,25 @@ import React from "react";
 import SliderComp from "../components/SliderComp";
 import "../Css/contactUs.css";
 import CommentForm from "../components/CommentForm";
+import axios from "axios";
 function ContactUs() {
+
+  
+  const handleSubmit = async ( name, email,comment) => {
+   
+    try {
+      const response = await axios.post("http://localhost:8080/connects/comments", {
+        name : name ,
+         email: email,
+         comment: comment
+      });
+      console.log(response.data);
+      // Handle successful response
+    } catch (error) {
+      console.error("Error submitting comment:", error);
+      // Handle error response
+    }
+  };
   return (
     <>
       <SliderComp
@@ -85,7 +103,7 @@ function ContactUs() {
       <div className="row">
         <div className="col-lg-3 col-md-12 col-sm-12 "></div>
         <div className="col-lg-6 col-md-12 col-sm-12 ">
-          <CommentForm title="تواصل معنا" btn_title="ارسال" />
+          <CommentForm title="تواصل معنا" btn_title="ارسال" handleSubmit={handleSubmit}/>
         </div>
         <div className="col-lg-3 col-md-12 col-sm-12 "></div>
       </div>

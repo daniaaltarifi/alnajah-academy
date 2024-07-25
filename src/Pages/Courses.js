@@ -9,12 +9,15 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import MiniPopUpLogin from "../components/MiniPopUpLogin.js";
 import MiniPopUpConfirm from "../components/MiniPopUpConfirm.js";
+import axios from "axios";
 function Courses() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [slider, setSlider] = useState(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [show, setShow] = useState(false);
+  const [courses, setCourses] = useState([]);
+
   const title_popup = "تسجيل الدخول";
   const description_popup = "لشراء قسم يجب تسجيل الدخول";
   const title_popup_confirm=" تنبيه"
@@ -52,6 +55,17 @@ function Courses() {
     { id: 15, content: 'مكثفات جيل 2006 15' },
     // Add more cards as needed
   ];
+  useEffect(()=>{
+    const fetchCourses = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/courses");
+        setCourses(response.data);
+        console.log("first",response.data);
+      } catch (error) {}
+    };
+    fetchCourses();
+
+  },[])
   const cardsPerSlide = 9; // Maximum cards per slide
 
   const numSlides = Math.ceil(cards.length / cardsPerSlide);
@@ -222,13 +236,13 @@ function Courses() {
       <div className="slick-wrapper">
         <div className="container ">
           <div className="row justify-content-center align-items-center">
-          {visibleCards.map((card, index) => (
+          {courses.map((card, index) => (
             <div className="col-lg-4 col-md-6 col-sm-12">
           <div
             key={index}
             className={`slide ${index === currentSlide ? 'active' : ''}`}
           >
-                <Link to="/coursedetails" className="link_card">
+                <Link to={`/coursedetails/${card.id}`} className="link_card">
                 <div className="card card_cont"  >
                   <img
                     src={require("../assets/course.png")}
@@ -238,11 +252,11 @@ function Courses() {
                   <div className="card-body">
                     <div>
                       {/* rating here */}
-                      <p className="card-text card_dep"> {card.content} </p>
+                      <p className="card-text card_dep"> {card.department_name} </p>
                     </div>
                     <div className="d-flex justify-content-between">
-                      <p className="course_title_card">الحاسوب</p>{" "}
-                      <p className=" teacher_name_card">عبدالعزيز الجمال</p>
+                      <p className="course_title_card">{card.subject_name}</p>{" "}
+                      <p className=" teacher_name_card">{card.teacher_name}</p>
                     </div>
                     <hr style={{ marginTop: "1px" }} />
                     <div className="d-flex justify-content-between">
@@ -255,12 +269,12 @@ function Courses() {
                         className="fa-solid fa-graduation-cap card_icon"
                         style={{ color: "#F57D20" }}
                       ></i>{" "}
-                    <p className="details_courses_card"> 20 درس</p>
+                    <p className="details_courses_card">2درس</p>
                         <i
                           className="fa-solid fa-clock card_icon"
                           style={{ color: "#F57D20" }}
                         ></i>{" "}
-                        <p className="details_courses_card"> 17/7/2024</p>
+                        <p className="details_courses_card">{card.created_date}</p>
                        
                       
 
