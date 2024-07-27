@@ -15,7 +15,7 @@ import Profile from './Pages/Profile.js';
 import ContactUs from './Pages/ContactUs.js';
 import Library from './Pages/Library.js';
 import MyCourses from './Pages/MyCourses.js';
-import Test from './Pages/Test.js';
+import VideoPlayer from './Pages/Test.js';
 function App() {
   
   return (
@@ -37,7 +37,7 @@ function App() {
           <Route path='/library' element={<Library/>}/>
           <Route path='/mycourses' element={<MyCourses/>}/>
           <Route path='/contact' element={<ContactUs/>}/>
-          <Route path='/test' element={<Test/>}/>
+          <Route path='/test' element={<VideoPlayer/>}/>
 
         </Routes>
       </div>

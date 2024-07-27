@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "../Css/courseDetails.css";
 import { Link, useParams } from "react-router-dom";
 import Tabs from "../Pages/Tabs.js";
@@ -14,12 +14,17 @@ import {
   buildStyles,
 } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import ReactPlayer from "react-player";
+import Courses from "./Courses.js";
+import axios from "axios";
 function CourseDetails() {
-  const {id}=useParams()
+  const { id } = useParams();
   const [totalVideos, setTotalVideos] = useState(15); // Replace with actual total number of videos
   const [videosWatched, setVideosWatched] = useState(3); // Number of videos watched
   const [progress, setProgress] = useState(0);
   const [courseDetails, setCourseDetails] = useState([]);
+  const [videosData, setVideosData] = useState([]);
+  const [commentCourse, setCommentCourse] = useState([]);
   useEffect(() => {
     window.scrollTo(0, 0);
     const fetchCourseDetails = async () => {
@@ -31,13 +36,83 @@ function CourseDetails() {
         const data = await response.json();
         setCourseDetails(data);
         // Properly log the fetched data to see its structure
-        console.log("Fetched course details Details:", data);
+        console.log("Fetched course details Details:", data[0].teacher_id);
       } catch (error) {
         console.error("Error fetching course details:", error);
       }
     };
-    fetchCourseDetails()
+    fetchCourseDetails();
+    const fetchVideosData = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:8080/courses/getbyvideo/${id}`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch video details");
+        }
+        const data = await response.json();
+        setVideosData(data);
+        // Properly log the fetched data to see its structure
+        console.log("Fetched video details Details:", data);
+      } catch (error) {
+        console.error("Error fetching video details:", error);
+      }
+    };
+    fetchVideosData();
+    const countTeacherCourses = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:8080/courses/teacher/${id}/count`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch video details");
+        }
+        console.log("first", data);
+        const data = await response.json();
+        setVideosData(data);
+        // Properly log the fetched data to see its structure
+        console.log("Fetched techer courses count details Details:", data);
+      } catch (error) {
+        console.error("Error fetching video details:", error);
+      }
+    };
+    fetchVideosData();
+    const fetchCommentCourses = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/commentcourse`);
+        const comments = response.data;
+        const approvedComments = comments.filter(
+          (comment) => comment.action === "approved"
+        );
+        setCommentCourse(approvedComments);
+        console.log("Approved comments:", approvedComments);
+      } catch (error) {
+        console.error("Error fetching comments:", error);
+      }
+    };
+    // countTeacherCourses()
+    fetchCommentCourses();
   }, []);
+
+  useEffect(() => {
+    const fetchVideosData = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:8080/courses/getbyvideo/${id}`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch video details");
+        }
+        const data = await response.json();
+        setVideosData(data);
+        // Properly log the fetched data to see its structure
+        console.log("Fetched video details Details:", data);
+      } catch (error) {
+        console.error("Error fetching video details:", error);
+      }
+    };
+    fetchVideosData();
+  }, [id]);
   useEffect(() => {
     // Calculate circle progress bar percentage
     const calculateProgress = () => {
@@ -113,50 +188,17 @@ function CourseDetails() {
   while (visibleComments.length < 3) {
     visibleComments.push(null); // Add placeholders if there are fewer than three comments
   }
-  const items = [
-    {
-      id: 1,
-      name: "Item 1",
-      description: "Description of Item 1",
-      lessons: 20,
-      duration: "2:33:32",
-      url: videoplay,
-    },
-    {
-      id: 2,
-      name: "Item 2",
-      description: "Description of Item 2",
-      lessons: 15,
-      duration: "1:45:12",
-      url: video2,
-    },
-    {
-      id: 3,
-      name: "Item 3",
-      description: "Description of Item 3",
-      lessons: 25,
-      duration: "3:00:00",
-      url: video2,
-    },
-  ];
 
   const [expandedItemId, setExpandedItemId] = useState(null);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(null); // Initial video index
+  const handleVideoSelect = (index) => {
+    setCurrentVideoIndex(index);
+  };
+
   const handleClick = (itemId) => {
-    if (itemId === expandedItemId) {
-      setExpandedItemId(null);
-    } else {
-      setExpandedItemId(itemId);
-    }
+    setExpandedItemId(expandedItemId === itemId ? null : itemId);
   };
 
-  const [currentVideoIndex, setCurrentVideoIndex] = useState(0); // Initial video index
-
-  const handleVideoSelect = () => {
-    // Calculate the next video index (looping back to the start if at the end)
-    const nextIndex = (currentVideoIndex + 1) % items.length;
-    // Update the state with the next video index
-    setCurrentVideoIndex(nextIndex);
-  };
   // handle prvent recordeing
   const handleContextMenu = (e) => {
     e.preventDefault();
@@ -193,145 +235,234 @@ function CourseDetails() {
       window.removeEventListener("keyup", handleKeyUp);
     };
   }, []);
+  console.log("Current Video Index:", currentVideoIndex);
+  console.log("Video Data:", videosData[currentVideoIndex]);
+  const [videoDurations, setVideoDurations] = useState([]);
+  const videoRefs = useRef([]);
+
+
+ 
+  const [duration, setDuration] = useState(null);
+
+
+  const videoEl = useRef(null);
+  
+  const handleLoadedMetadata = () => {
+    const video = videoEl.current;
+    if (!video) return;
+    console.log(formatDuration(video.duration));
+  };
+  useEffect(() => {
+    const fetchVideoDurations = () => {
+        videoRefs.current.forEach((video, index) => {
+            if (video) {
+                video.addEventListener('loadedmetadata', () => {
+                    setVideoDurations(prevDurations => {
+                        const newDurations = [...prevDurations];
+                        newDurations[index] = video.duration;
+                        return newDurations;
+                    });
+                });
+                // Trigger metadata loading
+                video.load();
+            }
+        });
+    };
+
+    fetchVideoDurations();
+
+    // Clean up event listeners
+    return () => {
+        videoRefs.current.forEach((video) => {
+            if (video) {
+                video.removeEventListener('loadedmetadata', () => {});
+            }
+        });
+    };
+}, [videosData]);
+
+const formatDuration = (durationInSeconds) => {
+    if (isNaN(durationInSeconds) || durationInSeconds < 0) {
+        return 'Invalid Duration';
+    }
+
+    const hours = Math.floor(durationInSeconds / 3600);
+    const minutes = Math.floor((durationInSeconds % 3600) / 60);
+    const seconds = Math.floor(durationInSeconds % 60);
+
+    return `${hours.toString().padStart(2, '0')}:${minutes
+        .toString()
+        .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+};
+
+
+  const handleSubmit = async (name, email, comment) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/commentcourse/add",
+        {
+          name: name,
+          email: email,
+          comment: comment,
+          course_id: id, // Assuming `id` is the correct identifier for `blog_id`
+        }
+      );
+      console.log("res", response.data);
+      window.location.reload();
+    } catch (error) {
+      console.error("Error submitting comment:", error);
+    }
+  };
   return (
     <>
       {/* header of course details */}
-      {courseDetails.map(course =>(
-      <div className="container text-center cont_course_details" key={course.id}>
-        <div className="row ">
-          <div className="col-lg-6 col-md-6 col-sm-12 d-flex justify-content-center">
-            <img
-              src={require("../assets/course.png")}
-              alt="coursedetails"
-              className="img-fluid img_coursedetails"
-            />{" "}
-          </div>
-          <div className="col-lg-6 col-md-6 cl-sm-12 ">
-            <div className="dep_teacher_coursedetails ">
-              <p className="dep_coursedetaile">{course.department_name}</p>
-              <p className="teacher_coursedetails">{course.teacher_name}</p>
+      {courseDetails.map((course) => (
+        <div
+          className="container text-center cont_course_details"
+          key={course.id}
+        >
+          <div className="row ">
+            <div className="col-lg-6 col-md-6 col-sm-12 d-flex justify-content-center">
+              <img
+                src={`http://localhost:8080/${course.img}`}
+                alt="coursedetails"
+                className="img-fluid img_coursedetails"
+              />{" "}
             </div>
-            <h1 className="title_coursedetails">{course.subject_name}</h1>
-            <div className="d-flex justify-content-around ">
-              <div className="d-flex">
-                <i
-                  class="fa-solid fa-clock card_icon"
-                  style={{ color: "#F57D20" }}
-                ></i>
-                <p className="details_courses_card "> 2:33:32</p>
+            <div className="col-lg-6 col-md-6 cl-sm-12 ">
+              <div className="dep_teacher_coursedetails ">
+                <p className="dep_coursedetaile">{course.department_name}</p>
+                <p className="teacher_coursedetails">{course.teacher_name}</p>
               </div>
-              <div className="d-flex">
-                <i
-                  class="fa-solid fa-graduation-cap card_icon"
-                  style={{ color: "#F57D20" }}
-                ></i>
-                <p className="details_courses_card"> 200طالب </p>
-              </div>
-              <div className="d-flex">
-                <i
-                  class="fa-solid fa-file card_icon"
-                  style={{ color: "#F57D20" }}
-                ></i>
-                <p className="details_courses_card "> 20درس</p>
+              <h1 className="title_coursedetails">{course.subject_name}</h1>
+              <div className="d-flex justify-content-around ">
+                <div className="d-flex">
+                  <i
+                    class="fa-solid fa-clock card_icon"
+                    style={{ color: "#F57D20" }}
+                  ></i>
+                  <p className="details_courses_card "> 2:33:32</p>
+                </div>
+                <div className="d-flex">
+                  <i
+                    class="fa-solid fa-graduation-cap card_icon"
+                    style={{ color: "#F57D20" }}
+                  ></i>
+                  <p className="details_courses_card"> 200طالب </p>
+                </div>
+                <div className="d-flex">
+                  <i
+                    class="fa-solid fa-file card_icon"
+                    style={{ color: "#F57D20" }}
+                  ></i>
+                  <p className="details_courses_card "> 20درس</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-
       ))}
       {/* End header of course details */}
-  
-        <section className="margin_section">
-          <div className="container text-center">
-            <div className="row">
-              <div
-                className="col-lg-5 col-md-12 col-sm-12"
-                onContextMenu={handleContextMenu}
-              >
-                {/* <Video/> */}
-               { courseDetails.map(course=>(
 
+      <section className="margin_section">
+        <div className="container text-center">
+          <div className="row">
+            <div
+              className="col-lg-5 col-md-12 col-sm-12"
+              onContextMenu={handleContextMenu}
+            >
+              {/* <Video/> */}
+
+              {videosData.length > 0 && (
                 <div className="video_cont">
-                  {isBlackScreen ? (
-                    <div
-                      className="black_screen"
-                      style={{
-                        position: "absolute",
-                        width: "100%",
-                        height: "100%",
-                        backgroundColor: "#000", // Slightly opaque overlay
-                      }}
-                    ></div>
-                  ) : (
-                    course.defaultvideo && (
+                  {/* Render default video if currentVideoIndex is null */}
+                  {currentVideoIndex === null ? (
+                    <div>
                       <video
+                      ref={videoEl} onLoadedMetadata={handleLoadedMetadata}
                         controls
-                        key={currentVideoIndex}
                         className="video_play"
+                        style={{ width: "100%", height: "auto" }}
                       >
                         <source
-                          src={`http://localhost:8080/${course.defaultvideo}`}
+                          src={`http://localhost:8080/${videosData[0].defaultvideo}`} // Assuming first video is default
                           type="video/mp4"
                         />
                         Your browser does not support the video tag.
                       </video>
+                      {/* <p>Duration: {videoDurations[0] ? `${Math.floor(videoDurations[0] / 60)}:${Math.floor(videoDurations[0] % 60).toFixed(0)}` : 'Loading...'} minutes</p> */}
+                      {duration !== null && (
+                        <p>Video Duration: {duration.toFixed(2)} seconds</p>
+                      )}
+                      <div className="d-flex justify-content-center">
+                        <p className="after_price_coursedetails">
+                          {videosData[0].after_offer} دينار
+                        </p>
+                        <p className="before_price_coursedetails">
+                          {videosData[0].before_offer} دينار
+                        </p>
+                      </div>
+                      <button className="purchase_now_coursedetails">
+                        شراء الان
+                      </button>
+                    </div>
+                  ) : (
+                    // Render selected video
+                    videosData[currentVideoIndex] && (
+                      <div>
+                        <video
+                          ref={videoEl} onLoadedMetadata={handleLoadedMetadata}
+                          key={currentVideoIndex}
+                          controls
+                          className="video_play"
+                          style={{ width: "100%", height: "auto" }}
+                        >
+                          <source
+                            src={`http://localhost:8080/${videosData[currentVideoIndex].url}`}
+                            type="video/mp4"
+                          />
+                          Your browser does not support the video tag.
+                        </video>
+                        <p>
+                          Duration:{" "}
+                          {videoDurations[currentVideoIndex]
+                            ? `${Math.floor(
+                                videoDurations[currentVideoIndex] / 60
+                              )}:${Math.floor(
+                                videoDurations[currentVideoIndex] % 60
+                              ).toFixed(0)}`
+                            : "Loading..."}{" "}
+                          minutes
+                        </p>
+
+                        <div className="d-flex justify-content-center">
+                          <p className="after_price_coursedetails">
+                            {videosData[currentVideoIndex].after_offer} دينار
+                          </p>
+                          <p className="before_price_coursedetails">
+                            {videosData[currentVideoIndex].before_offer} دينار
+                          </p>
+                        </div>
+                        <button className="purchase_now_coursedetails">
+                          شراء الان
+                        </button>
+                      </div>
                     )
                   )}
-                  <div className="d-flex justify-content-center ">
-                    <p className="after_price_coursedetails">{course.after_offer}دينار</p>
-                    <p className="before_price_coursedetails">{course.before_offer}دينار</p>
-                  </div>
-                  <button className="purchase_now_coursedetails">
-                    شراء الان
-                  </button>
-                  {/* after purchase progress bar */}
-                  {/* <div className="d-flex justify-content-between">
+                </div>
+              )}
 
-                <div>
-                <h2 className="title_after_purchase">الحاسوب</h2>
-                <h3 className="teachar_after_purchase">عبدالعزيز جمال</h3>
-
-                </div>
-                <div style={{ width: "100px", height: "100px" }}>
-                  <CircularProgressbarWithChildren
-                    value={value}
-                    maxValue={1}
-                    styles={buildStyles({
-                      textColor: "#000", // Text color
-                      pathColor: "#833988", // Progress bar color
-                      trailColor: "#fff", // Trail color (background of progress bar)
-                    })}
-                  >
-                    <span style={{ fontSize: "12px" }}>Completed</span>{" "}
-                    <strong>{progress}%</strong>{" "}
-                  </CircularProgressbarWithChildren>
-                </div>
-                </div> */}
-                  {/*End after purchase progress bar */}
-                </div>
-               ))}
-                {/*End video  */}
-              </div>
-              <div className="col-lg-7 col-md-12 col-sm-12 col_tabs_coursedetails">
+              {/*End video  */}
+            </div>
+            {courseDetails.map((course) => (
+              <div
+                className="col-lg-7 col-md-12 col-sm-12 col_tabs_coursedetails"
+                key={course.id}
+              >
                 <Tabs>
                   <Tab title="عن المادة">
                     <div className="description_coursedetails">
-                      مادة الحاسوب هي تخصص دراسي يهتم بالتفاعل مع الحواسيب وفهم
-                      كيفية عملها واستخدامها بشكل فعّال. تتنوع المواضيع التي
-                      يغطيها هذا التخصص من تاريخ الحوسبة وتطورها إلى مفاهيم
-                      البرمجة والتصميم الحاسوبي وهندسة البرمجيات والشبكات
-                      والأمان السيبراني. يمكن لطلاب مادة الحاسوب أن يتعلموا
-                      العديد من المفاهيم الأساسية مثل البرمجة بلغات مختلفة مثل
-                      C++، Python، Java، وغيرها، بالإضافة إلى مفاهيم الهندسة
-                      البرمجية التي تشمل تطوير البرمجيات وإدارة المشاريع
-                      البرمجية. كما يتعلم الطلاب عادةً عن بنية الحواسيب وكيفية
-                      عملها، ويمكنهم أيضًا التخصص في مجالات مثل الذكاء
-                      الاصطناعي، وتعلم الآلة، والروبوتيات، والواقع الافتراضي،
-                      وغيرها من التطبيقات التكنولوجية الحديثة. تعتبر مادة
-                      الحاسوب مجالًا ديناميكيًا ومتطورًا يتطلب التحديث المستمر
-                      ومواكبة التطورات التكنولوجية الجديدة، وتقديم حلول مبتكرة
-                      للتحديات التي تواجه العالم الرقمي المعاصر.{" "}
+                      {course.descr}
                     </div>
                   </Tab>
                   <Tab title="الموضوعات">
@@ -342,68 +473,73 @@ function CourseDetails() {
                         التي يغطيها هذا التخصص
                       </p>
                       <div className="container text-center">
-                        {items.map((item) => (
-                          <div
-                            className="row topic_list_tabs_cont"
-                            key={item.id}
-                            onClick={() => handleClick(item.id)}
-                          >
-                            <div
-                              className={`col-lg-6 col-md-6 col-sm-12  ${
-                                expandedItemId === item.id ? "mb-3" : ""
-                              }`}
-                            >
-                              <div className="d-flex align-items-center pt-2">
-                                <IoIosArrowDown className="" />
-
-                                <li style={{ cursor: "pointer" }}>
-                                  {item.name}
-                                </li>
-                              </div>
-                            </div>
-                            <div className="col-lg-6 col-md-6 col-sm-12">
-                              <div className="d-flex justify-content-evenly">
-                                <div className="d-flex">
-                                  <i
+                      {videosData.map((item, index) => (
+                <div
+                    className="row topic_list_tabs_cont"
+                    key={item.id}
+                    onClick={() => handleClick(item.id)}
+                >
+                    <div
+                        className={`col-lg-6 col-md-6 col-sm-12 ${
+                            expandedItemId === item.id ? "mb-3" : ""
+                        }`}
+                    >
+                        <div className="d-flex align-items-center pt-2">
+                            <IoIosArrowDown />
+                            <li style={{ cursor: "pointer" }}>
+                                {item.title}
+                            </li>
+                        </div>
+                    </div>
+                    <div className="col-lg-6 col-md-6 col-sm-12">
+                        <div className="d-flex justify-content-evenly">
+                            <div className="d-flex">
+                                <i
                                     className="fa-solid fa-file card_icon"
                                     style={{ color: "#F57D20" }}
-                                  ></i>
-                                  <p className="details_courses_card">
-                                    {item.lessons} درس
-                                  </p>
-                                </div>
-                                <div className="d-flex">
-                                  <i
+                                ></i>
+                                <p className="details_courses_card">1 درس</p>
+                            </div>
+                            <div className="d-flex">
+                                <i
                                     className="fa-solid fa-clock card_icon"
                                     style={{ color: "#F57D20" }}
-                                  ></i>
-                                  <p className="details_courses_card">
-                                    {item.duration}
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                            {expandedItemId === item.id && (
-                              <div className="d-flex justify-content-between">
-                                <p style={{ marginTop: "10px" }}>
-                                  {item.description}
+                                ></i>
+                                <p className="details_courses_card">
+                                    {videoDurations[index] !== undefined
+                                        ? formatDuration(videoDurations[index])
+                                        : "Loading..."}
                                 </p>
-                                <div className="d-flex">
-                                  <button
+                            </div>
+                        </div>
+                    </div>
+                    {expandedItemId === item.id && (
+                        <div className="d-flex justify-content-between">
+                            <p style={{ marginTop: "10px" }}>
+                                {item.description}
+                            </p>
+                            <div className="d-flex">
+                                <button
                                     className="show_video_btn"
-                                    onClick={handleVideoSelect}
-                                  >
+                                    onClick={() => handleVideoSelect(index)}
+                                >
                                     مشاهدة{" "}
                                     <i
-                                      className="fa-regular fa-circle-play"
-                                      style={{ color: "#fff" }}
+                                        className="fa-regular fa-circle-play"
+                                        style={{ color: "#fff" }}
                                     ></i>
-                                  </button>
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        ))}
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                    {/* Video Element */}
+                    <video
+                        ref={(el) => videoRefs.current[index] = el}
+                        src={item.videoUrl} // Ensure this is the correct video URL
+                        style={{ display: 'none' }} // Hide video element
+                    />
+                </div>
+            ))}
                       </div>{" "}
                     </div>
                   </Tab>
@@ -412,20 +548,18 @@ function CourseDetails() {
                       <div className="row">
                         <div className="col-lg-3 col-md-3 col-sm-12">
                           <img
-                            src={require("../assets/account.png")}
-                            alt=""
+                            src={`http://localhost:8080/${course.img}`}
+                            alt="teacher img"
                             height={"80vh"}
                             width={"80vh"}
                           />
                         </div>
                         <div className="col-lg-9 col-md-9 col-sm-12">
                           <p className="teacher_name_coursedetails">
-                            عبد العزيز الجمال
+                            {course.teacher_name}{" "}
                           </p>
                           <p className="desc_of_teacher_coursedetails">
-                            شخص متخصص وملم بمفاهيم علم الحاسوب وتطبيقاته
-                            المختلفة. يمتلك الأستاذ خبرة عميقة في المجال وقدرة
-                            على نقل المعرفة وتوجيه الطلاب بشكل فعال.
+                            {course.teacher_descr}{" "}
                           </p>
                           <div className="d-flex">
                             <i
@@ -444,7 +578,6 @@ function CourseDetails() {
                           <div className="d-flex">
                             <p>للمتابعة:</p>
                             <Link to="">
-                              {" "}
                               <i
                                 className="fa-brands fa-facebook-f m-2"
                                 style={{ color: "#000" }}
@@ -479,7 +612,7 @@ function CourseDetails() {
                     <div className="container">
                       <div className="slider">
                         <div className="slider-content">
-                          {visibleComments.map((comment, index) => (
+                          {commentCourse.map((comment, index) => (
                             <div className="slider-item" key={index}>
                               {comment && (
                                 <div className="row mb-2">
@@ -494,14 +627,14 @@ function CourseDetails() {
                                   <div className="col-lg-9 col-md-9 col-sm-12">
                                     <div className="d-flex justify-content-between">
                                       <p className="teacher_name_coursedetails">
-                                        {comment.teacher_name}
+                                        {comment.name}
                                       </p>
                                       <p className="comment_date_coursedetails">
-                                        {comment.comment_date}
+                                        {comment.created_date}
                                       </p>
                                     </div>
                                     <p className="desc_of_teacher_coursedetails">
-                                      {comment.desc_of_teacher}
+                                      {comment.comment}
                                     </p>
                                   </div>
                                 </div>
@@ -540,11 +673,16 @@ function CourseDetails() {
                   </Tab>
                   {/* End comment slide */}
                 </Tabs>
-                <CommentForm title="اترك تعليق" btn_title="تعليق" />
+                <CommentForm
+                  title="اترك تعليق"
+                  btn_title="تعليق"
+                  handleSubmit={handleSubmit}
+                />
               </div>
-            </div>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
     </>
   );
 }

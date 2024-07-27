@@ -142,11 +142,11 @@ font-weight: 600;
   .video-overlay{
     background-image: url('../assets/ba9ma2.png');
   }
-  .video_play{
+  /* .video_play{
     height: 70%;
-    width: 100%;
+    width: 50%;
     border-radius: 20px;
-  }
+  } */
   .after_price_coursedetails{
     color: #833988;
     font-size: 30px;

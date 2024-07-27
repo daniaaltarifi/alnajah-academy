@@ -1,6 +1,43 @@
-import React, { useState, useEffect,useRef } from "react";
+// import React, { useState } from 'react';
+// import ReactPlayer from 'react-player';
+
+// const VideoPlayer = () => {
+//   const [duration, setDuration] = useState(null);
+
+//   const handleDuration = (duration) => {
+//     setDuration(duration);
+//   };
+
+//   const formatDuration = (seconds) => {
+//     const hours = Math.floor(seconds / 3600);
+//     const minutes = Math.floor((seconds % 3600) / 60);
+//     const secs = Math.floor(seconds % 60);
+
+//     return `${hours}h ${minutes}m ${secs}s`;
+//   };
+
+//   return (
+//     <div>
+//       <ReactPlayer
+//         url={require('../assets/video2.mp4')}
+//         onDuration={handleDuration}
+//       />
+//       {duration !== null && (
+//         <p>Video Duration: {formatDuration(duration)}</p>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default VideoPlayer;
+
+
+
+
+
+import React, { useState, useEffect, useRef } from "react";
 import "../Css/courseDetails.css";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Tabs from "../Pages/Tabs.js";
 import Tab from "../Pages/Tab.js";
 import CommentForm from "../components/CommentForm.js";
@@ -14,13 +51,105 @@ import {
   buildStyles,
 } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import ReactPlayer from "react-player";
+import Courses from "./Courses.js";
+import axios from "axios";
 function CourseDetails() {
+  const { id } = useParams();
   const [totalVideos, setTotalVideos] = useState(15); // Replace with actual total number of videos
   const [videosWatched, setVideosWatched] = useState(3); // Number of videos watched
   const [progress, setProgress] = useState(0);
+  const [courseDetails, setCourseDetails] = useState([]);
+  const [videosData, setVideosData] = useState([]);
+  const [commentCourse, setCommentCourse] = useState([]);
   useEffect(() => {
     window.scrollTo(0, 0);
+    const fetchCourseDetails = async () => {
+      try {
+        const response = await fetch(`http://localhost:8080/courses/${id}`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch blog details");
+        }
+        const data = await response.json();
+        setCourseDetails(data);
+        // Properly log the fetched data to see its structure
+        console.log("Fetched course details Details:", data[0].teacher_id);
+      } catch (error) {
+        console.error("Error fetching course details:", error);
+      }
+    };
+    fetchCourseDetails();
+    const fetchVideosData = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:8080/courses/getbyvideo/${id}`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch video details");
+        }
+        const data = await response.json();
+        setVideosData(data);
+        // Properly log the fetched data to see its structure
+        console.log("Fetched video details Details:", data);
+      } catch (error) {
+        console.error("Error fetching video details:", error);
+      }
+    };
+    fetchVideosData();
+    const countTeacherCourses = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:8080/courses/teacher/${id}/count`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch video details");
+        }
+        console.log("first", data);
+        const data = await response.json();
+        setVideosData(data);
+        // Properly log the fetched data to see its structure
+        console.log("Fetched techer courses count details Details:", data);
+      } catch (error) {
+        console.error("Error fetching video details:", error);
+      }
+    };
+    fetchVideosData();
+    const fetchCommentCourses = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/commentcourse`);
+        const comments = response.data;
+        const approvedComments = comments.filter(
+          (comment) => comment.action === "approved"
+        );
+        setCommentCourse(approvedComments);
+        console.log("Approved comments:", approvedComments);
+      } catch (error) {
+        console.error("Error fetching comments:", error);
+      }
+    };
+    // countTeacherCourses()
+    fetchCommentCourses();
   }, []);
+
+  useEffect(() => {
+    const fetchVideosData = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:8080/courses/getbyvideo/${id}`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch video details");
+        }
+        const data = await response.json();
+        setVideosData(data);
+        // Properly log the fetched data to see its structure
+        console.log("Fetched video details Details:", data);
+      } catch (error) {
+        console.error("Error fetching video details:", error);
+      }
+    };
+    fetchVideosData();
+  }, [id]);
   useEffect(() => {
     // Calculate circle progress bar percentage
     const calculateProgress = () => {
@@ -96,64 +225,32 @@ function CourseDetails() {
   while (visibleComments.length < 3) {
     visibleComments.push(null); // Add placeholders if there are fewer than three comments
   }
-  const items = [
-    {
-      id: 1,
-      name: "Item 1",
-      description: "Description of Item 1",
-      lessons: 20,
-      duration: "2:33:32",
-      url: videoplay,
-    },
-    {
-      id: 2,
-      name: "Item 2",
-      description: "Description of Item 2",
-      lessons: 15,
-      duration: "1:45:12",
-      url: video2,
-    },
-    {
-      id: 3,
-      name: "Item 3",
-      description: "Description of Item 3",
-      lessons: 25,
-      duration: "3:00:00",
-      url: video2,
-    },
-  ];
 
   const [expandedItemId, setExpandedItemId] = useState(null);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(null); // Initial video index
+  const handleVideoSelect = (index) => {
+    setCurrentVideoIndex(index);
+  };
+
   const handleClick = (itemId) => {
-    if (itemId === expandedItemId) {
-      setExpandedItemId(null);
-    } else {
-      setExpandedItemId(itemId);
-    }
+    setExpandedItemId(expandedItemId === itemId ? null : itemId);
   };
 
-  const [currentVideoIndex, setCurrentVideoIndex] = useState(0); // Initial video index
-
-  const handleVideoSelect = () => {
-    // Calculate the next video index (looping back to the start if at the end)
-    const nextIndex = (currentVideoIndex + 1) % items.length;
-    // Update the state with the next video index
-    setCurrentVideoIndex(nextIndex);
-  };
   // handle prvent recordeing
   const handleContextMenu = (e) => {
     e.preventDefault();
   };
+
   const [isBlackScreen, setIsBlackScreen] = useState(false);
 
   const handleKeyDown = (event) => {
     // Check for common screen recording and screenshot shortcuts
     const isRecordingShortcut =
-      (event.metaKey && event.shiftKey && event.key === '5') || // macOS: Command + Shift + 5
-      (event.ctrlKey && event.altKey && event.key === 'r') || // Windows: Ctrl + Alt + R
-      (event.metaKey && event.key === '4') || // macOS: Command + Shift + 4 (for screenshots)
-      (event.key === 'PrintScreen') || // Windows: Print Screen
-      (event.key === 'Meta'); // Check if the key is Windows key (in some cases)
+      (event.metaKey && event.shiftKey && event.key === "5") || // macOS: Command + Shift + 5
+      (event.ctrlKey && event.altKey && event.key === "r") || // Windows: Ctrl + Alt + R
+      (event.metaKey && event.key === "4") || // macOS: Command + Shift + 4 (for screenshots)
+      event.key === "PrintScreen" || // Windows: Print Screen
+      event.key === "Meta"; // Check if the key is Windows key (in some cases)
 
     if (isRecordingShortcut) {
       setIsBlackScreen(true);
@@ -167,341 +264,429 @@ function CourseDetails() {
   };
 
   useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('keyup', handleKeyUp);
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
 
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('keyup', handleKeyUp);
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
     };
   }, []);
+  console.log("Current Video Index:", currentVideoIndex);
+  console.log("Video Data:", videosData[currentVideoIndex]);
+  const [videoDurations, setVideoDurations] = useState([]);
+  const videoRefs = useRef([]);
 
-const videoTest=<div><iframe src="https://iframe.mediadelivery.net/embed/274529/f4fd620d-2f93-4ce7-804e-96a169fc1bf4?autoplay=true&loop=false&muted=false&preload=true&responsive=true"></iframe></div>
+  useEffect(() => {
+    // Initialize videoRefs based on videosData length
+    videoRefs.current = videoRefs.current.slice(0, videosData.length);
+  }, [videosData]);
+
+  const handleLoadedMetadata = (index) => (event) => {
+    const video = event.target;
+    setVideoDurations((prevDurations) => {
+      const newDurations = [...prevDurations];
+      newDurations[index] = video.duration;
+      return newDurations;
+    });
+  };
+  const [duration, setDuration] = useState(null);
+
+  const handleDuration = (duration) => {
+    setDuration(duration);
+  };
+  const handleSubmit = async (name, email, comment) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/commentcourse/add",
+        {
+          name: name,
+          email: email,
+          comment: comment,
+          course_id: id, // Assuming `id` is the correct identifier for `blog_id`
+        }
+      );
+      console.log("res", response.data);
+      window.location.reload();
+    } catch (error) {
+      console.error("Error submitting comment:", error);
+    }
+  };
   return (
     <>
-    
       {/* header of course details */}
-      <div className="container text-center cont_course_details">
-        <div className="row ">
-          <div className="col-lg-6 col-md-6 col-sm-12 d-flex justify-content-center">
-            <img
-              src={require("../assets/course.png")}
-              alt="coursedetails"
-              className="img-fluid img_coursedetails"
-            />{" "}
-          </div>
-          <div className="col-lg-6 col-md-6 cl-sm-12 ">
-            <div className="dep_teacher_coursedetails ">
-              <p className="dep_coursedetaile">مكثفات جيل 2006</p>
-              <p className="teacher_coursedetails">عبد العزيز الجمال</p>
+      {courseDetails.map((course) => (
+        <div
+          className="container text-center cont_course_details"
+          key={course.id}
+        >
+          <div className="row ">
+            <div className="col-lg-6 col-md-6 col-sm-12 d-flex justify-content-center">
+              <img
+                src={`http://localhost:8080/${course.img}`}
+                alt="coursedetails"
+                className="img-fluid img_coursedetails"
+              />{" "}
             </div>
-            <h1 className="title_coursedetails">الحاسوب</h1>
-            <div className="d-flex justify-content-around ">
-              <div className="d-flex">
-                <i
-                  class="fa-solid fa-clock card_icon"
-                  style={{ color: "#F57D20" }}
-                ></i>
-                <p className="details_courses_card "> 2:33:32</p>
+            <div className="col-lg-6 col-md-6 cl-sm-12 ">
+              <div className="dep_teacher_coursedetails ">
+                <p className="dep_coursedetaile">{course.department_name}</p>
+                <p className="teacher_coursedetails">{course.teacher_name}</p>
               </div>
-              <div className="d-flex">
-                <i
-                  class="fa-solid fa-graduation-cap card_icon"
-                  style={{ color: "#F57D20" }}
-                ></i>
-                <p className="details_courses_card"> 200طالب </p>
-              </div>
-              <div className="d-flex">
-                <i
-                  class="fa-solid fa-file card_icon"
-                  style={{ color: "#F57D20" }}
-                ></i>
-                <p className="details_courses_card "> 20درس</p>
+              <h1 className="title_coursedetails">{course.subject_name}</h1>
+              <div className="d-flex justify-content-around ">
+                <div className="d-flex">
+                  <i
+                    class="fa-solid fa-clock card_icon"
+                    style={{ color: "#F57D20" }}
+                  ></i>
+                  <p className="details_courses_card "> 2:33:32</p>
+                </div>
+                <div className="d-flex">
+                  <i
+                    class="fa-solid fa-graduation-cap card_icon"
+                    style={{ color: "#F57D20" }}
+                  ></i>
+                  <p className="details_courses_card"> 200طالب </p>
+                </div>
+                <div className="d-flex">
+                  <i
+                    class="fa-solid fa-file card_icon"
+                    style={{ color: "#F57D20" }}
+                  ></i>
+                  <p className="details_courses_card "> 20درس</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      ))}
       {/* End header of course details */}
-      
+
       <section className="margin_section">
         <div className="container text-center">
           <div className="row">
-            <div className="col-lg-5 col-md-12 col-sm-12" onContextMenu={handleContextMenu}>
+            <div
+              className="col-lg-5 col-md-12 col-sm-12"
+              onContextMenu={handleContextMenu}
+            >
               {/* <Video/> */}
-              <div className="video_cont">
-             <div>
-              {videoTest}
-             </div>
-              {/* <div ><iframe src="https://vz-70e0614c-a4f.b-cdn.net/f4fd620d-2f93-4ce7-804e-96a169fc1bf4/playlist.m3u8" loading="lazy"  allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;" allowfullscreen="true"></iframe></div> */}
-           
-                <div className="d-flex justify-content-center ">
-                  <p className="after_price_coursedetails">18دينار</p>
-                  <p className="before_price_coursedetails">22 دينار</p>
-                </div>
-                <button className="purchase_now_coursedetails">
-                  شراء الان
-                </button>
-                {/* after purchase progress bar */}
-                {/* <div className="d-flex justify-content-between">
 
-                <div>
-                <h2 className="title_after_purchase">الحاسوب</h2>
-                <h3 className="teachar_after_purchase">عبدالعزيز جمال</h3>
+              {videosData.length > 0 && (
+                <div className="video_cont">
+                  {/* Render default video if currentVideoIndex is null */}
+                  {currentVideoIndex === null ? (
+                    <div>
+                      <video
+                        ref={(el) => (videoRefs.current[0] = el)}
+                        onLoadedMetadata={handleLoadedMetadata(0)}
+                        onDuration={handleDuration}
+                        controls
+                        className="video_play"
+                        style={{ width: "100%", height: "auto" }}
+                      >
+                        <source
+                          src={`http://localhost:8080/${videosData[0].defaultvideo}`} // Assuming first video is default
+                          type="video/mp4"
+                        />
+                        Your browser does not support the video tag.
+                      </video>
+                      {/* <p>Duration: {videoDurations[0] ? `${Math.floor(videoDurations[0] / 60)}:${Math.floor(videoDurations[0] % 60).toFixed(0)}` : 'Loading...'} minutes</p> */}
+                      {duration !== null && (
+                        <p>Video Duration: {duration.toFixed(2)} seconds</p>
+                      )}
+                      <div className="d-flex justify-content-center">
+                        <p className="after_price_coursedetails">
+                          {videosData[0].after_offer} دينار
+                        </p>
+                        <p className="before_price_coursedetails">
+                          {videosData[0].before_offer} دينار
+                        </p>
+                      </div>
+                      <button className="purchase_now_coursedetails">
+                        شراء الان
+                      </button>
+                    </div>
+                  ) : (
+                    // Render selected video
+                    videosData[currentVideoIndex] && (
+                      <div>
+                        <video
+                          ref={(el) =>
+                            (videoRefs.current[currentVideoIndex] = el)
+                          }
+                          onLoadedMetadata={handleLoadedMetadata(0)}
+                          onDuration={handleDuration}
+                          key={currentVideoIndex}
+                          controls
+                          className="video_play"
+                          style={{ width: "100%", height: "auto" }}
+                        >
+                          <source
+                            src={`http://localhost:8080/${videosData[currentVideoIndex].url}`}
+                            type="video/mp4"
+                          />
+                          Your browser does not support the video tag.
+                        </video>
+                        <p>
+                          Duration:{" "}
+                          {videoDurations[currentVideoIndex]
+                            ? `${Math.floor(
+                                videoDurations[currentVideoIndex] / 60
+                              )}:${Math.floor(
+                                videoDurations[currentVideoIndex] % 60
+                              ).toFixed(0)}`
+                            : "Loading..."}{" "}
+                          minutes
+                        </p>
 
+                        <div className="d-flex justify-content-center">
+                          <p className="after_price_coursedetails">
+                            {videosData[currentVideoIndex].after_offer} دينار
+                          </p>
+                          <p className="before_price_coursedetails">
+                            {videosData[currentVideoIndex].before_offer} دينار
+                          </p>
+                        </div>
+                        <button className="purchase_now_coursedetails">
+                          شراء الان
+                        </button>
+                      </div>
+                    )
+                  )}
                 </div>
-                <div style={{ width: "100px", height: "100px" }}>
-                  <CircularProgressbarWithChildren
-                    value={value}
-                    maxValue={1}
-                    styles={buildStyles({
-                      textColor: "#000", // Text color
-                      pathColor: "#833988", // Progress bar color
-                      trailColor: "#fff", // Trail color (background of progress bar)
-                    })}
-                  >
-                    <span style={{ fontSize: "12px" }}>Completed</span>{" "}
-                    <strong>{progress}%</strong>{" "}
-                  </CircularProgressbarWithChildren>
-                </div>
-                </div> */}
-                                {/*End after purchase progress bar */}
+              )}
 
-              </div>
               {/*End video  */}
             </div>
-            <div className="col-lg-7 col-md-12 col-sm-12 col_tabs_coursedetails">
-              <Tabs>
-                <Tab title="عن المادة">
-                  <div className="description_coursedetails">
-                    مادة الحاسوب هي تخصص دراسي يهتم بالتفاعل مع الحواسيب وفهم
-                    كيفية عملها واستخدامها بشكل فعّال. تتنوع المواضيع التي
-                    يغطيها هذا التخصص من تاريخ الحوسبة وتطورها إلى مفاهيم
-                    البرمجة والتصميم الحاسوبي وهندسة البرمجيات والشبكات والأمان
-                    السيبراني. يمكن لطلاب مادة الحاسوب أن يتعلموا العديد من
-                    المفاهيم الأساسية مثل البرمجة بلغات مختلفة مثل C++، Python،
-                    Java، وغيرها، بالإضافة إلى مفاهيم الهندسة البرمجية التي تشمل
-                    تطوير البرمجيات وإدارة المشاريع البرمجية. كما يتعلم الطلاب
-                    عادةً عن بنية الحواسيب وكيفية عملها، ويمكنهم أيضًا التخصص في
-                    مجالات مثل الذكاء الاصطناعي، وتعلم الآلة، والروبوتيات،
-                    والواقع الافتراضي، وغيرها من التطبيقات التكنولوجية الحديثة.
-                    تعتبر مادة الحاسوب مجالًا ديناميكيًا ومتطورًا يتطلب التحديث
-                    المستمر ومواكبة التطورات التكنولوجية الجديدة، وتقديم حلول
-                    مبتكرة للتحديات التي تواجه العالم الرقمي المعاصر.{" "}
-                  </div>
-                </Tab>
-                <Tab title="الموضوعات">
-                  <div>
-                    <p className="description_coursedetails">
-                      مادة الحاسوب هي تخصص دراسي يهتم بالتفاعل مع الحواسيب وفهم
-                      كيفية عملها واستخدامها بشكل فعّال. تتنوع المواضيع التي
-                      يغطيها هذا التخصص
-                    </p>
-                    <div className="container text-center">
-                      {items.map((item) => (
-                        <div
-                          className="row topic_list_tabs_cont"
-                          key={item.id}
-                          onClick={() => handleClick(item.id)}
-                        >
-                          <div
-                            className={`col-lg-6 col-md-6 col-sm-12  ${
-                              expandedItemId === item.id ? "mb-3" : ""
-                            }`}
-                          >
-                            <div className="d-flex align-items-center pt-2">
-                              <IoIosArrowDown className="" />
-
-                              <li style={{ cursor: "pointer" }}>{item.name}</li>
-                            </div>
-                          </div>
-                          <div className="col-lg-6 col-md-6 col-sm-12">
-                            <div className="d-flex justify-content-evenly">
-                              <div className="d-flex">
-                                <i
-                                  className="fa-solid fa-file card_icon"
-                                  style={{ color: "#F57D20" }}
-                                ></i>
-                                <p className="details_courses_card">
-                                  {item.lessons} درس
-                                </p>
-                              </div>
-                              <div className="d-flex">
-                                <i
-                                  className="fa-solid fa-clock card_icon"
-                                  style={{ color: "#F57D20" }}
-                                ></i>
-                                <p className="details_courses_card">
-                                  {item.duration}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                          {expandedItemId === item.id && (
-                            <div className="d-flex justify-content-between">
-                              <p style={{ marginTop: "10px" }}>
-                                {item.description}
-                              </p>
-                              <div className="d-flex">
-                                <button
-                                  className="show_video_btn"
-                                  onClick={handleVideoSelect}
-                                >
-                                  مشاهدة{" "}
-                                  <i
-                                    className="fa-regular fa-circle-play"
-                                    style={{ color: "#fff" }}
-                                  ></i>
-                                </button>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      ))}
-                    </div>{" "}
-                  </div>
-                </Tab>
-                <Tab title="المدرب">
-                  <div className="container text-center">
-                    <div className="row">
-                      <div className="col-lg-3 col-md-3 col-sm-12">
-                        <img
-                          src={require("../assets/account.png")}
-                          alt=""
-                          height={"80vh"}
-                          width={"80vh"}
-                        />
-                      </div>
-                      <div className="col-lg-9 col-md-9 col-sm-12">
-                        <p className="teacher_name_coursedetails">
-                          عبد العزيز الجمال
-                        </p>
-                        <p className="desc_of_teacher_coursedetails">
-                          شخص متخصص وملم بمفاهيم علم الحاسوب وتطبيقاته المختلفة.
-                          يمتلك الأستاذ خبرة عميقة في المجال وقدرة على نقل
-                          المعرفة وتوجيه الطلاب بشكل فعال.
-                        </p>
-                        <div className="d-flex">
-                          <i
-                            className="fa-solid fa-file card_icon ps-2"
-                            style={{ color: "#F57D20" }}
-                          ></i>
-                          <p className="details_courses_card "> 20مادة</p>
-                        </div>
-                        <div className="d-flex">
-                          <i
-                            className="fa-solid fa-graduation-cap card_icon ps-2"
-                            style={{ color: "#F57D20" }}
-                          ></i>
-                          <p className="details_courses_card"> 200طالب </p>
-                        </div>
-                        <div className="d-flex">
-                          <p>للمتابعة:</p>
-                          <Link to="">
-                            {" "}
-                            <i
-                              className="fa-brands fa-facebook-f m-2"
-                              style={{ color: "#000" }}
-                            ></i>
-                          </Link>
-                          <Link to="">
-                            <i
-                              className="fa-brands fa-x-twitter m-2"
-                              style={{ color: "#000" }}
-                            ></i>
-                          </Link>
-                          <Link to="">
-                            <i
-                              className="fa-brands fa-instagram m-2"
-                              style={{ color: "#000" }}
-                            ></i>
-                          </Link>
-                          <Link to="">
-                            <i
-                              className="fa-brands fa-linkedin-in m-2"
-                              style={{ color: "#000" }}
-                            ></i>
-                          </Link>
-                        </div>
-                      </div>
+            {courseDetails.map((course) => (
+              <div
+                className="col-lg-7 col-md-12 col-sm-12 col_tabs_coursedetails"
+                key={course.id}
+              >
+                <Tabs>
+                  <Tab title="عن المادة">
+                    <div className="description_coursedetails">
+                      {course.descr}
                     </div>
-                  </div>
-                </Tab>
-                {/* comment slide */}
-                <Tab title="الأراء">
-                  <Rating />
-                  <div className="container">
-                    <div className="slider">
-                      <div className="slider-content">
-                        {visibleComments.map((comment, index) => (
-                          <div className="slider-item" key={index}>
-                            {comment && (
-                              <div className="row mb-2">
-                                <div className="col-lg-3 col-md-3 col-sm-12">
-                                  <img
-                                    src={require("../assets/account.png")}
-                                    alt=""
-                                    height={"70vh"}
-                                    width={"70vh"}
-                                  />
+                  </Tab>
+                  <Tab title="الموضوعات">
+                    <div>
+                      <p className="description_coursedetails">
+                        مادة الحاسوب هي تخصص دراسي يهتم بالتفاعل مع الحواسيب
+                        وفهم كيفية عملها واستخدامها بشكل فعّال. تتنوع المواضيع
+                        التي يغطيها هذا التخصص
+                      </p>
+                      <div className="container text-center">
+                        {videosData.map((item, index) => (
+                          <div
+                            className="row topic_list_tabs_cont"
+                            key={item.id}
+                            onClick={() => handleClick(item.id)}
+                          >
+                            <div
+                              className={`col-lg-6 col-md-6 col-sm-12 ${
+                                expandedItemId === item.id ? "mb-3" : ""
+                              }`}
+                            >
+                              <div className="d-flex align-items-center pt-2">
+                                <IoIosArrowDown />
+                                <li style={{ cursor: "pointer" }}>
+                                  {item.title}
+                                </li>
+                              </div>
+                            </div>
+                            <div className="col-lg-6 col-md-6 col-sm-12">
+                              <div className="d-flex justify-content-evenly">
+                                <div className="d-flex">
+                                  <i
+                                    className="fa-solid fa-file card_icon"
+                                    style={{ color: "#F57D20" }}
+                                  ></i>
+                                  <p className="details_courses_card">1 درس</p>
                                 </div>
-                                <div className="col-lg-9 col-md-9 col-sm-12">
-                                  <div className="d-flex justify-content-between">
-                                    <p className="teacher_name_coursedetails">
-                                      {comment.teacher_name}
-                                    </p>
-                                    <p className="comment_date_coursedetails">
-                                      {comment.comment_date}
-                                    </p>
-                                  </div>
-                                  <p className="desc_of_teacher_coursedetails">
-                                    {comment.desc_of_teacher}
+                                <div className="d-flex">
+                                  <i
+                                    className="fa-solid fa-clock card_icon"
+                                    style={{ color: "#F57D20" }}
+                                  ></i>
+                                  <p className="details_courses_card">
+                                    {videoDurations[index]
+                                      ? `${Math.floor(
+                                          videoDurations[index] / 60
+                                        )}:${Math.floor(
+                                          videoDurations[index] % 60
+                                        ).toFixed(0)}`
+                                      : "Loading..."}
                                   </p>
+                                </div>
+                              </div>
+                            </div>
+                            {expandedItemId === item.id && (
+                              <div className="d-flex justify-content-between">
+                                <p style={{ marginTop: "10px" }}>
+                                  {item.description}
+                                </p>
+                                <div className="d-flex">
+                                  <button
+                                    className="show_video_btn"
+                                    onClick={() => handleVideoSelect(index)}
+                                  >
+                                    مشاهدة{" "}
+                                    <i
+                                      className="fa-regular fa-circle-play"
+                                      style={{ color: "#fff" }}
+                                    ></i>
+                                  </button>
                                 </div>
                               </div>
                             )}
                           </div>
                         ))}
+                        
+                      </div>{" "}
+                    </div>
+                  </Tab>
+                  <Tab title="المدرب">
+                    <div className="container text-center">
+                      <div className="row">
+                        <div className="col-lg-3 col-md-3 col-sm-12">
+                          <img
+                            src={`http://localhost:8080/${course.img}`}
+                            alt="teacher img"
+                            height={"80vh"}
+                            width={"80vh"}
+                          />
+                        </div>
+                        <div className="col-lg-9 col-md-9 col-sm-12">
+                          <p className="teacher_name_coursedetails">
+                            {course.teacher_name}{" "}
+                          </p>
+                          <p className="desc_of_teacher_coursedetails">
+                            {course.teacher_descr}{" "}
+                          </p>
+                          <div className="d-flex">
+                            <i
+                              className="fa-solid fa-file card_icon ps-2"
+                              style={{ color: "#F57D20" }}
+                            ></i>
+                            <p className="details_courses_card "> 20مادة</p>
+                          </div>
+                          <div className="d-flex">
+                            <i
+                              className="fa-solid fa-graduation-cap card_icon ps-2"
+                              style={{ color: "#F57D20" }}
+                            ></i>
+                            <p className="details_courses_card"> 200طالب </p>
+                          </div>
+                          <div className="d-flex">
+                            <p>للمتابعة:</p>
+                            <Link to="">
+                              <i
+                                className="fa-brands fa-facebook-f m-2"
+                                style={{ color: "#000" }}
+                              ></i>
+                            </Link>
+                            <Link to="">
+                              <i
+                                className="fa-brands fa-x-twitter m-2"
+                                style={{ color: "#000" }}
+                              ></i>
+                            </Link>
+                            <Link to="">
+                              <i
+                                className="fa-brands fa-instagram m-2"
+                                style={{ color: "#000" }}
+                              ></i>
+                            </Link>
+                            <Link to="">
+                              <i
+                                className="fa-brands fa-linkedin-in m-2"
+                                style={{ color: "#000" }}
+                              ></i>
+                            </Link>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="text-center mt-3">
-                    <div
-                      className="col-md-12 col-sm-12 col_btn_prevNext"
-                      style={{ marginTop: "10px" }}
-                    >
-                      <button onClick={goToNextSlide} className="btn mb-3">
-                        <i className="fa fa-arrow-right"></i>
-                      </button>
+                  </Tab>
+                  {/* comment slide */}
+                  <Tab title="الأراء">
+                    <Rating />
+                    <div className="container">
+                      <div className="slider">
+                        <div className="slider-content">
+                          {commentCourse.map((comment, index) => (
+                            <div className="slider-item" key={index}>
+                              {comment && (
+                                <div className="row mb-2">
+                                  <div className="col-lg-3 col-md-3 col-sm-12">
+                                    <img
+                                      src={require("../assets/account.png")}
+                                      alt=""
+                                      height={"70vh"}
+                                      width={"70vh"}
+                                    />
+                                  </div>
+                                  <div className="col-lg-9 col-md-9 col-sm-12">
+                                    <div className="d-flex justify-content-between">
+                                      <p className="teacher_name_coursedetails">
+                                        {comment.name}
+                                      </p>
+                                      <p className="comment_date_coursedetails">
+                                        {comment.created_date}
+                                      </p>
+                                    </div>
+                                    <p className="desc_of_teacher_coursedetails">
+                                      {comment.comment}
+                                    </p>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="text-center mt-3">
                       <div
-                        style={{
-                          textAlign: "center",
-                          marginTop: "5px",
-                          fontSize: "18px",
-                        }}
+                        className="col-md-12 col-sm-12 col_btn_prevNext"
+                        style={{ marginTop: "10px" }}
                       >
-                        {/* Displaying current slide number in bold */}
-                        <span style={{ fontWeight: "bold" }}>
-                          {currentSlideIndex + 1}
-                        </span>{" "}
-                        / {totalSlides}
+                        <button onClick={goToNextSlide} className="btn mb-3">
+                          <i className="fa fa-arrow-right"></i>
+                        </button>
+                        <div
+                          style={{
+                            textAlign: "center",
+                            marginTop: "5px",
+                            fontSize: "18px",
+                          }}
+                        >
+                          {/* Displaying current slide number in bold */}
+                          <span style={{ fontWeight: "bold" }}>
+                            {currentSlideIndex + 1}
+                          </span>{" "}
+                          / {totalSlides}
+                        </div>
+                        <button onClick={goToPrevSlide} className="btn mb-3">
+                          <i className="fa fa-arrow-left"></i>
+                        </button>
                       </div>
-                      <button onClick={goToPrevSlide} className="btn mb-3">
-                        <i className="fa fa-arrow-left"></i>
-                      </button>
                     </div>
-                  </div>
-                </Tab>
-                {/* End comment slide */}
-              </Tabs>
-      <CommentForm       title="اترك تعليق"
-btn_title="تعليق"      />
-           
-            </div>
+                  </Tab>
+                  {/* End comment slide */}
+                </Tabs>
+                <CommentForm
+                  title="اترك تعليق"
+                  btn_title="تعليق"
+                  handleSubmit={handleSubmit}
+                />
+              </div>
+            ))}
           </div>
         </div>
       </section>
-              
     </>
   );
 }

@@ -55,17 +55,7 @@ function Courses() {
     { id: 15, content: 'مكثفات جيل 2006 15' },
     // Add more cards as needed
   ];
-  useEffect(()=>{
-    const fetchCourses = async () => {
-      try {
-        const response = await axios.get("http://localhost:8080/courses");
-        setCourses(response.data);
-        console.log("first",response.data);
-      } catch (error) {}
-    };
-    fetchCourses();
 
-  },[])
   const cardsPerSlide = 9; // Maximum cards per slide
 
   const numSlides = Math.ceil(cards.length / cardsPerSlide);
@@ -83,6 +73,19 @@ function Courses() {
   const startIndex = currentSlide * cardsPerSlide;
   const visibleCards = cards.slice(startIndex, startIndex + cardsPerSlide);
   const title = "ادرس اون لاين مواد المناهج الدراسية الأردنية";
+  useEffect(()=>{
+    const fetchCourses = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/courses");
+        // setCourses(response.data);
+        setCourses(response.data.slice(startIndex, startIndex + cardsPerSlide));
+   
+        console.log("first",response.data);
+      } catch (error) {}
+    };
+    fetchCourses();
+
+  }, [cards, startIndex, cardsPerSlide])
   return (
     <>
       <SliderComp title={title}/>
