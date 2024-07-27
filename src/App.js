@@ -16,16 +16,19 @@ import ContactUs from './Pages/ContactUs.js';
 import Library from './Pages/Library.js';
 import MyCourses from './Pages/MyCourses.js';
 import VideoPlayer from './Pages/Test.js';
+import useAuth from './hooks/useAuth.js';
+
 function App() {
-  
+  const { user, updateUser, logout } = useAuth();
+
   return (
     <Router>
-          <Navbar/>
-      <div className="App"dir='rtl'>
+          <Navbar  user={user} handleLogout={logout} />
+          <div className="App"dir='rtl'>
         <Routes>
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile/:id"  element={<Profile user={user} updateUser={updateUser} />} />
 
           <Route path="/" element={<LandingPage />} />
           <Route path='/courses' element={<Courses/>}/>

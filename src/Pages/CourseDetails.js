@@ -446,6 +446,7 @@ const formatDuration = (durationInSeconds) => {
                         <button className="purchase_now_coursedetails">
                           شراء الان
                         </button>
+                        
                       </div>
                     )
                   )}
@@ -472,8 +473,10 @@ const formatDuration = (durationInSeconds) => {
                         وفهم كيفية عملها واستخدامها بشكل فعّال. تتنوع المواضيع
                         التي يغطيها هذا التخصص
                       </p>
+                      
                       <div className="container text-center">
                       {videosData.map((item, index) => (
+                        
                 <div
                     className="row topic_list_tabs_cont"
                     key={item.id}
