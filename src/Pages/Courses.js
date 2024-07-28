@@ -17,78 +17,117 @@ function Courses() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [show, setShow] = useState(false);
   const [courses, setCourses] = useState([]);
+  const [department, setDepartment] = useState([]);
+  const [selectedDepartment, setSelectedDepartment] = useState("");
+  const [courseByDep, setCourseByDep] = useState([]);
 
   const title_popup = "تسجيل الدخول";
   const description_popup = "لشراء قسم يجب تسجيل الدخول";
-  const title_popup_confirm=" تنبيه"
-  const description_popup_confirm="تمت العملية ، طلبك قيد الأنتظار"
+  const title_popup_confirm = " تنبيه";
+  const description_popup_confirm = "تمت العملية ، طلبك قيد الأنتظار";
   const navigate = useNavigate();
-  // const handleInputChange = (event) => {
-  //   const query = event.target.value;
-  //   setSearchQuery(query);
+  const handleInputChange = (event) => {
+    const query = event.target.value;
+    setSearchQuery(query);
 
-  //   // Filter the courses based on the search query
-  //   const filteredResults = CoursesInfo.filter((course) =>
-  //     course.courseName.toLowerCase().includes(query.toLowerCase())
-  //   );
+    // Filter the courses based on the search query
+    const filteredResults = courses.filter((course) =>
+      course.subject_name.toLowerCase().includes(query.toLowerCase())
+    );
 
-  //   setSearchResults(filteredResults);
-  // };
+    setSearchResults(filteredResults);
+  };
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const cards = [
-    { id: 1, content: 'مكثفات جيل 2006 1' },
-    { id: 2, content: 'مكثفات جيل 2006 2' },
-    { id: 3, content: 'مكثفات جيل 2006 3' },
-    { id: 4, content: 'مكثفات جيل 2006 4' },
-    { id: 5, content: 'مكثفات جيل 2006 5' },
-    { id: 6, content: 'مكثفات جيل 2006 6' },
-    { id: 7, content: 'مكثفات جيل 2006 7' },
-    { id: 8, content: 'مكثفات جيل 2006 8' },
-    { id: 9, content: 'مكثفات جيل 2006 9' },
-    { id: 10, content: 'مكثفات جيل 2006 10' },
-    { id: 11, content: 'مكثفات جيل 2006 11' },
-    { id: 12, content: 'مكثفات جيل 2006 12' },
-    { id: 13, content: 'مكثفات جيل 2006 13' },
-    { id: 14, content: 'مكثفات جيل 2006 14' },
-    { id: 15, content: 'مكثفات جيل 2006 15' },
-    // Add more cards as needed
-  ];
 
   const cardsPerSlide = 9; // Maximum cards per slide
 
-  const numSlides = Math.ceil(cards.length / cardsPerSlide);
+  const numSlides = Math.ceil(courses.length / cardsPerSlide);
 
   const nextSlide = () => {
-    setCurrentSlide((currentSlide + 1) % numSlides);
+    // setCurrentSlide((currentSlide + 1) % numSlides);
+    // setCurrentSlide((prevSlide) => (prevSlide + 1) % courses.length);
+    setCurrentSlide((prevSlide) => Math.min(prevSlide + 1, courses.length - 1));
   };
 
   const prevSlide = () => {
-    setCurrentSlide((currentSlide - 1 + numSlides) % numSlides);
+    // setCurrentSlide((currentSlide - 1 + numSlides) % numSlides);
+    setCurrentSlide((prevSlide) => Math.max(prevSlide - 1, 0));
   };
   const goToSlide = (slideIndex) => {
     setCurrentSlide(slideIndex);
   };
-  const startIndex = currentSlide * cardsPerSlide;
-  const visibleCards = cards.slice(startIndex, startIndex + cardsPerSlide);
-  const title = "ادرس اون لاين مواد المناهج الدراسية الأردنية";
-  useEffect(()=>{
-    const fetchCourses = async () => {
-      try {
-        const response = await axios.get("http://localhost:8080/courses");
-        // setCourses(response.data);
-        setCourses(response.data.slice(startIndex, startIndex + cardsPerSlide));
-   
-        console.log("first",response.data);
-      } catch (error) {}
-    };
-    fetchCourses();
 
-  }, [cards, startIndex, cardsPerSlide])
+  const startIndex = currentSlide * cardsPerSlide;
+  const title = "ادرس اون لاين مواد المناهج الدراسية الأردنية";
+ 
+  const fetchCoursesBasedDepartment = async () => {
+    try {
+      const url = selectedDepartment
+        ? `http://localhost:8080/courses/getbydep/${selectedDepartment}`
+        : `http://localhost:8080/courses`;
+
+      const response = await axios.get(url);
+      setCourses(response.data.slice(startIndex, startIndex + cardsPerSlide));
+    } catch (error) {
+      console.error("Error fetching courses:", error);
+    }
+  };
+  useEffect(() => {
+
+    fetchCoursesBasedDepartment();
+  }, [selectedDepartment, startIndex, cardsPerSlide]);
+  useEffect(() => {
+    const fetchDepartments = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/department");
+        setDepartment(response.data);
+      } catch (error) {
+        console.error("Error fetching departments:", error);
+      }
+    };
+
+    fetchDepartments();
+  }, []);
+  // useEffect(() => {
+  //   const fetchCoursesBasedDepartment = async () => {
+  //     if (selectedDepartment) {
+  //       try {
+  //         const response = await axios.get(
+  //           `http://localhost:8080/courses/getbydep/${selectedDepartment}`
+  //         );
+  //         setSearchResults(response.data);
+  //         console.log(searchResults)
+  //       } catch (error) {
+  //         console.error(
+  //           `Error fetching courses for department ${selectedDepartment}:`,
+  //           error
+  //         );
+  //       }
+  //     } else {
+  //       // Fetch all courses if no department is selected
+  //       fetchCourses();
+  //     }
+  //   };
+
+  //   fetchCoursesBasedDepartment();
+  // }, [selectedDepartment]);
+  const handleDepartment = (e) => {
+    const selectedDepartmentId = e.target.value;
+    setSelectedDepartment(selectedDepartmentId);
+  };
+  useEffect(() => {
+    if (searchResults.length > 0) {
+      setCourses(searchResults);
+    } else {
+      // If searchResults is empty, reset to original library data
+      fetchCoursesBasedDepartment(); // Fetch original library data again
+    }
+  }, [searchResults]);
   return (
     <>
-      <SliderComp title={title}/>
+      <SliderComp title={title} />
       <div className="container text-center slider_box">
         <h2 className="h_home_box">شراء قسم </h2>
         <p className="p_home_box">
@@ -194,42 +233,55 @@ function Courses() {
                 placeholder="ابحث عن مادة"
                 value={searchQuery}
                 className="search_course"
-                //   onChange={handleInputChange}
+                onChange={handleInputChange}
               />
-              <a href="#" className="btn btn-s purple_btn search_btn">
-                بحث{" "}
+              <a
+                href="#"
+                className="btn btn-s purple_btn search_btn"
+                onChange={handleInputChange}
+              >
+                بحث
               </a>
-              {searchQuery && (
+              {/* {searchQuery && (
                 <ul className="search_dropdown">
                   {searchResults.length > 0 ? (
                     searchResults.map((course) => (
                       <li
                         key={course.id}
                         onClick={() => {
-                          navigate(`/courses/${course.id}`);
+                          navigate(`/coursedetails/${course.id}`);
                           console.log(course.id);
-                          // window.location.reload()
                           window.scrollTo(0, 0);
                         }}
                       >
-                        <img src={course.image} alt={course.courseName} />
-                        {course.courseName}
+                        <img
+                          src={`http://localhost:8080/${course.img}`}
+                          alt={course.subject_name}
+                        />
+                        {course.subject_name}
                       </li>
                     ))
                   ) : (
-                    <li>No courses found.</li>
+                    <li>لا يوجد مادة</li>
                   )}
                 </ul>
-              )}
+              )} */}
             </div>
           </div>
           <div className="col-lg-3 col-md-4 col-sm-12">
-            <select name="languages" id="lang" className="select_dep " >
-            <option value="javascript" className="specific_dep">
-                  مكثفات جيل 2006
+            <select
+              name="department"
+              value={selectedDepartment}
+              onChange={handleDepartment}
+              id="lang"
+              className="select_dep"
+            >
+              <option value="">اختر قسم</option>
+              {department.map((dep) => (
+                <option key={dep.id} value={dep.id}>
+                  {dep.title}
                 </option>
-                <option value="php"> مكثفات جيل 2007</option>
-                <option value="java"> مكثفات جيل 2008</option>  
+              ))}
             </select>
           </div>
           <div className="col-lg-6 col-md-4 col-sm-12"></div>
@@ -238,58 +290,64 @@ function Courses() {
 
       <div className="slick-wrapper">
         <div className="container ">
+          {courses.length > 0 && (
           <div className="row justify-content-center align-items-center">
-          {courses.map((card, index) => (
-            <div className="col-lg-4 col-md-6 col-sm-12">
-          <div
-            key={index}
-            className={`slide ${index === currentSlide ? 'active' : ''}`}
-          >
-                <Link to={`/coursedetails/${card.id}`} className="link_card">
-                <div className="card card_cont"  >
-                  <img
-                    src={require("../assets/course.png")}
-                    className="card-img-top img-fluid card_img"
-                    alt="..."
-                  />
-                  <div className="card-body">
-                    <div>
-                      {/* rating here */}
-                      <p className="card-text card_dep"> {card.department_name} </p>
-                    </div>
-                    <div className="d-flex justify-content-between">
-                      <p className="course_title_card">{card.subject_name}</p>{" "}
-                      <p className=" teacher_name_card">{card.teacher_name}</p>
-                    </div>
-                    <hr style={{ marginTop: "1px" }} />
-                    <div className="d-flex justify-content-between">
-                        <i
-                          className="fa-solid fa-file card_icon"
-                          style={{ color: "#F57D20" }}
-                        ></i>
-                          <p className="details_courses_card">20طالب  </p>
-                      <i
-                        className="fa-solid fa-graduation-cap card_icon"
-                        style={{ color: "#F57D20" }}
-                      ></i>{" "}
-                    <p className="details_courses_card">2درس</p>
-                        <i
-                          className="fa-solid fa-clock card_icon"
-                          style={{ color: "#F57D20" }}
-                        ></i>{" "}
-                        <p className="details_courses_card">{card.created_date}</p>
-                       
-                      
-
+            {courses.map((card, index) => (
+              <div className="col-lg-4 col-md-6 col-sm-12">
+                <div
+                  key={index}
+                  className={`slide ${index === currentSlide ? "active" : ""}`}
+                >
+                  <Link to={`/coursedetails/${card.id}`} className="link_card">
+                    <div className="card card_cont">
+                      <img
+                        src={`http://localhost:8080/${card.img}`}
+                        className="card-img-top img-fluid card_img"
+                        alt="..."
+                      />
+                      <div className="card-body">
+                        <div>
+                          {/* rating here */}
+                          <p className="card-text card_dep">
+                            {" "}
+                            {card.department_name}{" "}
+                          </p>
+                        </div>
+                        <div className="d-flex justify-content-between">
+                          <p className="course_title_card">
+                            {card.subject_name}
+                          </p>{" "}
+                          <p className=" teacher_name_card">
+                            {card.teacher_name}
+                          </p>
+                        </div>
+                        <hr style={{ marginTop: "1px" }} />
+                        <div className="d-flex justify-content-between">
+                          <i
+                            className="fa-solid fa-file card_icon"
+                            style={{ color: "#F57D20" }}
+                          ></i>
+                          <p className="details_courses_card">20طالب </p>
+                          <i
+                            className="fa-solid fa-graduation-cap card_icon"
+                            style={{ color: "#F57D20" }}
+                          ></i>{" "}
+                          <p className="details_courses_card">2درس</p>
+                          <i
+                            className="fa-solid fa-clock card_icon"
+                            style={{ color: "#F57D20" }}
+                          ></i>{" "}
+                          <p className="details_courses_card">
+                            {card.created_date}
+                          </p>
+                        </div>
                       </div>
-
-                  </div>
-                </div>
-                </Link>
-              </div>{" "}
-          </div>
-        ))}
-            <div
+                    </div>
+                  </Link>
+                </div>{" "}
+              </div>
+            ))}
+           <div
               className="col-md-12 col-sm-12 col_btn_prevNext"
               style={{ marginTop: "10px" }}
             >
@@ -332,9 +390,11 @@ function Courses() {
               </button>
             </div>
           </div>
+                    )}
+
         </div>
       </div>
-    {/* <MiniPopUpLogin
+      {/* <MiniPopUpLogin
     title_popup={title_popup}  
     description_popup={description_popup}
     />

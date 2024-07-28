@@ -14,7 +14,7 @@ function Profile({ user }) {
     confirmPassword: '',
   });
 
-  const [imageUrl, setImageUrl] = useState(defaultImage); // Initialize with defaultImage
+  const [imageUrl, setImageUrl] = useState(null); // Initialize with defaultImage
 
   const fileInputRef = useRef(null);
 
@@ -30,7 +30,7 @@ function Profile({ user }) {
             confirmPassword: ''
           });
           // Set the image URL from the profile data
-          setImageUrl(response.data.img ? `http://localhost:8080/${response.data.img}` : defaultImage);
+          setImageUrl(`http://localhost:8080/${response.data.img}`);
         })
         .catch(error => {
           console.error('There was an error fetching the profile!', error);
@@ -64,8 +64,9 @@ function Profile({ user }) {
       });
       console.log('Profile updated successfully');
       // Update the image URL with the new image URL from the server
-      setImageUrl(response.data.img ? `http://localhost:8080/${response.data.img}` : defaultImage);
+      setImageUrl(`http://localhost:8080/${response.data.img}`);
       setSuccessMessage('Profile updated successfully!');
+      window.location.reload();
     } catch (error) {
       console.error('Error updating profile:', error);
     }
@@ -106,7 +107,7 @@ function Profile({ user }) {
               <button className="img_profile" onClick={handleButtonClick}>
                 <img
                   src={imageUrl}
-                  alt="profile img"
+                  alt=""
                   className="img-fluid"
                 />
               </button>
