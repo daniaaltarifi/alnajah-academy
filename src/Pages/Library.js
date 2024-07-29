@@ -94,7 +94,7 @@ function Library() {
     try {
       const response = await axios.get(
         `http://localhost:8080/library/getbydep/${selectedDepartmentId}`
-      ); // Replace with your API endpoint
+      ); 
       setLibrary(response.data);
     } catch (error) {
       console.error(
@@ -160,6 +160,7 @@ function Library() {
                   </option>
                 ))}
               </select>
+              
             </div>
             <div className="col-lg-6 col-md-4 col-sm-12"></div>
           </div>

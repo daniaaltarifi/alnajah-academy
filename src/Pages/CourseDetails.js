@@ -432,10 +432,7 @@ const formatDuration = (durationInSeconds) => {
                         />
                         Your browser does not support the video tag.
                       </video>
-                      {/* <p>Duration: {videoDurations[0] ? `${Math.floor(videoDurations[0] / 60)}:${Math.floor(videoDurations[0] % 60).toFixed(0)}` : 'Loading...'} minutes</p> */}
-                      {duration !== null && (
-                        <p>Video Duration: {duration.toFixed(2)} seconds</p>
-                      )}
+                   
                       <div className="d-flex justify-content-center">
                         <p className="after_price_coursedetails">
                           {videosData[0].after_offer} دينار
@@ -466,15 +463,7 @@ const formatDuration = (durationInSeconds) => {
                           Your browser does not support the video tag.
                         </video>
                         <p>
-                          Duration:{" "}
-                          {videoDurations[currentVideoIndex]
-                            ? `${Math.floor(
-                                videoDurations[currentVideoIndex] / 60
-                              )}:${Math.floor(
-                                videoDurations[currentVideoIndex] % 60
-                              ).toFixed(0)}`
-                            : "Loading..."}{" "}
-                          minutes
+                         {videosData[currentVideoIndex].duration}
                         </p>
 
                         <div className="d-flex justify-content-center">
@@ -551,9 +540,7 @@ const formatDuration = (durationInSeconds) => {
                                     style={{ color: "#F57D20" }}
                                 ></i>
                                 <p className="details_courses_card">
-                                    {videoDurations[index] !== undefined
-                                        ? formatDuration(videoDurations[index])
-                                        : "Loading..."}
+                                   {item.duration}
                                 </p>
                             </div>
                         </div>

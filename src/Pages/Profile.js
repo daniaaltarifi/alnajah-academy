@@ -1,19 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import "../Css/auth.css";
-import defaultImage from '../assets/profile.png'; 
-function Profile({ user, updateUser }) {
-  const [successMessage, setSuccessMessage] = useState('');
-  const { userName, userId } = user;
+import defaultImage from '../assets/profile.png';
 
+function Profile({ user }) {
+  const [successMessage, setSuccessMessage] = useState('');
+  const { userId } = user;
   const [profile, setProfile] = useState({
     name: '',
     email: '',
+    img: '',
     password: '',
-    confirmPassword: '' ,
-    profileImage: defaultImage
-
+    confirmPassword: '',
   });
+
+  const [imageUrl, setImageUrl] = useState(null); // Initialize with defaultImage
+
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     if (userId) {
@@ -22,9 +25,12 @@ function Profile({ user, updateUser }) {
           setProfile({
             name: response.data.name,
             email: response.data.email,
+            img: response.data.img,
             password: '',
             confirmPassword: ''
           });
+          // Set the image URL from the profile data
+          setImageUrl(`http://localhost:8080/${response.data.img}`);
         })
         .catch(error => {
           console.error('There was an error fetching the profile!', error);
@@ -40,30 +46,55 @@ function Profile({ user, updateUser }) {
     }));
   };
 
-  const handleUpdate = () => {
-    axios.put(`http://localhost:8080/api/profile/${userId}`, {
-      name: profile.name,
-      email: profile.email,
-      password: profile.password,
-      confirmPassword: profile.confirmPassword
-    })
-    .then(response => {
+  const handleUpdate = async () => {
+    const formData = new FormData();
+    formData.append('name', profile.name);
+    formData.append('email', profile.email);
+    formData.append('password', profile.password);
+    formData.append('confirmPassword', profile.confirmPassword);
+    if (profile.img instanceof File) {
+      formData.append('img', profile.img);
+    }
+
+    try {
+      const response = await axios.put(`http://localhost:8080/api/profile/${userId}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
       console.log('Profile updated successfully');
-      setSuccessMessage('تم التعديل بنجاح !!');
-      // Update the local storage with the new name
-      localStorage.setItem('name', profile.name);
-      updateUser(profile.name, userId); // Update user context
-      setTimeout(() => setSuccessMessage(''), 6000); // Clear the message after 6 seconds
-    })
-    .catch(error => {
-      console.error('There was an error updating the profile!', error);
-    });
+      // Update the image URL with the new image URL from the server
+      setImageUrl(`http://localhost:8080/${response.data.img}`);
+      setSuccessMessage('Profile updated successfully!');
+      window.location.reload();
+    } catch (error) {
+      console.error('Error updating profile:', error);
+    }
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      // Set the profile image file
+      setProfile(prevProfile => ({
+        ...prevProfile,
+        img: file
+      }));
+      // Create a preview URL for the selected file
+      const objectUrl = URL.createObjectURL(file);
+      setImageUrl(objectUrl);
+    }
+  };
+
+  const handleButtonClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
-    console.log('Form submitted:', profile);
-    handleUpdate(); // Call the update function
+    e.preventDefault();
+    handleUpdate();
   };
 
   return (
@@ -73,13 +104,20 @@ function Profile({ user, updateUser }) {
           <div className="row">
             <div className="col-lg-3 col-md-4 col-sm-12 ">
               <p className="profile_title">حسابي</p>
-              <button className="img_profile">
+              <button className="img_profile" onClick={handleButtonClick}>
                 <img
-                  src={require("../assets/profile.png")}
-                  alt="profile img"
+                  src={imageUrl}
+                  alt=""
                   className="img-fluid"
                 />
               </button>
+              <input
+                type="file"
+                name='img'
+                ref={fileInputRef}
+                style={{ display: 'none' }}
+                onChange={handleFileChange}
+              />
             </div>
             <div className="col-lg-9 col-md-8 col-sm-12">
               <div className="row m-5">
@@ -116,7 +154,7 @@ function Profile({ user, updateUser }) {
                   />
                 </div>
                 <div className="col-lg-6 col-md-12 col-sm-12 ">
-                  <p className="title_of_input_auth">نأكيد كلمة المرور</p>
+                  <p className="title_of_input_auth">تأكيد كلمة المرور</p>
                   <input
                     type="password"
                     className="search_blog"
