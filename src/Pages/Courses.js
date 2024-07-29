@@ -364,7 +364,7 @@ function Courses() {
               >
                 {" "}
                 {/* Current Slide Number */}
-                <span style={{ fontWeight: "bold",paddingRight:"2px" }}>{currentSlide + 1}</span>
+                <span style={{ fontWeight: "bold",paddingRight:"10px",paddingLeft:"10px" }}>{currentSlide + 1}</span>
                 {/* Next Slide Number */}
                 {currentSlide < 3 && ( // Replace `3` with the total number of slides minus one
                   <span
