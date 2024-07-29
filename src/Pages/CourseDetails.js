@@ -18,6 +18,8 @@ import ReactPlayer from "react-player";
 import Courses from "./Courses.js";
 import axios from "axios";
 function CourseDetails() {
+
+
   const { id } = useParams();
   const [totalVideos, setTotalVideos] = useState(15); // Replace with actual total number of videos
   const [videosWatched, setVideosWatched] = useState(3); // Number of videos watched
@@ -25,6 +27,29 @@ function CourseDetails() {
   const [courseDetails, setCourseDetails] = useState([]);
   const [videosData, setVideosData] = useState([]);
   const [commentCourse, setCommentCourse] = useState([]);
+  const [courseCount, setCourseCount] = useState(0);
+
+
+  useEffect(() => {
+    const fetchCourseCount = async (teacherId) => {
+      try {
+        const response = await axios.get(`http://localhost:8080/courses/getCourseCountByTeacher`);
+        const teacherData = response.data.find(teacher => teacher.teacher_id === teacherId);
+        if (teacherData) {
+          setCourseCount(teacherData.course_count);
+        }
+      } catch (error) {
+        console.error('Error fetching course count:', error);
+      }
+    };
+
+    if (courseDetails) {
+      fetchCourseCount(courseDetails.teacher_id);
+    }
+  }, [courseDetails]);
+
+
+  
   useEffect(() => {
     window.scrollTo(0, 0);
     const fetchCourseDetails = async () => {
@@ -42,6 +67,7 @@ function CourseDetails() {
       }
     };
     fetchCourseDetails();
+    
     const fetchVideosData = async () => {
       try {
         const response = await fetch(
@@ -77,6 +103,7 @@ function CourseDetails() {
       }
     };
     fetchVideosData();
+
     const fetchCommentCourses = async () => {
       try {
         const response = await axios.get(`http://localhost:8080/commentcourse`);
@@ -93,6 +120,38 @@ function CourseDetails() {
     // countTeacherCourses()
     fetchCommentCourses();
   }, []);
+
+  const handleSubmit = async (name, email, comment ,rating) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/commentcourse/add",
+        {
+          name: name,
+          email: email,
+          comment: comment,
+          rating : rating ,
+          course_id: id, // Assuming `id` is the correct identifier for `blog_id`
+        }
+      );
+       if (response.status === 200) {
+        // Append the new comment to the existing state
+        console.log("Comment submitted for approval:", response.data);
+        console.log("res", response.data);
+      }
+    } catch (error) {
+      console.error("Error submitting comment:", error);
+    }
+  };
+
+
+
+
+
+
+
+
+
+
 
   useEffect(() => {
     const fetchVideosData = async () => {
@@ -296,23 +355,6 @@ const formatDuration = (durationInSeconds) => {
 };
 
 
-  const handleSubmit = async (name, email, comment) => {
-    try {
-      const response = await axios.post(
-        "http://localhost:8080/commentcourse/add",
-        {
-          name: name,
-          email: email,
-          comment: comment,
-          course_id: id, // Assuming `id` is the correct identifier for `blog_id`
-        }
-      );
-      console.log("res", response.data);
-      window.location.reload();
-    } catch (error) {
-      console.error("Error submitting comment:", error);
-    }
-  };
   return (
     <>
       {/* header of course details */}
@@ -569,7 +611,7 @@ const formatDuration = (durationInSeconds) => {
                               className="fa-solid fa-file card_icon ps-2"
                               style={{ color: "#F57D20" }}
                             ></i>
-                            <p className="details_courses_card "> 20مادة</p>
+                           <p className="details_courses_card"> عدد المواد {courseCount} </p>
                           </div>
                           <div className="d-flex">
                             <i
@@ -611,7 +653,7 @@ const formatDuration = (durationInSeconds) => {
                   </Tab>
                   {/* comment slide */}
                   <Tab title="الأراء">
-                    <Rating />
+                    <Rating comments={commentCourse} />
                     <div className="container">
                       <div className="slider">
                         <div className="slider-content">
