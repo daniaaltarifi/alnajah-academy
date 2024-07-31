@@ -82,7 +82,7 @@ function SignUp() {
 localStorage.setItem('auth',  res.data.token);
 localStorage.setItem('name', name);
 localStorage.setItem('id', res.data.id);
-
+localStorage.setItem('img', res.data.img);
       window.location.href = "/"; // Redirect to home page after registration
     } catch (err) {
       console.error(err);

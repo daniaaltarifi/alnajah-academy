@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import LandingPage from './Pages/LandingPage.js';
@@ -19,11 +19,12 @@ import VideoPlayer from './Pages/Test.js';
 import useAuth from './hooks/useAuth.js';
 
 function App() {
-  const { user, updateUser, logout } = useAuth();
+  const { user, updateUser, logout} = useAuth();
+ 
 
   return (
     <Router>
-          <Navbar  user={user} handleLogout={logout} />
+          <Navbar  user={user} handleLogout={logout}/>
           <div className="App"dir='rtl'>
         <Routes>
         <Route path="/signup" element={<SignUp />} />

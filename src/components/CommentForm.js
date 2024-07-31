@@ -14,18 +14,6 @@ function CommentForm({title,btn_title ,handleSubmit }) {
   const handleSubmitForm = async (event) => {
     event.preventDefault(); 
 
-    // Form validation
-    if (!name || !email || !comment || rating === 0) {
-      alert("الرجاء ملء جميع الحقول وتحديد التقييم.");
-      return;
-    }
-
-    // Email validation
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(email)) {
-      alert("الرجاء إدخال بريد إلكتروني صحيح.");
-      return;
-    } 
 
     try {
       await handleSubmit(name, email, comment , rating); 

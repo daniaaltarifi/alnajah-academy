@@ -26,6 +26,7 @@ function Login() {
         localStorage.setItem('auth', res.data.token);
         localStorage.setItem('name', res.data.name);
         localStorage.setItem('id', res.data.id);
+        localStorage.setItem('img', res.data.img);
         console.log('Auth token set in localStorage:', localStorage.getItem('auth'));
         window.location.href = '/'; // Redirect to home page after login
       } else {
