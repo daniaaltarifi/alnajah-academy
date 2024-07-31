@@ -32,7 +32,6 @@ function CourseDetails({ user }) {
   const [videosData, setVideosData] = useState([]);
   const [commentCourse, setCommentCourse] = useState([]);
   const [courseCount, setCourseCount] = useState(0);
-  const [teacherId, settecherId] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
   const watermarkText = user ? user.username || user.ip : 'Anonymous';
   const videoEl = useRef(null);
@@ -80,59 +79,75 @@ useEffect(() => {
 useEffect(() => {
   const checkForScreenRecording = () => {
     const videoElement = videoEl.current;
-    // Note: `captureStream` does not detect screen recording
-    if (videoElement) {
-        // Placeholder logic, cannot detect screen recording this way
-        setIsRecording(false);
-    } 
+    const captureStream = videoElement.captureStream || videoElement.mozCaptureStream;
+    if (captureStream) {
+      setIsRecording(true);
+    } else {
+      setIsRecording(false);
+    }
   };
   const intervalId = setInterval(checkForScreenRecording, 1000);
     return () => clearInterval(intervalId);
   }, [videoEl]);
   
 
+  
   useEffect(() => {
-    const fetchCourseCount = async () => {
-      console.log("teacherId: " + teacherId);
+    const fetchCourseCount = async (teacherId) => {
       try {
-        const response = await axios.get(`http://localhost:8080/courses/course-counts/${teacherId}`);
-        // Assume response.data is an array with one object
-        const data = response.data;
-        if (data.length > 0) {
-          setCourseCount(data[0].course_count); // Set the course count from the first item in the array
+        const response = await axios.get(`http://localhost:8080/courses/getCourseCountByTeacher`);
+        const teacherData = response.data.find(teacher => teacher.teacher_id === teacherId);
+        if (teacherData) {
+          setCourseCount(teacherData.course_count);
         }
       } catch (error) {
         console.error('Error fetching course count:', error);
       }
     };
-  
-    if (teacherId) {
-      fetchCourseCount();
-    }
-  }, [teacherId]);
-  
 
-  const fetchCourseDetails = async () => {
-    try {
-      const response = await fetch(`http://localhost:8080/courses/${id}`);
-      if (!response.ok) {
-        throw new Error("Failed to fetch blog details");
-      }
-      const data = await response.json();
-      setCourseDetails(data);
-      settecherId( data[0].teacher_id)
-      // Properly log the fetched data to see its structure
-      console.log("Fetched course details Details:", data[0].teacher_id);
-    } catch (error) {
-      console.error("Error fetching course details:", error);
+    if (courseDetails) {
+      fetchCourseCount(courseDetails.teacher_id);
     }
-  };
+  }, [courseDetails]);
+
+
   
   useEffect(() => {
     window.scrollTo(0, 0);
-    
+    const fetchCourseDetails = async () => {
+      try {
+        const response = await fetch(`http://localhost:8080/courses/${id}`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch blog details");
+        }
+        const data = await response.json();
+        setCourseDetails(data);
+        // Properly log the fetched data to see its structure
+        console.log("Fetched course details Details:", data[0].teacher_id);
+      } catch (error) {
+        console.error("Error fetching course details:", error);
+      }
+    };
     fetchCourseDetails();
     
+  
+    // const countTeacherCourses = async () => {
+    //   try {
+    //     const response = await fetch(
+    //       `http://localhost:8080/courses/teacher/${id}/count`
+    //     );
+    //     if (!response.ok) {
+    //       throw new Error("Failed to fetch video details");
+    //     }
+    //     console.log("first", data);
+    //     const data = await response.json();
+    //     setVideosData(data);
+    //     Properly log the fetched data to see its structure
+    //     console.log("Fetched techer courses count details Details:", data);
+    //   } catch (error) {
+    //     console.error("Error fetching video details:", error);
+    //   }
+    // };
    
     const fetchCommentCourses = async () => {
       try {
@@ -385,26 +400,6 @@ const formatDuration = (durationInSeconds) => {
 };
 
 
-  const handleSubmit = async (name, email, comment,rating) => {
-    try {
-      const response = await axios.post(
-        "http://localhost:8080/commentcourse/add",
-        {
-          name: name,
-          email: email,
-          comment: comment,
-          rating: rating,
-          course_id: id, // Assuming `id` is the correct identifier for `blog_id`
-        }
-      );
-      if(response.status === 200){
-        console.log("res", response.data);
-      }
-      // window.location.reload();
-    } catch (error) {
-      console.error("Error submitting comment:", error);
-    }
-  };
   return (
     <>
       {/* header of course details */}
@@ -650,8 +645,7 @@ const formatDuration = (durationInSeconds) => {
                               className="fa-solid fa-file card_icon ps-2"
                               style={{ color: "#F57D20" }}
                             ></i>
-                        
-                        <p className="details_courses_card">عدد المواد: {courseCount}</p>
+                           <p className="details_courses_card"> عدد المواد {courseCount} </p>
                           </div>
                           <div className="d-flex">
                             <i
@@ -691,8 +685,6 @@ const formatDuration = (durationInSeconds) => {
                       </div>
                     </div>
                   </Tab>
-                 {/* comment slide */}
-                 <Tab title="الأراء">
                   {/* comment slide */}
                   <Tab title="الأراء">
                     <Rating comments={commentCourse} />

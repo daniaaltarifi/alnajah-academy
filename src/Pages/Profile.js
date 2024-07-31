@@ -2,8 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import "../Css/auth.css";
 import defaultImage from '../assets/profile.png';
+import useAuth from '../hooks/useAuth';
 
-function Profile({ user }) {
+
+function Profile({ user}) {
   const [successMessage, setSuccessMessage] = useState('');
   const { userId } = user;
   const [profile, setProfile] = useState({
@@ -14,9 +16,11 @@ function Profile({ user }) {
     confirmPassword: '',
   });
 
-  const [imageUrl, setImageUrl] = useState(null); // Initialize with defaultImage
+  const [imageUrl, setImageUrl] = useState(defaultImage); // Initialize with defaultImage
 
   const fileInputRef = useRef(null);
+  const { updateUser } = useAuth(); // Get updateUser function from useAuth
+
 
   useEffect(() => {
     if (userId) {
@@ -66,7 +70,23 @@ function Profile({ user }) {
       // Update the image URL with the new image URL from the server
       setImageUrl(`http://localhost:8080/${response.data.img}`);
       setSuccessMessage('Profile updated successfully!');
-      window.location.reload();
+
+
+
+      // Update local storage with the new profile data
+      localStorage.setItem('name', response.data.name);
+      localStorage.setItem('img', response.data.img);
+
+   // Update local storage with the new profile data
+   updateUser(response.data.name, userId, response.data.img);
+
+// Update the profile state with the new data
+      setProfile(prevState => ({
+        ...prevState,
+        name: response.data.name,
+        img: response.data.img,
+      }));
+
     } catch (error) {
       console.error('Error updating profile:', error);
     }

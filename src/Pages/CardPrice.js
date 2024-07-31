@@ -1,4 +1,5 @@
-import React,{useState} from "react";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import SliderComp from "../components/SliderComp.js";
 import "../Css/cardPrice.css";
 import Table from "react-bootstrap/Table";
@@ -6,18 +7,42 @@ import { useNavigate } from "react-router-dom";
 function CardPrice() {
     const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [selectedGovernorate, setSelectedGovernorate] = useState([]);
+  const [selectedGovernorateId, setSelectedGovernorateId] = useState(null);
+
+  const [goverment, setGoverment] = useState([]);
+  
+ 
   const navigate = useNavigate()
-      // const handleInputChange = (event) => {
-  //   const query = event.target.value;
-  //   setSearchQuery(query);
+    
 
-  //   // Filter the courses based on the search query
-  //   const filteredResults = CoursesInfo.filter((course) =>
-  //     course.courseName.toLowerCase().includes(query.toLowerCase())
-  //   );
 
-  //   setSearchResults(filteredResults);
-  // };
+ 
+  useEffect(() => {
+    const fetchGoverment = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/cards");
+        const gov= response.data
+        setGoverment(gov);
+      
+      } catch (error) {
+        console.error("Error fetching library:", error);
+      }
+    };
+    fetchGoverment();
+  }, []);
+
+  const fetchcards = async (id) => {
+    try {
+      const response = await axios.get(`http://localhost:8080/cards/${id}`);
+      setSelectedGovernorate(response.data);
+      setSelectedGovernorateId(id);
+    } catch (error) {
+      console.error("Error fetching cards:", error);
+    }
+  };
+
+
   return (
     <>
       <SliderComp
@@ -220,169 +245,65 @@ function CardPrice() {
               </div>
               {/* End search */}
           <div class="row">
+          <div className="col">
+      
+      {/* Display goverment grouped by governorate */}
+     
+
+        {goverment.map((library) => (
+      <div class="row"  key={library.id}>
+
             <div class="col">
-              <details open>
-                <summary>عمان </summary>
+            <details onClick={() => fetchcards(library.id)}>
+              <summary >
+                {library.governorate}
+              </summary>
                 <div>
+                {selectedGovernorateId === library.id && (
                   <Table striped hover>
                     <thead>
                       <tr className="table_head_cardprice">
                         <th className="desc_table_cardprice">اسم المكتبة</th>
-                        <th className="desc_table_cardprice">العنوان </th>
-                        <th className="desc_table_cardprice">الرقم </th>
+                        <th className="desc_table_cardprice">العنوان</th>
+                        <th className="desc_table_cardprice">الرقم</th>
                         <th className="desc_table_cardprice">الموقع</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>مكتبة الأسراء</td>
-                        <td>عين الباشا</td>
-                        <td>06780099888</td>
-                        <td>
-                          <i
-                            className="fa-solid fa-location-dot ps-1"
-                            style={{ color: "#f57d20" }}
-                          ></i>
-                          موقع المكتبة{" "}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>مكتبة الأسراء</td>
-                        <td>عين الباشا</td>
-                        <td>06780099888</td>
-                        <td>
-                          <i
-                            className="fa-solid fa-location-dot ps-1"
-                            style={{ color: "#f57d20" }}
-                          ></i>
-                          موقع المكتبة{" "}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>مكتبة الأسراء </td>
-                        <td>عين الباشا</td>
-                        <td>06780099888</td>
-                        <td>
-                          <i
-                            className="fa-solid fa-location-dot ps-1"
-                            style={{ color: "#f57d20" }}
-                          ></i>
-                          موقع المكتبة{" "}
-                        </td>
-                      </tr>
+                      {selectedGovernorate.length > 0 ? (
+                        selectedGovernorate.map((card) => (
+                          <tr key={card.id}>
+                            <td>{card.name}</td>
+                            <td>{card.address}</td>
+                            <td>{card.phone}</td>
+                            <td>
+                              <i
+                                className="fa-solid fa-location-dot ps-1"
+                                style={{ color: "#f57d20" }}
+                              ></i>
+                              {card.location}
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan="4">No data available</td>
+                        </tr>
+                      )}
                     </tbody>
                   </Table>
-                </div>
+                  
+                )}
+              </div>
               </details>
-              <details>
-              <summary>معان </summary>
-                <div>
-                  <Table striped hover>
-                    <thead>
-                      <tr className="table_head_cardprice">
-                        <th className="desc_table_cardprice">اسم المكتبة</th>
-                        <th className="desc_table_cardprice">العنوان </th>
-                        <th className="desc_table_cardprice">الرقم </th>
-                        <th className="desc_table_cardprice">الموقع</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>مكتبة الأسراء</td>
-                        <td>عين الباشا</td>
-                        <td>06780099888</td>
-                        <td>
-                          <i
-                            className="fa-solid fa-location-dot ps-1"
-                            style={{ color: "#f57d20" }}
-                          ></i>
-                          موقع المكتبة{" "}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>مكتبة الأسراء</td>
-                        <td>عين الباشا</td>
-                        <td>06780099888</td>
-                        <td>
-                          <i
-                            className="fa-solid fa-location-dot ps-1"
-                            style={{ color: "#f57d20" }}
-                          ></i>
-                          موقع المكتبة{" "}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>مكتبة الأسراء </td>
-                        <td>عين الباشا</td>
-                        <td>06780099888</td>
-                        <td>
-                          <i
-                            className="fa-solid fa-location-dot ps-1"
-                            style={{ color: "#f57d20" }}
-                          ></i>
-                          موقع المكتبة{" "}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </Table>
-                </div>
-              </details>
-              <details>
-              <summary>البلقاء
-                 </summary>
-                <div>
-                  <Table striped hover>
-                    <thead>
-                      <tr className="table_head_cardprice">
-                        <th className="desc_table_cardprice">اسم المكتبة</th>
-                        <th className="desc_table_cardprice">العنوان </th>
-                        <th className="desc_table_cardprice">الرقم </th>
-                        <th className="desc_table_cardprice">الموقع</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>مكتبة الأسراء</td>
-                        <td>عين الباشا</td>
-                        <td>06780099888</td>
-                        <td>
-                          <i
-                            className="fa-solid fa-location-dot ps-1"
-                            style={{ color: "#f57d20" }}
-                          ></i>
-                          موقع المكتبة{" "}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>مكتبة الأسراء</td>
-                        <td>عين الباشا</td>
-                        <td>06780099888</td>
-                        <td>
-                          <i
-                            className="fa-solid fa-location-dot ps-1"
-                            style={{ color: "#f57d20" }}
-                          ></i>
-                          موقع المكتبة{" "}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>مكتبة الأسراء </td>
-                        <td>عين الباشا</td>
-                        <td>06780099888</td>
-                        <td>
-                          <i
-                            className="fa-solid fa-location-dot ps-1"
-                            style={{ color: "#f57d20" }}
-                          ></i>
-                          موقع المكتبة{" "}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </Table> </div>
-              </details>
+             
 
             
             </div>
+          </div>
+        ))}
+
+    </div>
           </div>
         </div>
       </section>

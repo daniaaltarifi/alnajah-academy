@@ -5,24 +5,33 @@ const useAuth = () => {
     isLoggedIn: false,
     userId: '',
     userName: '',
+    img: '',
   });
 
   useEffect(() => {
     const auth = localStorage.getItem('auth');
     const name = localStorage.getItem('name');
     const id = localStorage.getItem('id');
+    const img = localStorage.getItem('img');
     setUser({
       isLoggedIn: !!auth,
       userName: name || '',
       userId: id || '',
+      img: img || '',
     });
   }, []);
 
-  const updateUser = (name, id) => {
+  const updateUser = (name, id, img) => {
+    localStorage.setItem('name', name);
+    localStorage.setItem('id', id);
+    if (img) {
+      localStorage.setItem('img', img);
+    }
     setUser({
-      ...user,
+      isLoggedIn: !!localStorage.getItem('auth'),
       userName: name,
       userId: id,
+      img: img || user.img,
     });
   };
 
@@ -33,10 +42,12 @@ const useAuth = () => {
     localStorage.removeItem('curruntUser');
     localStorage.removeItem('name');
     localStorage.removeItem('id');
+    localStorage.removeItem('img');
     setUser({
       isLoggedIn: false,
       userId: '',
       userName: '',
+      img: '',
     });
     window.location.href = '/login';
   };
