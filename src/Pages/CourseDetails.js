@@ -296,7 +296,7 @@ const formatDuration = (durationInSeconds) => {
 };
 
 
-  const handleSubmit = async (name, email, comment) => {
+  const handleSubmit = async (name, email, comment,rating) => {
     try {
       const response = await axios.post(
         "http://localhost:8080/commentcourse/add",
@@ -304,11 +304,14 @@ const formatDuration = (durationInSeconds) => {
           name: name,
           email: email,
           comment: comment,
+          rating: rating,
           course_id: id, // Assuming `id` is the correct identifier for `blog_id`
         }
       );
-      console.log("res", response.data);
-      window.location.reload();
+      if(response.status === 200){
+        console.log("res", response.data);
+      }
+      // window.location.reload();
     } catch (error) {
       console.error("Error submitting comment:", error);
     }
@@ -596,9 +599,9 @@ const formatDuration = (durationInSeconds) => {
                       </div>
                     </div>
                   </Tab>
-                  {/* comment slide */}
-                  <Tab title="الأراء">
-                    <Rating />
+                 {/* comment slide */}
+                 <Tab title="الأراء">
+                    <Rating comments={commentCourse} />
                     <div className="container">
                       <div className="slider">
                         <div className="slider-content">

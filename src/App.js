@@ -35,6 +35,7 @@ function App() {
           <Route path='/coursedetails/:id' element={<CourseDetails/>}/>
           <Route path='/whoweare' element={<WhoWeAre/>}/>
           <Route path='/blogs' element={<Blogs/>}/>
+          {/* <Route path='/blog/tag/' element={<Blogs/>}/> */}
           <Route path='/blogdetails/:id' element={<BlogDetails/>}/>
           <Route path='/cardprice' element={<CardPrice/>}/>
           <Route path='/library' element={<Library/>}/>
