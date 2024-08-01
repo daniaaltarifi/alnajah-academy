@@ -1,12 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
+// Profile.js
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import axios from 'axios';
 import "../Css/auth.css";
 import defaultImage from '../assets/profile.png';
-import useAuth from '../hooks/useAuth';
+import { UserContext } from '../UserContext';
 
-
-function Profile({ user}) {
+function Profile() {
   const [successMessage, setSuccessMessage] = useState('');
+  const { user, updateUser } = useContext(UserContext);
   const { userId } = user;
   const [profile, setProfile] = useState({
     name: '',
@@ -17,14 +18,12 @@ function Profile({ user}) {
   });
 
   const [imageUrl, setImageUrl] = useState(defaultImage); // Initialize with defaultImage
-
   const fileInputRef = useRef(null);
-  const { updateUser } = useAuth(); // Get updateUser function from useAuth
-
 
   useEffect(() => {
-    if (userId) {
-      axios.get(`http://localhost:8080/api/profile/${userId}`)
+    if (user.userId) {
+
+      axios.get(`http://localhost:8080/api/profile/${user.userId}`)
         .then(response => {
           setProfile({
             name: response.data.name,
@@ -40,7 +39,8 @@ function Profile({ user}) {
           console.error('There was an error fetching the profile!', error);
         });
     }
-  }, [userId]);
+  }, [user.userId]);
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -61,32 +61,29 @@ function Profile({ user}) {
     }
 
     try {
-      const response = await axios.put(`http://localhost:8080/api/profile/${userId}`, formData, {
+      const response = await axios.put(`http://localhost:8080/api/profile/${user.userId}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
-      });
+      }); 
+
+      
       console.log('Profile updated successfully');
-      // Update the image URL with the new image URL from the server
       setImageUrl(`http://localhost:8080/${response.data.img}`);
       setSuccessMessage('Profile updated successfully!');
+      
+      // Update context with the new profile data
+      updateUser(response.data.name, userId, response.data.img);
+      console.log('Updated User555555555:',  response.data.name, response.data.img);
 
 
 
-      // Update local storage with the new profile data
-      localStorage.setItem('name', response.data.name);
-      localStorage.setItem('img', response.data.img);
-
-   // Update local storage with the new profile data
-   updateUser(response.data.name, userId, response.data.img);
-
-// Update the profile state with the new data
+      
       setProfile(prevState => ({
         ...prevState,
         name: response.data.name,
         img: response.data.img,
       }));
-
     } catch (error) {
       console.error('Error updating profile:', error);
     }
@@ -95,12 +92,10 @@ function Profile({ user}) {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      // Set the profile image file
       setProfile(prevProfile => ({
         ...prevProfile,
         img: file
       }));
-      // Create a preview URL for the selected file
       const objectUrl = URL.createObjectURL(file);
       setImageUrl(objectUrl);
     }

@@ -31,9 +31,14 @@ function CourseDetails({ user }) {
   const [courseDetails, setCourseDetails] = useState([]);
   const [videosData, setVideosData] = useState([]);
   const [commentCourse, setCommentCourse] = useState([]);
+  
+  const [isRecording, setIsRecording] = useState(false);
   const [courseCount, setCourseCount] = useState(0);
   const [teacherId, settecherId] = useState(null);
-  const [isRecording, setIsRecording] = useState(false);
+  const [studentCount, setStudentCount] = useState(0);
+  const [lessonCounts, setLessonCounts] = useState(0);
+  const [student_teacherCount, setstudent_teacherCount] = useState(0);
+  const [courseId, setcourseId] = useState(null);
   const watermarkText = user ? user.username || user.ip : 'Anonymous';
   const videoEl = useRef(null);
 
@@ -112,6 +117,30 @@ useEffect(() => {
   }, [teacherId]);
   
 
+
+
+
+  useEffect(() => {
+    const fetchStudentCount = async () => {
+      console.log("StudentId: " + courseId);
+      try {
+        const response = await axios.get(`http://localhost:8080/courses/users-counts/${courseId}`);
+        const data = response.data;
+        if (data && data.student_count !== undefined) {
+          setStudentCount(data.student_count); // Set the course count from the response
+          console.log("Fetched student count: ", data.student_count);
+        }
+      } catch (error) {
+        console.error('Error fetching course count:', error);
+      }
+    };
+  
+
+    if (courseId) {
+      fetchStudentCount();
+    }
+  }, [courseId]);
+
   const fetchCourseDetails = async () => {
     try {
       const response = await fetch(`http://localhost:8080/courses/${id}`);
@@ -121,13 +150,65 @@ useEffect(() => {
       const data = await response.json();
       setCourseDetails(data);
       settecherId( data[0].teacher_id)
+      setcourseId( data[0].id )
       // Properly log the fetched data to see its structure
       console.log("Fetched course details Details:", data[0].teacher_id);
+      console.log("Fetched course details Details:", data[0].id);
     } catch (error) {
       console.error("Error fetching course details:", error);
     }
   };
   
+
+  useEffect(() => {
+    const fetchLessonCounts = async () => {
+      console.log("Fetching lesson count for courseId: " + courseId);
+      try {
+        const response = await axios.get(`http://localhost:8080/courses/lesson-counts/${courseId}`);
+        const data = response.data;
+        console.log("Fetched bbbbbbbbbbbbbbbbbbbbbbstudent count: ", data[0].lesson_count);
+        if (data.length > 0) {
+          setLessonCounts(data[0].lesson_count); // Set the lesson count from the first item in the array
+          console.log("Fetched lesson count: ", data[0].lesson_count);
+        } else {
+          setLessonCounts(0); // In case no lessons are found
+        }
+      } catch (error) {
+        console.error('Error fetching course count:', error);
+      }
+    };
+  
+
+    if (courseId) {
+      fetchLessonCounts();
+    }
+  }, [courseId]);
+
+  
+  useEffect(() => {
+    const TeacherStudentCount  = async () => {
+      console.log("Fetching lesson count for teacherId: " + teacherId);
+      try {
+        const response = await axios.get(`http://localhost:8080/teacher/student-counts/${teacherId}`);
+        const data = response.data;
+        console.log("Fetched bbbbbbbbbbbbbbbbbbbbbbstudent count: ", data[0].student_count);
+        if (data.length > 0) {
+          setstudent_teacherCount(data[0].student_count); // Set the lesson count from the first item in the array
+          console.log("Fetched lesson count: ", data[0].student_count);
+        } else {
+          setstudent_teacherCount(0); // In case no lessons are found
+        }
+      } catch (error) {
+        console.error('Error fetching course count:', error);
+      }
+    };
+  
+
+    if (teacherId) {
+      TeacherStudentCount ();
+    }
+  }, [teacherId]);
+
   useEffect(() => {
     window.scrollTo(0, 0);
     
@@ -147,7 +228,7 @@ useEffect(() => {
         console.error("Error fetching comments:", error);
       }
     };
-    // countTeacherCourses()
+  
     fetchCommentCourses();
   }, []);
 
@@ -420,14 +501,14 @@ const formatDuration = (durationInSeconds) => {
                     class="fa-solid fa-graduation-cap card_icon"
                     style={{ color: "#F57D20" }}
                   ></i>
-                  <p className="details_courses_card"> 200طالب </p>
+                  <p className="details_courses_card">  {studentCount}   طالب </p>
                 </div>
                 <div className="d-flex">
                   <i
                     class="fa-solid fa-file card_icon"
                     style={{ color: "#F57D20" }}
                   ></i>
-                  <p className="details_courses_card "> 20درس</p>
+                  <p className="details_courses_card ">   {lessonCounts}  درس</p>
                 </div>
               </div>
             </div>
@@ -631,14 +712,14 @@ const formatDuration = (durationInSeconds) => {
                               style={{ color: "#F57D20" }}
                             ></i>
                         
-                        <p className="details_courses_card">عدد المواد: {courseCount}</p>
+                        <p className="details_courses_card">  {courseCount}    عدد المواد: </p>
                           </div>
                           <div className="d-flex">
                             <i
                               className="fa-solid fa-graduation-cap card_icon ps-2"
                               style={{ color: "#F57D20" }}
                             ></i>
-                            <p className="details_courses_card"> 200طالب </p>
+                            <p className="details_courses_card">   {student_teacherCount}  طالب </p>
                           </div>
                           <div className="d-flex">
                             <p>للمتابعة:</p>

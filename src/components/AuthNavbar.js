@@ -1,22 +1,25 @@
-import React from 'react';
+// AuthNavbar.js
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { UserContext } from '../UserContext';
 
-function AuthNavbar({ user, handleLogout }) {
+function AuthNavbar() {
+  const { user, logout } = useContext(UserContext);
   const { isLoggedIn, userName, userId, img } = user;
- 
+
   return (
     <>
       {isLoggedIn ? (
         <>
-          <div className='icon_profile_navbar'>
-            <p className='dropdown-toggle list_profile_icon_navbar mx-3' type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <div className="icon_profile_navbar">
+            <p className="dropdown-toggle list_profile_icon_navbar mx-3" type="button" data-bs-toggle="dropdown" aria-expanded="false">
               {userName} {/* Display the user's name */}
             </p>
             <ul className="dropdown-menu">
-              <li><Link to={`/profile/${userId}`} className="dropdown-item" href="#">حسابي</Link></li>
-              <li><Link to="/login" onClick={handleLogout} className="dropdown-item" href="#"> تسجيل الخروج</Link></li>
+              <li><Link to={`/profile/${userId}`} className="dropdown-item">حسابي</Link></li>
+              <li><Link to="/login" onClick={logout} className="dropdown-item">تسجيل الخروج</Link></li>
             </ul>
-            <img src={`http://localhost:8080/${img}`} alt="profile img" className='img-fluid img_icon_navbar' />
+            <img src={img || require("../assets/profile.png")} alt="profile img" className="img-fluid img_icon_navbar" />
           </div>
         </>
       ) : (

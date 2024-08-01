@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from 'react';
 import  "../Css/navbar.css";
 import AuthNavbar from "../components/AuthNavbar.js";
 import { Link } from "react-router-dom";
+import { UserContext } from '../UserContext.js';
 
-function Navbar({ user, handleLogout }) {
+function Navbar({ handleLogout }) {
+  const { user } = useContext(UserContext);
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light">
@@ -31,6 +33,13 @@ function Navbar({ user, handleLogout }) {
                 </Link>
               </li>
             
+              {user.isLoggedIn && (
+              <li className="nav-item dropdown">
+                <Link to="/mycourses" className="nav-link text_navbar">
+                  دوراتي
+                </Link>
+              </li>
+            )}
               <li className="nav-item dropdown">
                 <Link to="/cardprice" className="nav-link text_navbar" >
                   نقاط البيع
