@@ -17,13 +17,7 @@ import "react-circular-progressbar/dist/styles.css";
 import ReactPlayer from "react-player";
 import Courses from "./Courses.js";
 import axios from "axios";
-
-
-
-
-function CourseDetails({ user }) {
-
-
+function CourseDetails() {
   const { id } = useParams();
   const [totalVideos, setTotalVideos] = useState(15); // Replace with actual total number of videos
   const [videosWatched, setVideosWatched] = useState(3); // Number of videos watched
@@ -31,190 +25,36 @@ function CourseDetails({ user }) {
   const [courseDetails, setCourseDetails] = useState([]);
   const [videosData, setVideosData] = useState([]);
   const [commentCourse, setCommentCourse] = useState([]);
-  
-  const [isRecording, setIsRecording] = useState(false);
   const [courseCount, setCourseCount] = useState(0);
   const [teacherId, settecherId] = useState(null);
   const [studentCount, setStudentCount] = useState(0);
   const [lessonCounts, setLessonCounts] = useState(0);
   const [student_teacherCount, setstudent_teacherCount] = useState(0);
   const [courseId, setcourseId] = useState(null);
-  const watermarkText = user ? user.username || user.ip : 'Anonymous';
-  const videoEl = useRef(null);
-
-  useEffect(() => {
-  const fetchVideosData = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:8080/courses/getbyvideo/${id}`
-      );
-      if (!response.ok) {
-        throw new Error("Failed to fetch video details");
-      }
-      const data = await response.json();
-      setVideosData(data);
-      // Properly log the fetched data to see its structure
-      console.log("Fetched video details Details:", data);
-    } catch (error) {
-      console.error("Error fetching video details:", error);
-    }
-  };
-  fetchVideosData();
-}, [id]);
-
-
-
-useEffect(() => {
-  const handleContextMenu = (e) => e.preventDefault();
-  const handleKeyDown = (e) => {
-    if (e.keyCode === 123 || // F12
-        (e.ctrlKey && e.shiftKey && (e.keyCode === 'I'.charCodeAt(0) || e.keyCode === 'C'.charCodeAt(0) || e.keyCode === 'J'.charCodeAt(0))) || // Ctrl+Shift+I/C/J
-        (e.ctrlKey && e.keyCode === 'U'.charCodeAt(0))) { // Ctrl+U
-      e.preventDefault();
-    }
-  };
-  document.addEventListener('contextmenu', handleContextMenu);
-  document.addEventListener('keydown', handleKeyDown);
-
-  return () => {
-    document.removeEventListener('contextmenu', handleContextMenu);
-    document.removeEventListener('keydown', handleKeyDown);
-  };
-}, []);
-
-useEffect(() => {
-  const checkForScreenRecording = () => {
-    const videoElement = videoEl.current;
-    // Note: `captureStream` does not detect screen recording
-    if (videoElement) {
-        // Placeholder logic, cannot detect screen recording this way
-        setIsRecording(false);
-    } 
-  };
-  const intervalId = setInterval(checkForScreenRecording, 1000);
-    return () => clearInterval(intervalId);
-  }, [videoEl]);
-  
-
-  useEffect(() => {
-    const fetchCourseCount = async () => {
-      console.log("teacherId: " + teacherId);
-      try {
-        const response = await axios.get(`http://localhost:8080/courses/course-counts/${teacherId}`);
-        // Assume response.data is an array with one object
-        const data = response.data;
-        if (data.length > 0) {
-          setCourseCount(data[0].course_count); // Set the course count from the first item in the array
-        }
-      } catch (error) {
-        console.error('Error fetching course count:', error);
-      }
-    };
-  
-    if (teacherId) {
-      fetchCourseCount();
-    }
-  }, [teacherId]);
-  
-
-
-
-
-  useEffect(() => {
-    const fetchStudentCount = async () => {
-      console.log("StudentId: " + courseId);
-      try {
-        const response = await axios.get(`http://localhost:8080/courses/users-counts/${courseId}`);
-        const data = response.data;
-        if (data && data.student_count !== undefined) {
-          setStudentCount(data.student_count); // Set the course count from the response
-          console.log("Fetched student count: ", data.student_count);
-        }
-      } catch (error) {
-        console.error('Error fetching course count:', error);
-      }
-    };
-  
-
-    if (courseId) {
-      fetchStudentCount();
-    }
-  }, [courseId]);
-
-  const fetchCourseDetails = async () => {
-    try {
-      const response = await fetch(`http://localhost:8080/courses/${id}`);
-      if (!response.ok) {
-        throw new Error("Failed to fetch blog details");
-      }
-      const data = await response.json();
-      setCourseDetails(data);
-      settecherId( data[0].teacher_id)
-      setcourseId( data[0].id )
-      // Properly log the fetched data to see its structure
-      console.log("Fetched course details Details:", data[0].teacher_id);
-      console.log("Fetched course details Details:", data[0].id);
-    } catch (error) {
-      console.error("Error fetching course details:", error);
-    }
-  };
-  
-
-  useEffect(() => {
-    const fetchLessonCounts = async () => {
-      console.log("Fetching lesson count for courseId: " + courseId);
-      try {
-        const response = await axios.get(`http://localhost:8080/courses/lesson-counts/${courseId}`);
-        const data = response.data;
-        console.log("Fetched bbbbbbbbbbbbbbbbbbbbbbstudent count: ", data[0].lesson_count);
-        if (data.length > 0) {
-          setLessonCounts(data[0].lesson_count); // Set the lesson count from the first item in the array
-          console.log("Fetched lesson count: ", data[0].lesson_count);
-        } else {
-          setLessonCounts(0); // In case no lessons are found
-        }
-      } catch (error) {
-        console.error('Error fetching course count:', error);
-      }
-    };
-  
-
-    if (courseId) {
-      fetchLessonCounts();
-    }
-  }, [courseId]);
-
-  
-  useEffect(() => {
-    const TeacherStudentCount  = async () => {
-      console.log("Fetching lesson count for teacherId: " + teacherId);
-      try {
-        const response = await axios.get(`http://localhost:8080/teacher/student-counts/${teacherId}`);
-        const data = response.data;
-        console.log("Fetched bbbbbbbbbbbbbbbbbbbbbbstudent count: ", data[0].student_count);
-        if (data.length > 0) {
-          setstudent_teacherCount(data[0].student_count); // Set the lesson count from the first item in the array
-          console.log("Fetched lesson count: ", data[0].student_count);
-        } else {
-          setstudent_teacherCount(0); // In case no lessons are found
-        }
-      } catch (error) {
-        console.error('Error fetching course count:', error);
-      }
-    };
-  
-
-    if (teacherId) {
-      TeacherStudentCount ();
-    }
-  }, [teacherId]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    
+  
     fetchCourseDetails();
-    
-   
+    const fetchVideosData = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:8080/courses/getbyvideo/${id}`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch video details");
+        }
+        const data = await response.json();
+        setVideosData(data);
+        // Properly log the fetched data to see its structure
+        console.log("Fetched video details Details:", data);
+      } catch (error) {
+        console.error("Error fetching video details:", error);
+      }
+    };
+    fetchVideosData();
+  
+    fetchVideosData();
     const fetchCommentCourses = async () => {
       try {
         const response = await axios.get(`http://localhost:8080/commentcourse`);
@@ -228,41 +68,10 @@ useEffect(() => {
         console.error("Error fetching comments:", error);
       }
     };
-  
+    // countTeacherCourses()
     fetchCommentCourses();
+    
   }, []);
-
-  const handleSubmit = async (name, email, comment ,rating) => {
-    try {
-      const response = await axios.post(
-        "http://localhost:8080/commentcourse/add",
-        {
-          name: name,
-          email: email,
-          comment: comment,
-          rating : rating ,
-          course_id: id, // Assuming `id` is the correct identifier for `blog_id`
-        }
-      );
-       if (response.status === 200) {
-        // Append the new comment to the existing state
-        console.log("Comment submitted for approval:", response.data);
-        console.log("res", response.data);
-      }
-    } catch (error) {
-      console.error("Error submitting comment:", error);
-    }
-  };
-
-
-
-
-
-
-
-
-
-
 
   useEffect(() => {
     const fetchVideosData = async () => {
@@ -410,13 +219,10 @@ useEffect(() => {
   const [videoDurations, setVideoDurations] = useState([]);
   const videoRefs = useRef([]);
 
-
- 
   const [duration, setDuration] = useState(null);
 
+  const videoEl = useRef(null);
 
-  // const videoEl = useRef(null);
-  
   const handleLoadedMetadata = () => {
     const video = videoEl.current;
     if (!video) return;
@@ -424,47 +230,189 @@ useEffect(() => {
   };
   useEffect(() => {
     const fetchVideoDurations = () => {
-        videoRefs.current.forEach((video, index) => {
-            if (video) {
-                video.addEventListener('loadedmetadata', () => {
-                    setVideoDurations(prevDurations => {
-                        const newDurations = [...prevDurations];
-                        newDurations[index] = video.duration;
-                        return newDurations;
-                    });
-                });
-                // Trigger metadata loading
-                video.load();
-            }
-        });
+      videoRefs.current.forEach((video, index) => {
+        if (video) {
+          video.addEventListener("loadedmetadata", () => {
+            setVideoDurations((prevDurations) => {
+              const newDurations = [...prevDurations];
+              newDurations[index] = video.duration;
+              return newDurations;
+            });
+          });
+          // Trigger metadata loading
+          video.load();
+        }
+      });
     };
 
     fetchVideoDurations();
 
     // Clean up event listeners
     return () => {
-        videoRefs.current.forEach((video) => {
-            if (video) {
-                video.removeEventListener('loadedmetadata', () => {});
-            }
-        });
+      videoRefs.current.forEach((video) => {
+        if (video) {
+          video.removeEventListener("loadedmetadata", () => {});
+        }
+      });
     };
-}, [videosData]);
+  }, [videosData]);
 
-const formatDuration = (durationInSeconds) => {
+  const formatDuration = (durationInSeconds) => {
     if (isNaN(durationInSeconds) || durationInSeconds < 0) {
-        return 'Invalid Duration';
+      return "Invalid Duration";
     }
 
     const hours = Math.floor(durationInSeconds / 3600);
     const minutes = Math.floor((durationInSeconds % 3600) / 60);
     const seconds = Math.floor(durationInSeconds % 60);
 
-    return `${hours.toString().padStart(2, '0')}:${minutes
-        .toString()
-        .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    return `${hours.toString().padStart(2, "0")}:${minutes
+      .toString()
+      .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+  };
+
+  const handleSubmit = async (name, email, comment, rating) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/commentcourse/add",
+        {
+          name: name,
+          email: email,
+          comment: comment,
+          rating: rating,
+          course_id: id, // Assuming `id` is the correct identifier for `blog_id`
+        }
+      );
+      if (response.status === 200) {
+        console.log("res", response.data);
+      }
+      // window.location.reload();
+    } catch (error) {
+      console.error("Error submitting comment:", error);
+    }
+  };
+
+ 
+  
+useEffect(() => {
+  const fetchCourseCount = async () => {
+    console.log("teacherId: " + teacherId);
+    try {
+      const response = await axios.get(`http://localhost:8080/courses/course-counts/${teacherId}`);
+      // Assume response.data is an array with one object
+      const data = response.data;
+      if (data.length > 0) {
+        setCourseCount(data[0].course_count); // Set the course count from the first item in the array
+      }
+    } catch (error) {
+      console.error('Error fetching course count:', error);
+    }
+  };
+
+  if (teacherId) {
+    fetchCourseCount();
+  }
+}, [teacherId]);
+
+
+
+
+
+
+useEffect(() => {
+  const fetchStudentCount = async () => {
+    console.log("StudentId: " + courseId);
+    try {
+      const response = await axios.get(`http://localhost:8080/courses/users-counts/${courseId}`);
+      const data = response.data;
+      if (data && data.student_count !== undefined) {
+        setStudentCount(data.student_count); // Set the course count from the response
+        console.log("Fetched student count: ", data.student_count);
+      }
+    } catch (error) {
+      console.error('Error fetching course count:', error);
+    }
+  };
+
+
+  if (courseId) {
+    fetchStudentCount();
+  }
+}, [courseId]);
+
+
+
+const fetchCourseDetails = async () => {
+  try {
+    const response = await fetch(`http://localhost:8080/courses/${id}`);
+    if (!response.ok) {
+      throw new Error("Failed to fetch blog details");
+    }
+    const data = await response.json();
+    setCourseDetails(data);
+    settecherId( data[0].teacher_id)
+    setcourseId( data[0].id )
+    // Properly log the fetched data to see its structure
+    console.log("Fetched course details Details:", data[0].teacher_id);
+    console.log("Fetched course details Details:", data[0].id);
+  } catch (error) {
+    console.error("Error fetching course details:", error);
+  }
 };
 
+
+
+
+
+useEffect(() => {
+  const fetchLessonCounts = async () => {
+    console.log("Fetching lesson count for courseId: " + courseId);
+    try {
+      const response = await axios.get(`http://localhost:8080/courses/lesson-counts/${courseId}`);
+      const data = response.data;
+      console.log("Fetched bbbbbbbbbbbbbbbbbbbbbbstudent count: ", data[0].lesson_count);
+      if (data.length > 0) {
+        setLessonCounts(data[0].lesson_count); // Set the lesson count from the first item in the array
+        console.log("Fetched lesson count: ", data[0].lesson_count);
+      } else {
+        setLessonCounts(0); // In case no lessons are found
+      }
+    } catch (error) {
+      console.error('Error fetching course count:', error);
+    }
+  };
+
+
+  if (courseId) {
+    fetchLessonCounts();
+  }
+}, [courseId]);
+
+
+
+useEffect(() => {
+  const TeacherStudentCount  = async () => {
+    console.log("Fetching lesson count for teacherId: " + teacherId);
+    try {
+      const response = await axios.get(`http://localhost:8080/teacher/student-counts/${teacherId}`);
+      const data = response.data;
+      console.log("Fetched bbbbbbbbbbbbbbbbbbbbbbstudent count: ", data[0].student_count);
+      if (data.length > 0) {
+        setstudent_teacherCount(data[0].student_count); // Set the lesson count from the first item in the array
+        console.log("Fetched lesson count: ", data[0].student_count);
+      } else {
+        setstudent_teacherCount(0); // In case no lessons are found
+      }
+    } catch (error) {
+      console.error('Error fetching course count:', error);
+    }
+  };
+
+
+  if (teacherId) {
+    TeacherStudentCount ();
+  }
+}, [teacherId]);
 
   return (
     <>
@@ -491,17 +439,11 @@ const formatDuration = (durationInSeconds) => {
               <div className="d-flex justify-content-around ">
                 <div className="d-flex">
                   <i
-                    class="fa-solid fa-clock card_icon"
-                    style={{ color: "#F57D20" }}
-                  ></i>
-                  <p className="details_courses_card "> 2:33:32</p>
-                </div>
-                <div className="d-flex">
-                  <i
                     class="fa-solid fa-graduation-cap card_icon"
                     style={{ color: "#F57D20" }}
                   ></i>
-                  <p className="details_courses_card">  {studentCount}   طالب </p>
+                   
+<p className="details_courses_card">  {studentCount}   طالب </p>
                 </div>
                 <div className="d-flex">
                   <i
@@ -509,6 +451,17 @@ const formatDuration = (durationInSeconds) => {
                     style={{ color: "#F57D20" }}
                   ></i>
                   <p className="details_courses_card ">   {lessonCounts}  درس</p>
+
+                </div>
+                <div className="d-flex">
+                  <i
+                    class="fa-solid fa-clock card_icon"
+                    style={{ color: "#F57D20" }}
+                  ></i>
+                  <p className="details_courses_card ">
+                    {" "}
+                    {course.total_video_duration}
+                  </p>
                 </div>
               </div>
             </div>
@@ -526,14 +479,17 @@ const formatDuration = (durationInSeconds) => {
             >
               {/* <Video/> */}
 
+              
               {videosData.length > 0 && (
                 <div className="video_cont">
                   {/* Render default video if currentVideoIndex is null */}
                   {currentVideoIndex === null ? (
                     <div>
                       <video
-                      ref={videoEl} onLoadedMetadata={handleLoadedMetadata}
+                        ref={videoEl}
+                        onLoadedMetadata={handleLoadedMetadata}
                         controls
+                        controlsList="nodownload"
                         className="video_play"
                         style={{ width: "100%", height: "auto" }}
                       >
@@ -543,7 +499,7 @@ const formatDuration = (durationInSeconds) => {
                         />
                         Your browser does not support the video tag.
                       </video>
-                   
+
                       <div className="d-flex justify-content-center">
                         <p className="after_price_coursedetails">
                           {videosData[0].after_offer} دينار
@@ -559,11 +515,13 @@ const formatDuration = (durationInSeconds) => {
                   ) : (
                     // Render selected video
                     videosData[currentVideoIndex] && (
-                      <div className="video-container">
+                      <div>
                         <video
-                          ref={videoEl}  onLoadedMetadata={() => console.log('Metadata Loaded')}
+                          ref={videoEl}
+                          onLoadedMetadata={handleLoadedMetadata}
                           key={currentVideoIndex}
                           controls
+                          controlsList="nodownload"
                           className="video_play"
                           style={{ width: "100%", height: "auto" }}
                         >
@@ -573,12 +531,6 @@ const formatDuration = (durationInSeconds) => {
                           />
                           Your browser does not support the video tag.
                         </video>
-                        <div className="watermark">{watermarkText}</div>
-                        {isRecording && <div className="overlay" id="video-overlay"></div>}
-                        <p>
-                         {videosData[currentVideoIndex].duration}
-                        </p>
-
                         <div className="d-flex justify-content-center">
                           <p className="after_price_coursedetails">
                             {videosData[currentVideoIndex].after_offer} دينار
@@ -590,7 +542,6 @@ const formatDuration = (durationInSeconds) => {
                         <button className="purchase_now_coursedetails">
                           شراء الان
                         </button>
-                        
                       </div>
                     )
                   )}
@@ -617,74 +568,72 @@ const formatDuration = (durationInSeconds) => {
                         وفهم كيفية عملها واستخدامها بشكل فعّال. تتنوع المواضيع
                         التي يغطيها هذا التخصص
                       </p>
-                      
                       <div className="container text-center">
-                      {videosData.map((item, index) => (
-                        
-                <div
-                    className="row topic_list_tabs_cont"
-                    key={item.id}
-                    onClick={() => handleClick(item.id)}
-                >
-                    <div
-                        className={`col-lg-6 col-md-6 col-sm-12 ${
-                            expandedItemId === item.id ? "mb-3" : ""
-                        }`}
-                    >
-                        <div className="d-flex align-items-center pt-2">
-                            <IoIosArrowDown />
-                            <li style={{ cursor: "pointer" }}>
-                                {item.title}
-                            </li>
-                        </div>
-                    </div>
-                    <div className="col-lg-6 col-md-6 col-sm-12">
-                        <div className="d-flex justify-content-evenly">
-                            <div className="d-flex">
-                                <i
+                        {videosData.map((item, index) => (
+                          <div
+                            className="row topic_list_tabs_cont"
+                            key={item.id}
+                            onClick={() => handleClick(item.id)}
+                          >
+                            <div
+                              className={`col-lg-6 col-md-6 col-sm-12 ${
+                                expandedItemId === item.id ? "mb-3" : ""
+                              }`}
+                            >
+                              <div className="d-flex align-items-center pt-2">
+                                <IoIosArrowDown />
+                                <li style={{ cursor: "pointer" }}>
+                                  {item.title}
+                                </li>
+                              </div>
+                            </div>
+                            <div className="col-lg-6 col-md-6 col-sm-12">
+                              <div className="d-flex justify-content-evenly">
+                                <div className="d-flex">
+                                  <i
                                     className="fa-solid fa-file card_icon"
                                     style={{ color: "#F57D20" }}
-                                ></i>
-                                <p className="details_courses_card">1 درس</p>
-                            </div>
-                            <div className="d-flex">
-                                <i
+                                  ></i>
+                                  <p className="details_courses_card">1 درس</p>
+                                </div>
+                                <div className="d-flex">
+                                  <i
                                     className="fa-solid fa-clock card_icon"
                                     style={{ color: "#F57D20" }}
-                                ></i>
-                                <p className="details_courses_card">
-                                   {item.duration}
-                                </p>
+                                  ></i>
+                                  <p className="details_courses_card">
+                                    {item.duration}
+                                  </p>
+                                </div>
+                              </div>
                             </div>
-                        </div>
-                    </div>
-                    {expandedItemId === item.id && (
-                        <div className="d-flex justify-content-between">
-                            <p style={{ marginTop: "10px" }}>
-                                {item.description}
-                            </p>
-                            <div className="d-flex">
-                                <button
+                            {expandedItemId === item.id && (
+                              <div className="d-flex justify-content-between">
+                                <p style={{ marginTop: "10px" }}>
+                                  {item.description}
+                                </p>
+                                <div className="d-flex">
+                                  <button
                                     className="show_video_btn"
                                     onClick={() => handleVideoSelect(index)}
-                                >
+                                  >
                                     مشاهدة{" "}
                                     <i
-                                        className="fa-regular fa-circle-play"
-                                        style={{ color: "#fff" }}
+                                      className="fa-regular fa-circle-play"
+                                      style={{ color: "#fff" }}
                                     ></i>
-                                </button>
-                            </div>
-                        </div>
-                    )}
-                    {/* Video Element */}
-                    <video
-                        ref={(el) => videoRefs.current[index] = el}
-                        src={item.videoUrl} // Ensure this is the correct video URL
-                        style={{ display: 'none' }} // Hide video element
-                    />
-                </div>
-            ))}
+                                  </button>
+                                </div>
+                              </div>
+                            )}
+                            {/* Video Element */}
+                            <video
+                              ref={(el) => (videoRefs.current[index] = el)}
+                              src={item.videoUrl} // Ensure this is the correct video URL
+                              style={{ display: "none" }} // Hide video element
+                            />
+                          </div>
+                        ))}
                       </div>{" "}
                     </div>
                   </Tab>
@@ -711,8 +660,7 @@ const formatDuration = (durationInSeconds) => {
                               className="fa-solid fa-file card_icon ps-2"
                               style={{ color: "#F57D20" }}
                             ></i>
-                        
-                        <p className="details_courses_card">  {courseCount}    عدد المواد: </p>
+                           <p className="details_courses_card">  {courseCount}    عدد المواد: </p>
                           </div>
                           <div className="d-flex">
                             <i
@@ -720,6 +668,7 @@ const formatDuration = (durationInSeconds) => {
                               style={{ color: "#F57D20" }}
                             ></i>
                             <p className="details_courses_card">   {student_teacherCount}  طالب </p>
+
                           </div>
                           <div className="d-flex">
                             <p>للمتابعة:</p>

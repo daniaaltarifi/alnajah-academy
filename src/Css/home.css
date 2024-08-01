@@ -108,43 +108,52 @@ details[open] summary:before {
 /* comment & opininos */
 .cont_comment {
   background-color: #833988;
-  /* height: 20vh; */
   margin-right: 25px;
+  padding: 15px;
+  border-radius: 8px;
+  width: 300px; /* Fixed width */
+  height: 200px; /* Fixed height */
+  box-sizing: border-box;
+  display: flex; /* Make it a flex container */
+  flex-direction: column; /* Stack children vertically */
+}
+
+.card-body {
+  flex: 1; /* Allow card-body to grow and take up available space */
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  justify-content: space-between; /* Push details_account to the bottom */
 }
 
 .comment {
   font-size: 14px;
-  text-align: right;
-  font-weight: 400;
-  color: #fff;
+  color: white;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  -webkit-line-clamp: 3; /* Limit to 3 lines */
+  -webkit-line-clamp: 3;/* Prevent text from wrapping */
+}
+
+.details_account {
+  display: flex;
+  align-items: right; /* Center items vertically */
+  justify-content: right; /* Space items apart */
+  margin-top: auto; /* Push details_account to the bottom of card-body */
+}
+
+.info_account p {
+  margin: 0;
+  color: white;
+  font-size: 13px;
 }
 
 .account_img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin-top: 2.5vh;
+  width: 40px; /* Adjust size of image */
+  height: 40px; /* Ensure aspect ratio */
+  object-fit: cover; /* Ensure image covers its container */
 }
-.details_account {
-  display: flex;
-  align-items: right;
-  justify-content: right;
-}
-.info_account {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  line-height: 7px;
-  font-size: 13px;
-  color: #fff;
-  padding-top: 3vh;
-}
+
 
 .margin_section .slick-dots li.slick-active button:before {
   font-size: 15px;

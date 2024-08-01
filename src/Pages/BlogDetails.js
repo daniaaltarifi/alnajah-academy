@@ -8,13 +8,14 @@ import { BsTwitterX } from "react-icons/bs";
 import CommentForm from "../components/CommentForm";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 function BlogDetails() {
   const [blogDetails, setBlogDetails] = useState(null);
   const [lastThreeBlogs, setLastThreeBlogs] = useState([]);
   const [tags, setTags] = useState([]);
   const [commentBlogs, setCommentBlogs] = useState([]);
- 
-
+ const [tagById, setTagById] = useState(null);
+const navigate=useNavigate()
   const { id } = useParams();
   useEffect(() => {
     const fetchBlogDetails = async () => {
@@ -40,6 +41,7 @@ function BlogDetails() {
       const response = await axios.get("http://localhost:8080/tag");
       setTags(response.data);
     };
+   
     const fetchCommentBlogs = async () => {
       try {
         const response = await axios.get(`http://localhost:8080/commentblog`);
@@ -56,6 +58,13 @@ const approvedComments=comments.filter(comment=>comment.action ==='approved')
     fetchTags();
     fetchCommentBlogs();
   }, [id]);
+  const fetchTagsById = async (tagId) => {
+    try {
+      navigate('/blogs', { state: { tagId } });
+    } catch (error) {
+      console.error("Error navigating:", error);
+    }
+  };
   const [comments] = useState([
     {
       teacher_name: "عبد العزيز الجمال",
@@ -179,7 +188,8 @@ const approvedComments=comments.filter(comment=>comment.action ==='approved')
                     {tags.map((tag) => (
                       <button
                         type="button"
-                        className="btn btn-outline-secondary mb-1 tags_btn_blogdetails"
+                        className="btn btn-outline-secondary mb-1 tags_btn_blogdetails" onClick={() => fetchTagsById(tag.id)} // Correctly pass function reference
+
                       >
                         {tag.title}
                       </button>

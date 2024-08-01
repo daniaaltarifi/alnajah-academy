@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "../Css/blogs.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate,useLocation } from "react-router-dom";
 import axios from "axios";
+
 function Blogs() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -11,7 +12,8 @@ function Blogs() {
   const [selectedTagId, setSelectedTagId] = useState(null); 
 
   const navigate = useNavigate();
-
+  const location = useLocation();
+  const tagId = location.state?.tagId;
   const fetchBlog = async () => {
     try {
       const response = await axios.get("http://localhost:8080/blog");
@@ -72,12 +74,18 @@ function Blogs() {
   const handleTagClick = (tagId) => {
     setSelectedTagId(tagId);
   };
+  console.log("Filter tagId:", tagId);
+
   let displayBlogs = [];
   if (searchQuery.length > 0) {
     displayBlogs = searchResults;
   } else if (selectedTagId !== null) {
     displayBlogs = blogs.filter((blog) => blog.tag_id === selectedTagId);
-  } else {
+  } 
+  else if (tagId) {
+    displayBlogs = blogs.filter((blog) => blog.tag_id === parseInt(tagId)); // Convert tagId to integer if needed
+  } 
+  else {
     displayBlogs = blogs; 
   }
 
